@@ -1,0 +1,10 @@
+{
+  "/api/questions/route": "app/api/questions/route.js",
+  "/api/sessions/route": "app/api/sessions/route.js",
+  "/api/token/route": "app/api/token/route.js",
+  "/api/translate/route": "app/api/translate/route.js",
+  "/api/translate/status/route": "app/api/translate/status/route.js",
+  "/page": "app/page.js",
+  "/session/[id]/broadcast/page": "app/session/[id]/broadcast/page.js",
+  "/session/[id]/watch/page": "app/session/[id]/watch/page.js"
+}
