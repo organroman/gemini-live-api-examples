@@ -22,6 +22,21 @@ export interface SessionInfo {
   createdAt: Date;
 }
 
+export interface QaStatus {
+  sessionId: string;
+  pendingSpeakerIdentities: string[];
+  activeSpeakerIdentity: string | null;
+  activeTranslatorIdentity: string | null;
+  organizerTargetLanguage: string;
+}
+
+interface SessionQaState {
+  pending: Set<string>;
+  activeSpeakerIdentity: string | null;
+  activeBridge: TranslationBridge | null;
+  organizerTargetLanguage: string;
+}
+
 class TranslationSessionManager {
   private static instance: TranslationSessionManager;
 
@@ -30,6 +45,9 @@ class TranslationSessionManager {
 
   // Map<sessionId, SessionInfo>
   private sessions: Map<string, SessionInfo> = new Map();
+
+  // Map<sessionId, SessionQaState>
+  private qaStates: Map<string, SessionQaState> = new Map();
 
   private constructor() {}
 
@@ -48,7 +66,15 @@ class TranslationSessionManager {
       createdAt: new Date(),
     };
     this.sessions.set(sessionId, info);
-    console.log(`[SessionManager] Created session ${sessionId} for organizer ${organizerIdentity}`);
+    this.qaStates.set(sessionId, {
+      pending: new Set(),
+      activeSpeakerIdentity: null,
+      activeBridge: null,
+      organizerTargetLanguage: "uk",
+    });
+    console.log(
+      `[SessionManager] Created session ${sessionId} for organizer ${organizerIdentity}`,
+    );
     return info;
   }
 
@@ -60,7 +86,7 @@ class TranslationSessionManager {
   async getOrCreate(
     sessionId: string,
     targetLanguage: string,
-    organizerIdentity: string
+    organizerIdentity: string,
   ): Promise<TranslationBridge> {
     // Check if we already have a bridge for this language
     let languageMap = this.translations.get(sessionId);
@@ -68,15 +94,19 @@ class TranslationSessionManager {
       const existingBridge = languageMap.get(targetLanguage);
       if (existingBridge && existingBridge.status === "active") {
         console.log(
-          `[SessionManager] Reusing existing bridge for ${targetLanguage} in session ${sessionId}`
+          `[SessionManager] Reusing existing bridge for ${targetLanguage} in session ${sessionId}`,
         );
         existingBridge.subscriberCount++;
         return existingBridge;
       }
       // If bridge exists but is in error/closed state, clean it up
-      if (existingBridge && (existingBridge.status === "error" || existingBridge.status === "closed")) {
+      if (
+        existingBridge &&
+        (existingBridge.status === "error" ||
+          existingBridge.status === "closed")
+      ) {
         console.log(
-          `[SessionManager] Cleaning up stale bridge for ${targetLanguage}`
+          `[SessionManager] Cleaning up stale bridge for ${targetLanguage}`,
         );
         await existingBridge.stop();
         languageMap.delete(targetLanguage);
@@ -85,12 +115,15 @@ class TranslationSessionManager {
 
     // Create a new bridge
     console.log(
-      `[SessionManager] Creating new bridge for ${targetLanguage} in session ${sessionId}`
+      `[SessionManager] Creating new bridge for ${targetLanguage} in session ${sessionId}`,
     );
 
     const config = {
       geminiApiKey: process.env.GEMINI_API_KEY!,
-      livekitUrl: process.env.LIVEKIT_URL || process.env.NEXT_PUBLIC_LIVEKIT_URL || "ws://localhost:7880",
+      livekitUrl:
+        process.env.LIVEKIT_URL ||
+        process.env.NEXT_PUBLIC_LIVEKIT_URL ||
+        "ws://localhost:7880",
       livekitApiKey: process.env.LIVEKIT_API_KEY!,
       livekitApiSecret: process.env.LIVEKIT_API_SECRET!,
     };
@@ -99,7 +132,8 @@ class TranslationSessionManager {
       sessionId,
       targetLanguage,
       organizerIdentity,
-      config
+      config,
+      `translator-${targetLanguage}`,
     );
 
     // Store the bridge before starting (to prevent race conditions)
@@ -140,10 +174,7 @@ class TranslationSessionManager {
    * Decrement subscriber count for a language. If the last subscriber
    * leaves, stop the bridge and tear down the Gemini session.
    */
-  async unsubscribe(
-    sessionId: string,
-    targetLanguage: string
-  ): Promise<void> {
+  async unsubscribe(sessionId: string, targetLanguage: string): Promise<void> {
     const languageMap = this.translations.get(sessionId);
     if (!languageMap) return;
 
@@ -152,12 +183,12 @@ class TranslationSessionManager {
 
     bridge.subscriberCount = Math.max(0, bridge.subscriberCount - 1);
     console.log(
-      `[SessionManager] Unsubscribed from ${targetLanguage} in session ${sessionId} (${bridge.subscriberCount} remaining)`
+      `[SessionManager] Unsubscribed from ${targetLanguage} in session ${sessionId} (${bridge.subscriberCount} remaining)`,
     );
 
     if (bridge.subscriberCount === 0) {
       console.log(
-        `[SessionManager] No more subscribers for ${targetLanguage}, tearing down bridge`
+        `[SessionManager] No more subscribers for ${targetLanguage}, tearing down bridge`,
       );
       await bridge.stop();
       languageMap.delete(targetLanguage);
@@ -171,7 +202,7 @@ class TranslationSessionManager {
 
   async removeTranslation(
     sessionId: string,
-    targetLanguage: string
+    targetLanguage: string,
   ): Promise<void> {
     const languageMap = this.translations.get(sessionId);
     if (!languageMap) return;
@@ -181,24 +212,150 @@ class TranslationSessionManager {
       await bridge.stop();
       languageMap.delete(targetLanguage);
       console.log(
-        `[SessionManager] Removed bridge for ${targetLanguage} in session ${sessionId}`
+        `[SessionManager] Removed bridge for ${targetLanguage} in session ${sessionId}`,
       );
     }
   }
 
   async removeAllTranslations(sessionId: string): Promise<void> {
     const languageMap = this.translations.get(sessionId);
-    if (!languageMap) return;
-
-    for (const [, bridge] of languageMap) {
-      await bridge.stop();
+    if (languageMap) {
+      for (const [, bridge] of languageMap) {
+        await bridge.stop();
+      }
+      languageMap.clear();
+      this.translations.delete(sessionId);
     }
-    languageMap.clear();
-    this.translations.delete(sessionId);
+
+    await this.endActiveQuestion(sessionId);
+    this.qaStates.delete(sessionId);
     this.sessions.delete(sessionId);
     console.log(
-      `[SessionManager] Removed all bridges and session for ${sessionId}`
+      `[SessionManager] Removed all bridges and session for ${sessionId}`,
     );
+  }
+
+  private getConfig() {
+    return {
+      geminiApiKey: process.env.GEMINI_API_KEY!,
+      livekitUrl:
+        process.env.LIVEKIT_URL ||
+        process.env.NEXT_PUBLIC_LIVEKIT_URL ||
+        "ws://localhost:7880",
+      livekitApiKey: process.env.LIVEKIT_API_KEY!,
+      livekitApiSecret: process.env.LIVEKIT_API_SECRET!,
+    };
+  }
+
+  private getOrCreateQaState(sessionId: string): SessionQaState {
+    const existing = this.qaStates.get(sessionId);
+    if (existing) return existing;
+
+    const state: SessionQaState = {
+      pending: new Set(),
+      activeSpeakerIdentity: null,
+      activeBridge: null,
+      organizerTargetLanguage: "uk",
+    };
+    this.qaStates.set(sessionId, state);
+    return state;
+  }
+
+  requestQuestion(sessionId: string, attendeeIdentity: string): QaStatus {
+    const session = this.sessions.get(sessionId);
+    if (!session) {
+      throw new Error("Session not found");
+    }
+
+    const state = this.getOrCreateQaState(sessionId);
+    if (state.activeSpeakerIdentity !== attendeeIdentity) {
+      state.pending.add(attendeeIdentity);
+    }
+
+    return this.getQaStatus(sessionId);
+  }
+
+  cancelQuestion(sessionId: string, attendeeIdentity: string): QaStatus {
+    const state = this.getOrCreateQaState(sessionId);
+    state.pending.delete(attendeeIdentity);
+
+    if (state.activeSpeakerIdentity === attendeeIdentity) {
+      void this.endActiveQuestion(sessionId);
+    }
+
+    return this.getQaStatus(sessionId);
+  }
+
+  async approveQuestion(
+    sessionId: string,
+    attendeeIdentity: string,
+    organizerTargetLanguage = "uk",
+  ): Promise<QaStatus> {
+    const session = this.sessions.get(sessionId);
+    if (!session) {
+      throw new Error("Session not found");
+    }
+
+    const state = this.getOrCreateQaState(sessionId);
+
+    if (
+      state.activeBridge &&
+      state.activeSpeakerIdentity !== attendeeIdentity
+    ) {
+      await state.activeBridge.stop();
+      state.activeBridge = null;
+      state.activeSpeakerIdentity = null;
+    }
+
+    if (
+      !state.activeBridge ||
+      state.activeSpeakerIdentity !== attendeeIdentity
+    ) {
+      const suffix =
+        attendeeIdentity.replace(/[^a-zA-Z0-9]/g, "").slice(-8) || "speaker";
+      const bridge = new TranslationBridge(
+        sessionId,
+        organizerTargetLanguage,
+        attendeeIdentity,
+        this.getConfig(),
+        `reverse-${organizerTargetLanguage}-${suffix}`,
+      );
+
+      await bridge.start();
+      bridge.subscriberCount = 1;
+      state.activeBridge = bridge;
+      state.activeSpeakerIdentity = attendeeIdentity;
+    }
+
+    state.pending.delete(attendeeIdentity);
+    state.organizerTargetLanguage = organizerTargetLanguage;
+
+    return this.getQaStatus(sessionId);
+  }
+
+  async endActiveQuestion(sessionId: string): Promise<QaStatus> {
+    const state = this.getOrCreateQaState(sessionId);
+
+    if (state.activeBridge) {
+      await state.activeBridge.stop();
+    }
+
+    state.activeBridge = null;
+    state.activeSpeakerIdentity = null;
+
+    return this.getQaStatus(sessionId);
+  }
+
+  getQaStatus(sessionId: string): QaStatus {
+    const state = this.getOrCreateQaState(sessionId);
+
+    return {
+      sessionId,
+      pendingSpeakerIdentities: Array.from(state.pending.values()),
+      activeSpeakerIdentity: state.activeSpeakerIdentity,
+      activeTranslatorIdentity: state.activeBridge?.identity || null,
+      organizerTargetLanguage: state.organizerTargetLanguage,
+    };
   }
 
   getAllSessions(): SessionInfo[] {

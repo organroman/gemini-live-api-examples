@@ -3,7 +3,10 @@
 import { useEffect, useState, useCallback, useRef, use } from "react";
 import {
   LiveKitRoom,
+  ParticipantTile,
   RoomAudioRenderer,
+  TrackLoop,
+  TrackToggle,
   useRoomContext,
   useTracks,
   useRemoteParticipants,
@@ -20,18 +23,44 @@ interface TranscriptEntry {
   timestamp: number;
 }
 
-function AttendeeView({ sessionId }: { sessionId: string }) {
+interface QaStatus {
+  sessionId: string;
+  pendingSpeakerIdentities: string[];
+  activeSpeakerIdentity: string | null;
+  activeTranslatorIdentity: string | null;
+  organizerTargetLanguage: string;
+  requestedByCurrentUser?: boolean;
+  approvedForCurrentUser?: boolean;
+}
+
+function AttendeeView({
+  sessionId,
+  attendeeIdentity,
+}: {
+  sessionId: string;
+  attendeeIdentity: string;
+}) {
   const room = useRoomContext();
   const [currentLanguage, setCurrentLanguage] = useState("original");
   const [translatorIdentity, setTranslatorIdentity] = useState<string | null>(
-    null
+    null,
   );
-  const [isReceivingAudio, setIsReceivingAudio] = useState(false);
+  const [qaStatus, setQaStatus] = useState<QaStatus>({
+    sessionId,
+    pendingSpeakerIdentities: [],
+    activeSpeakerIdentity: null,
+    activeTranslatorIdentity: null,
+    organizerTargetLanguage: "uk",
+    requestedByCurrentUser: false,
+    approvedForCurrentUser: false,
+  });
   const [transcripts, setTranscripts] = useState<TranscriptEntry[]>([]);
   const transcriptEndRef = useRef<HTMLDivElement | null>(null);
   const currentLanguageRef = useRef(currentLanguage);
   const remoteParticipants = useRemoteParticipants();
   const audioTracks = useTracks([Track.Source.Microphone]);
+  const cameraTracks = useTracks([Track.Source.Camera]);
+  const screenShareTracks = useTracks([Track.Source.ScreenShare]);
 
   const organizerParticipant = remoteParticipants.find((p) =>
     p.identity.startsWith("organizer-")
@@ -52,6 +81,7 @@ function AttendeeView({ sessionId }: { sessionId: string }) {
 
       try {
         const data = JSON.parse(new TextDecoder().decode(payload));
+        console.log("🚀 ~ data:", data);
         if (data.type !== "transcription") return;
 
         // Only show transcriptions for the currently selected language
@@ -111,6 +141,10 @@ function AttendeeView({ sessionId }: { sessionId: string }) {
           translatorIdentity && participant.identity === translatorIdentity;
 
         for (const [, pub] of participant.trackPublications) {
+          if (pub.kind === Track.Kind.Video) {
+            pub.setSubscribed(true);
+          }
+
           if (pub.kind === Track.Kind.Audio) {
             if (currentLanguage === "original") {
               pub.setSubscribed(isOrganizer);
@@ -127,28 +161,96 @@ function AttendeeView({ sessionId }: { sessionId: string }) {
     const handleUpdate = () => updateSubscriptions();
     room.on(RoomEvent.TrackPublished, handleUpdate);
     room.on(RoomEvent.ParticipantConnected, handleUpdate);
+    room.on(RoomEvent.TrackUnpublished, handleUpdate);
 
     return () => {
       room.off(RoomEvent.TrackPublished, handleUpdate);
       room.off(RoomEvent.ParticipantConnected, handleUpdate);
+      room.off(RoomEvent.TrackUnpublished, handleUpdate);
     };
   }, [room, currentLanguage, translatorIdentity, remoteParticipants]);
 
+  const isReceivingAudio = audioTracks.some((t) => {
+    const pub = t.publication;
+    if (currentLanguage === "original") {
+      return (
+        t.participant.identity.startsWith("organizer-") && pub.isSubscribed
+      );
+    }
+    return (
+      !!translatorIdentity &&
+      t.participant.identity === translatorIdentity &&
+      pub.isSubscribed
+    );
+  });
+
+  const isCameraOn = cameraTracks.some((t) => t.participant.isLocal);
+  const isMicOn = audioTracks.some((t) => t.participant.isLocal);
+
+  const fetchQaStatus = useCallback(async () => {
+    if (!attendeeIdentity) return;
+    try {
+      const res = await fetch(
+        `/api/questions?sessionId=${sessionId}&identity=${attendeeIdentity}`
+      );
+      const data = await res.json();
+      if (data.error) return;
+      setQaStatus(data);
+    } catch (err) {
+      console.error("Failed to fetch Q&A status:", err);
+    }
+  }, [sessionId, attendeeIdentity]);
+
   useEffect(() => {
-    const hasAudio = audioTracks.some((t) => {
-      const pub = t.publication;
-      if (currentLanguage === "original") {
-        return t.participant.identity.startsWith("organizer-") && pub.isSubscribed;
-      } else {
-        return (
-          translatorIdentity &&
-          t.participant.identity === translatorIdentity &&
-          pub.isSubscribed
-        );
-      }
-    });
-    setIsReceivingAudio(hasAudio);
-  }, [audioTracks, currentLanguage, translatorIdentity]);
+    const bootstrap = setTimeout(() => {
+      void fetchQaStatus();
+    }, 0);
+    const interval = setInterval(fetchQaStatus, 2000);
+    return () => {
+      clearTimeout(bootstrap);
+      clearInterval(interval);
+    };
+  }, [fetchQaStatus]);
+
+  const requestQuestion = useCallback(async () => {
+    try {
+      const res = await fetch("/api/questions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "request",
+          sessionId,
+          requesterIdentity: attendeeIdentity,
+          attendeeIdentity,
+        }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setQaStatus(data);
+    } catch (err) {
+      console.error("Failed to request question:", err);
+    }
+  }, [sessionId, attendeeIdentity]);
+
+  const cancelQuestion = useCallback(async () => {
+    try {
+      const res = await fetch("/api/questions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "cancel",
+          sessionId,
+          requesterIdentity: attendeeIdentity,
+          attendeeIdentity,
+        }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setQaStatus(data);
+    } catch (err) {
+      console.error("Failed to cancel question:", err);
+    }
+  }, [sessionId, attendeeIdentity]);
 
   // Unsubscribe from translation when tab closes
   useEffect(() => {
@@ -164,6 +266,19 @@ function AttendeeView({ sessionId }: { sessionId: string }) {
           new Blob([body], { type: "application/json" })
         );
       }
+
+      if (attendeeIdentity) {
+        const body = JSON.stringify({
+          action: "cancel",
+          sessionId,
+          requesterIdentity: attendeeIdentity,
+          attendeeIdentity,
+        });
+        navigator.sendBeacon(
+          "/api/questions",
+          new Blob([body], { type: "application/json" })
+        );
+      }
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -172,7 +287,7 @@ function AttendeeView({ sessionId }: { sessionId: string }) {
       // Also fire on React unmount (e.g. navigation away)
       handleBeforeUnload();
     };
-  }, [sessionId]);
+  }, [sessionId, attendeeIdentity]);
 
   const handleLanguageChange = useCallback(
     (langCode: string, newTranslatorIdentity: string | null) => {
@@ -196,15 +311,43 @@ function AttendeeView({ sessionId }: { sessionId: string }) {
   );
 
   const isConnected = organizerParticipant !== undefined;
+  const primaryScreenTrack = screenShareTracks[0];
 
   return (
-    <div className="container enter">
+    <div className="container enter" style={{ maxWidth: 980 }}>
       {/* Header */}
       <div style={{ marginBottom: 40 }}>
         <h1 className="display display-lg" style={{ marginBottom: 8 }}>
           <em>Listening</em>
         </h1>
         <p className="mono">{sessionId}</p>
+      </div>
+
+      {/* Video stage */}
+      <div style={{ marginBottom: 24 }}>
+        {primaryScreenTrack ? (
+          <div className="video-stage-main" style={{ marginBottom: 12 }}>
+            <TrackLoop tracks={[primaryScreenTrack]}>
+              <ParticipantTile />
+            </TrackLoop>
+          </div>
+        ) : (
+          <div className="video-stage-placeholder" style={{ marginBottom: 12 }}>
+            <p className="body-sm">Waiting for shared screen</p>
+          </div>
+        )}
+
+        <div className="video-strip">
+          {cameraTracks.length === 0 ? (
+            <div className="video-tile-empty">
+              <p className="body-sm">No participant cameras yet</p>
+            </div>
+          ) : (
+            <TrackLoop tracks={cameraTracks}>
+              <ParticipantTile />
+            </TrackLoop>
+          )}
+        </div>
       </div>
 
       {/* Status */}
@@ -238,6 +381,83 @@ function AttendeeView({ sessionId }: { sessionId: string }) {
             )}
           </div>
         </div>
+      </div>
+
+      <hr className="rule" />
+
+      {/* Camera control */}
+      <div style={{ padding: "24px 0" }}>
+        <span className="label" style={{ display: "block", marginBottom: 10 }}>
+          Your video
+        </span>
+        <TrackToggle
+          source={Track.Source.Camera}
+          style={{
+            width: "100%",
+            padding: "14px 20px",
+            fontFamily: "var(--font-body)",
+            fontSize: "14px",
+            fontWeight: 500,
+            border: isCameraOn
+              ? "1px solid var(--error)"
+              : "1px solid var(--fg)",
+            borderRadius: 0,
+            background: isCameraOn ? "transparent" : "var(--fg)",
+            color: isCameraOn ? "var(--error)" : "var(--bg)",
+            cursor: "pointer",
+          }}
+        >
+          {isCameraOn ? "Turn off camera" : "Turn on camera"}
+        </TrackToggle>
+      </div>
+
+      <hr className="rule" />
+
+      {/* Question / mic */}
+      <div style={{ padding: "24px 0" }}>
+        <span className="label" style={{ display: "block", marginBottom: 10 }}>
+          Ask a question
+        </span>
+
+        {qaStatus.approvedForCurrentUser ? (
+          <>
+            <p className="body-sm" style={{ marginBottom: 10 }}>
+              You are live. Speak in your language, organizer hears translated audio.
+            </p>
+            <TrackToggle
+              source={Track.Source.Microphone}
+              style={{
+                width: "100%",
+                padding: "14px 20px",
+                fontFamily: "var(--font-body)",
+                fontSize: "14px",
+                fontWeight: 500,
+                border: isMicOn
+                  ? "1px solid var(--error)"
+                  : "1px solid var(--fg)",
+                borderRadius: 0,
+                background: isMicOn ? "transparent" : "var(--fg)",
+                color: isMicOn ? "var(--error)" : "var(--bg)",
+                cursor: "pointer",
+              }}
+            >
+              {isMicOn ? "Mute mic" : "Unmute mic"}
+            </TrackToggle>
+          </>
+        ) : qaStatus.requestedByCurrentUser ? (
+          <>
+            <p className="body-sm" style={{ marginBottom: 10 }}>
+              Request pending approval from organizer.
+            </p>
+            <button className="btn btn-outline" onClick={cancelQuestion}>
+              Cancel request
+            </button>
+          </>
+        ) : (
+          <button className="btn btn-outline" onClick={requestQuestion}>
+            Request to speak
+          </button>
+        )}
       </div>
 
       <hr className="rule" />
@@ -298,8 +518,8 @@ function AttendeeView({ sessionId }: { sessionId: string }) {
 
       {/* Info */}
       <p className="body-sm" style={{ paddingTop: 28 }}>
-        Each language activates a dedicated Gemini Live API session
-        for real-time translation.
+        Each language activates a dedicated Gemini Live API session for
+        real-time translation.
       </p>
     </div>
   );
@@ -316,6 +536,7 @@ export default function WatchPage({
   const [livekitUrl, setLivekitUrl] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [started, setStarted] = useState(false);
+  const [attendeeIdentity, setAttendeeIdentity] = useState("");
 
   useEffect(() => {
     async function fetchToken() {
@@ -326,6 +547,7 @@ export default function WatchPage({
         );
         const data = await res.json();
         if (data.error) throw new Error(data.error);
+        setAttendeeIdentity(identity);
         setToken(data.token);
         setLivekitUrl(data.serverUrl);
       } catch (err) {
@@ -354,7 +576,7 @@ export default function WatchPage({
     );
   }
 
-  if (!token || !livekitUrl) {
+  if (!token || !livekitUrl || !attendeeIdentity) {
     return (
       <div className="page">
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
@@ -405,7 +627,7 @@ export default function WatchPage({
         }}
       >
         <RoomAudioRenderer />
-        <AttendeeView sessionId={sessionId} />
+        <AttendeeView sessionId={sessionId} attendeeIdentity={attendeeIdentity} />
       </LiveKitRoom>
     </div>
   );

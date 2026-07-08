@@ -4,7 +4,7 @@
  *
  * Each bridge instance:
  * 1. Joins the LiveKit room as a bot participant (e.g., "translator-es")
- * 2. Subscribes to the organizer's audio track
+ * 2. Subscribes to a source participant's audio track
  * 3. Pipes PCM audio frames to Gemini Live API via WebSocket
  * 4. Receives translated audio back and publishes it as a new track
  */
@@ -40,6 +40,7 @@ export class TranslationBridge {
   public readonly targetLanguage: string;
   public readonly sessionId: string;
   public readonly identity: string;
+  public readonly sourceParticipantIdentity: string;
   public status: BridgeStatus = "starting";
   public subscriberCount: number = 0;
 
@@ -56,25 +57,25 @@ export class TranslationBridge {
   private readonly livekitApiSecret: string;
 
   private geminiSetupComplete: boolean = false;
-  private organizerIdentity: string;
   private lastAudioFrameTime: number = 0;
   private captureChain: Promise<void> = Promise.resolve();
 
   constructor(
     sessionId: string,
     targetLanguage: string,
-    organizerIdentity: string,
+    sourceParticipantIdentity: string,
     config: {
       geminiApiKey: string;
       livekitUrl: string;
       livekitApiKey: string;
       livekitApiSecret: string;
-    }
+    },
+    botIdentity?: string
   ) {
     this.sessionId = sessionId;
     this.targetLanguage = targetLanguage;
-    this.organizerIdentity = organizerIdentity;
-    this.identity = `translator-${targetLanguage}`;
+    this.sourceParticipantIdentity = sourceParticipantIdentity;
+    this.identity = botIdentity || `translator-${targetLanguage}`;
     this.geminiApiKey = config.geminiApiKey;
     this.livekitUrl = config.livekitUrl;
     this.livekitApiKey = config.livekitApiKey;
@@ -93,8 +94,8 @@ export class TranslationBridge {
       // 2. Connect to Gemini Live API
       await this.connectGemini();
 
-      // 3. Subscribe to organizer's audio and wire up the pipeline
-      await this.subscribeToOrganizer();
+      // 3. Subscribe to source participant audio and wire up the pipeline
+      await this.subscribeToSourceParticipant();
 
       this.status = "active";
       console.log(
@@ -464,25 +465,25 @@ export class TranslationBridge {
     }
   }
 
-  private async subscribeToOrganizer(): Promise<void> {
+  private async subscribeToSourceParticipant(): Promise<void> {
     if (!this.room) return;
 
-    // Find the organizer participant and subscribe to their audio
+    // Find the source participant and subscribe to their audio
     const participants = this.room.remoteParticipants;
 
     for (const [, participant] of participants) {
-      if (participant.identity === this.organizerIdentity) {
+      if (participant.identity === this.sourceParticipantIdentity) {
         this.subscribeToParticipantAudio(participant);
         return;
       }
     }
 
-    // If organizer hasn't joined yet, wait for them
+    // If source participant hasn't joined yet, wait for them
     console.log(
-      `[TranslationBridge:${this.targetLanguage}] Waiting for organizer ${this.organizerIdentity}...`
+      `[TranslationBridge:${this.targetLanguage}] Waiting for source participant ${this.sourceParticipantIdentity}...`
     );
 
-    // Listen for the organizer to publish their track
+    // Listen for the source participant to publish their track
     this.room.on(
       RoomEvent.TrackPublished,
       (
@@ -490,7 +491,7 @@ export class TranslationBridge {
         participant: RemoteParticipant
       ) => {
         if (
-          participant.identity === this.organizerIdentity &&
+          participant.identity === this.sourceParticipantIdentity &&
           publication.kind === TrackKind.KIND_AUDIO
         ) {
           publication.setSubscribed(true);
@@ -507,7 +508,7 @@ export class TranslationBridge {
         participant: RemoteParticipant
       ) => {
         if (
-          participant.identity === this.organizerIdentity &&
+          participant.identity === this.sourceParticipantIdentity &&
           publication.kind === TrackKind.KIND_AUDIO
         ) {
           this.pipeTrackToGemini(track);
@@ -538,7 +539,7 @@ export class TranslationBridge {
         p: RemoteParticipant
       ) => {
         if (
-          p.identity === this.organizerIdentity &&
+          p.identity === this.sourceParticipantIdentity &&
           pub.kind === TrackKind.KIND_AUDIO
         ) {
           this.pipeTrackToGemini(track);
@@ -549,7 +550,7 @@ export class TranslationBridge {
 
   private pipeTrackToGemini(track: RemoteAudioTrack): void {
     console.log(
-      `[TranslationBridge:${this.targetLanguage}] Subscribed to organizer audio track, piping to Gemini`
+      `[TranslationBridge:${this.targetLanguage}] Subscribed to ${this.sourceParticipantIdentity} audio track, piping to Gemini`
     );
 
     const audioStream = new AudioStream(track, {

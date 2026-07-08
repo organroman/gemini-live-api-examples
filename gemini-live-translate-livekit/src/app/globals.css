@@ -360,6 +360,64 @@ body {
   border: 1px solid var(--border);
 }
 
+/* Video stage */
+
+.video-stage-main {
+  width: 100%;
+  min-height: 280px;
+  border: 1px solid var(--border);
+  background: #111;
+  overflow: hidden;
+}
+
+.video-stage-main .lk-participant-tile,
+.video-stage-main video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video-stage-placeholder {
+  width: 100%;
+  min-height: 220px;
+  border: 1px dashed var(--border);
+  background: var(--bg-inset);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.video-strip {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+}
+
+.video-strip .lk-participant-tile,
+.video-tile-empty {
+  min-height: 110px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+
+.video-strip video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-tile-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  text-align: center;
+}
+
 /* ——————————————————————————————————————
    Translation list
    —————————————————————————————————————— */

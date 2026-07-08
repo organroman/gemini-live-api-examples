@@ -6,11 +6,14 @@ import {
   useLocalParticipant,
   useRoomContext,
   useRemoteParticipants,
+  ParticipantTile,
+  RoomAudioRenderer,
+  TrackLoop,
   TrackToggle,
   useTracks,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
-import { Track } from "livekit-client";
+import { RoomEvent, Track } from "livekit-client";
 import SessionQRCode from "@/components/SessionQRCode";
 
 interface TranslationInfo {
@@ -18,6 +21,14 @@ interface TranslationInfo {
   translatorIdentity: string;
   status: string;
   subscriberCount: number;
+}
+
+interface QaStatus {
+  sessionId: string;
+  pendingSpeakerIdentities: string[];
+  activeSpeakerIdentity: string | null;
+  activeTranslatorIdentity: string | null;
+  organizerTargetLanguage: string;
 }
 
 const FLAGS: Record<string, string> = {
@@ -36,13 +47,23 @@ function BroadcastControls({ sessionId }: { sessionId: string }) {
   const room = useRoomContext();
   const { localParticipant } = useLocalParticipant();
   const [translations, setTranslations] = useState<TranslationInfo[]>([]);
-  const [isMicOn, setIsMicOn] = useState(false);
+  const [qaStatus, setQaStatus] = useState<QaStatus>({
+    sessionId,
+    pendingSpeakerIdentities: [],
+    activeSpeakerIdentity: null,
+    activeTranslatorIdentity: null,
+    organizerTargetLanguage: "uk",
+  });
   const audioTracks = useTracks([Track.Source.Microphone]);
+  const cameraTracks = useTracks([Track.Source.Camera]);
+  const screenShareTracks = useTracks([Track.Source.ScreenShare]);
   const remoteParticipants = useRemoteParticipants();
 
   // Count only real attendees, not translator bots
   const listenerCount = remoteParticipants.filter(
-    (p) => !p.identity.startsWith("translator-")
+    (p) =>
+      !p.identity.startsWith("translator-") &&
+      !p.identity.startsWith("reverse-"),
   ).length;
 
   const joinUrl =
@@ -60,27 +81,152 @@ function BroadcastControls({ sessionId }: { sessionId: string }) {
     }
   }, [sessionId]);
 
-  useEffect(() => {
-    fetchTranslations();
-    const interval = setInterval(fetchTranslations, 3000);
-    return () => clearInterval(interval);
-  }, [fetchTranslations]);
+  const fetchQaStatus = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/questions?sessionId=${sessionId}`);
+      const data = await res.json();
+      if (data.error) return;
+      setQaStatus(data);
+    } catch (err) {
+      console.error("Failed to fetch question status:", err);
+    }
+  }, [sessionId]);
 
   useEffect(() => {
-    const hasAudio = audioTracks.some(
-      (t) => t.participant.identity === localParticipant.identity
-    );
-    setIsMicOn(hasAudio);
-  }, [audioTracks, localParticipant.identity]);
+    const bootstrap = setTimeout(() => {
+      void fetchTranslations();
+      void fetchQaStatus();
+    }, 0);
+    const interval = setInterval(fetchTranslations, 3000);
+    const qaInterval = setInterval(fetchQaStatus, 2000);
+    return () => {
+      clearTimeout(bootstrap);
+      clearInterval(interval);
+      clearInterval(qaInterval);
+    };
+  }, [fetchTranslations, fetchQaStatus]);
+
+  useEffect(() => {
+    if (!room) return;
+
+    const updateAudioSubscriptions = () => {
+      const activeTranslatorIdentity = qaStatus.activeTranslatorIdentity;
+
+      for (const [, participant] of room.remoteParticipants) {
+        for (const [, pub] of participant.trackPublications) {
+          if (pub.kind !== Track.Kind.Audio) continue;
+          pub.setSubscribed(
+            !!activeTranslatorIdentity &&
+              participant.identity === activeTranslatorIdentity,
+          );
+        }
+      }
+    };
+
+    updateAudioSubscriptions();
+
+    room.on(RoomEvent.TrackPublished, updateAudioSubscriptions);
+    room.on(RoomEvent.ParticipantConnected, updateAudioSubscriptions);
+    room.on(RoomEvent.TrackUnpublished, updateAudioSubscriptions);
+
+    return () => {
+      room.off(RoomEvent.TrackPublished, updateAudioSubscriptions);
+      room.off(RoomEvent.ParticipantConnected, updateAudioSubscriptions);
+      room.off(RoomEvent.TrackUnpublished, updateAudioSubscriptions);
+    };
+  }, [room, qaStatus.activeTranslatorIdentity]);
+
+  const approveQuestion = useCallback(
+    async (attendeeIdentity: string) => {
+      try {
+        const res = await fetch("/api/questions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "approve",
+            sessionId,
+            requesterIdentity: localParticipant.identity,
+            attendeeIdentity,
+            organizerTargetLanguage: "uk",
+          }),
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        setQaStatus(data);
+      } catch (err) {
+        console.error("Failed to approve question:", err);
+      }
+    },
+    [sessionId, localParticipant.identity],
+  );
+
+  const endActiveQuestion = useCallback(async () => {
+    try {
+      const res = await fetch("/api/questions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "end",
+          sessionId,
+          requesterIdentity: localParticipant.identity,
+        }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setQaStatus(data);
+    } catch (err) {
+      console.error("Failed to end active question:", err);
+    }
+  }, [sessionId, localParticipant.identity]);
+
+  const primaryScreenTrack = screenShareTracks[0];
+  const isMicOn = audioTracks.some(
+    (t) => t.participant.identity === localParticipant.identity,
+  );
+  const isCameraOn = cameraTracks.some(
+    (t) => t.participant.identity === localParticipant.identity,
+  );
+  const isScreenSharing = screenShareTracks.some(
+    (t) => t.participant.identity === localParticipant.identity,
+  );
 
   return (
-    <div className="container enter">
+    <div className="container enter" style={{ maxWidth: 980 }}>
       {/* Header */}
       <div style={{ marginBottom: 48 }}>
         <h1 className="display display-lg" style={{ marginBottom: 8 }}>
           Broadcasting
         </h1>
         <p className="mono">{sessionId}</p>
+      </div>
+
+      {/* Video stage */}
+      <div style={{ marginBottom: 40 }}>
+        {primaryScreenTrack ? (
+          <div className="video-stage-main" style={{ marginBottom: 12 }}>
+            <TrackLoop tracks={[primaryScreenTrack]}>
+              <ParticipantTile />
+            </TrackLoop>
+          </div>
+        ) : (
+          <div className="video-stage-placeholder" style={{ marginBottom: 12 }}>
+            <p className="body-sm">
+              Start screen share to present slides and demos
+            </p>
+          </div>
+        )}
+
+        <div className="video-strip">
+          {cameraTracks.length === 0 ? (
+            <div className="video-tile-empty">
+              <p className="body-sm">No cameras active yet</p>
+            </div>
+          ) : (
+            <TrackLoop tracks={cameraTracks}>
+              <ParticipantTile />
+            </TrackLoop>
+          )}
+        </div>
       </div>
 
       {/* Mic status */}
@@ -128,6 +274,55 @@ function BroadcastControls({ sessionId }: { sessionId: string }) {
             cursor: "pointer",
           }}
         />
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 10,
+            marginTop: 10,
+          }}
+        >
+          <TrackToggle
+            source={Track.Source.Camera}
+            style={{
+              width: "100%",
+              padding: "14px 20px",
+              fontFamily: "var(--font-body)",
+              fontSize: "14px",
+              fontWeight: 500,
+              border: isCameraOn
+                ? "1px solid var(--error)"
+                : "1px solid var(--fg)",
+              borderRadius: 0,
+              background: isCameraOn ? "transparent" : "var(--fg)",
+              color: isCameraOn ? "var(--error)" : "var(--bg)",
+              cursor: "pointer",
+            }}
+          >
+            {isCameraOn ? "Stop camera" : "Start camera"}
+          </TrackToggle>
+
+          <TrackToggle
+            source={Track.Source.ScreenShare}
+            style={{
+              width: "100%",
+              padding: "14px 20px",
+              fontFamily: "var(--font-body)",
+              fontSize: "14px",
+              fontWeight: 500,
+              border: isScreenSharing
+                ? "1px solid var(--error)"
+                : "1px solid var(--fg)",
+              borderRadius: 0,
+              background: isScreenSharing ? "transparent" : "var(--fg)",
+              color: isScreenSharing ? "var(--error)" : "var(--bg)",
+              cursor: "pointer",
+            }}
+          >
+            {isScreenSharing ? "Stop sharing" : "Share screen"}
+          </TrackToggle>
+        </div>
       </div>
 
       <hr className="rule" />
@@ -144,7 +339,10 @@ function BroadcastControls({ sessionId }: { sessionId: string }) {
       >
         <span className="label">Share with attendees</span>
         <SessionQRCode url={joinUrl} size={140} />
-        <p className="mono" style={{ wordBreak: "break-all", textAlign: "center" }}>
+        <p
+          className="mono"
+          style={{ wordBreak: "break-all", textAlign: "center" }}
+        >
           {joinUrl}
         </p>
       </div>
@@ -172,13 +370,59 @@ function BroadcastControls({ sessionId }: { sessionId: string }) {
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <span className="lang-meta">
-                  {t.subscriberCount} listener{t.subscriberCount !== 1 ? "s" : ""}
+                  {t.subscriberCount} listener
+                  {t.subscriberCount !== 1 ? "s" : ""}
                 </span>
-                <span className={`status status--${t.status === "active" ? "active" : "waiting"}`}>
+                <span
+                  className={`status status--${t.status === "active" ? "active" : "waiting"}`}
+                >
                   <span className="status-dot pulse" />
                   {t.status}
                 </span>
               </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      <hr className="rule" />
+
+      {/* Listener Q&A */}
+      <div style={{ padding: "28px 0" }}>
+        <span className="label" style={{ marginBottom: 16, display: "block" }}>
+          Listener Q&A
+        </span>
+
+        {qaStatus.activeSpeakerIdentity ? (
+          <div style={{ marginBottom: 14 }}>
+            <p className="body-sm" style={{ marginBottom: 8 }}>
+              Live question: {qaStatus.activeSpeakerIdentity}
+            </p>
+            <button className="btn btn-outline" onClick={endActiveQuestion}>
+              End question
+            </button>
+          </div>
+        ) : (
+          <p className="body-sm italic" style={{ marginBottom: 14 }}>
+            No active speaker
+          </p>
+        )}
+
+        {qaStatus.pendingSpeakerIdentities.length === 0 ? (
+          <p className="body-sm italic">No pending requests</p>
+        ) : (
+          qaStatus.pendingSpeakerIdentities.map((identity) => (
+            <div key={identity} className="lang-row">
+              <div className="lang-row-left">
+                <span className="lang-name">{identity}</span>
+              </div>
+              <button
+                className="btn btn-outline"
+                onClick={() => approveQuestion(identity)}
+                style={{ padding: "8px 14px", fontSize: 12 }}
+              >
+                Approve
+              </button>
             </div>
           ))
         )}
@@ -271,9 +515,12 @@ export default function BroadcastPage({
           width: "100%",
         }}
         onDisconnected={() => {
-          setError("Disconnected from LiveKit room. Please check your credentials or network connection.");
+          setError(
+            "Disconnected from LiveKit room. Please check your credentials or network connection.",
+          );
         }}
       >
+        <RoomAudioRenderer />
 
         <BroadcastControls sessionId={sessionId} />
       </LiveKitRoom>

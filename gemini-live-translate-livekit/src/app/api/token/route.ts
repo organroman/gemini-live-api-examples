@@ -30,14 +30,15 @@ export async function GET(req: NextRequest) {
     ttl: "4h",
   });
 
-  const isOrganizer = role === "organizer";
+  const canPublishMedia = role === "organizer" || role === "attendee";
+  const canPublishData = role === "organizer";
 
   at.addGrant({
     roomJoin: true,
     room,
-    canPublish: isOrganizer,
+    canPublish: canPublishMedia,
     canSubscribe: true,
-    canPublishData: isOrganizer,
+    canPublishData,
   });
 
   const token = await at.toJwt();
