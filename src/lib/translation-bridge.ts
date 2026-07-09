@@ -468,22 +468,23 @@ export class TranslationBridge {
   private async subscribeToSourceParticipant(): Promise<void> {
     if (!this.room) return;
 
-    // Find the source participant and subscribe to their audio
+    // Subscribe to the source participant's audio track if it's already published.
+    // (It may not be yet — e.g. an attendee approved to speak only publishes
+    // their mic after they see the approval and tap "Unmute mic".)
     const participants = this.room.remoteParticipants;
-
     for (const [, participant] of participants) {
       if (participant.identity === this.sourceParticipantIdentity) {
         this.subscribeToParticipantAudio(participant);
-        return;
+        break;
       }
     }
 
-    // If source participant hasn't joined yet, wait for them
     console.log(
       `[TranslationBridge:${this.targetLanguage}] Waiting for source participant ${this.sourceParticipantIdentity}...`
     );
 
-    // Listen for the source participant to publish their track
+    // Always listen for (future) track publications from the source participant —
+    // covers both "hasn't joined yet" and "joined but publishes audio later".
     this.room.on(
       RoomEvent.TrackPublished,
       (
@@ -518,7 +519,9 @@ export class TranslationBridge {
   }
 
   /**
-   * Manually subscribe to a participant's audio track (needed when autoSubscribe is off).
+   * Manually subscribe to a participant's already-published audio tracks
+   * (needed when autoSubscribe is off). Future publications are handled by
+   * the TrackPublished listener registered in subscribeToSourceParticipant.
    */
   private subscribeToParticipantAudio(
     participant: RemoteParticipant
@@ -529,23 +532,6 @@ export class TranslationBridge {
         publication.setSubscribed(true);
       }
     }
-
-    // Also listen for TrackSubscribed to pipe to Gemini
-    this.room!.on(
-      RoomEvent.TrackSubscribed,
-      (
-        track: RemoteAudioTrack,
-        pub: RemoteTrackPublication,
-        p: RemoteParticipant
-      ) => {
-        if (
-          p.identity === this.sourceParticipantIdentity &&
-          pub.kind === TrackKind.KIND_AUDIO
-        ) {
-          this.pipeTrackToGemini(track);
-        }
-      }
-    );
   }
 
   private pipeTrackToGemini(track: RemoteAudioTrack): void {
