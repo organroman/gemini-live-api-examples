@@ -1,25 +1,33 @@
+@import "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap";
 /* [project]/src/app/globals.css [app-client] (css) */
 :root {
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
   --font-mono: "DM Mono", "SF Mono", monospace;
-  --bg: #f6f4f0;
-  --bg-elevated: #edeae4;
-  --bg-inset: #e5e2db;
-  --fg: #1a1917;
-  --fg-secondary: #6b6860;
-  --fg-tertiary: #9c9890;
-  --fg-ghost: #c4c0b8;
-  --accent: #c8432b;
-  --accent-soft: #c8432b14;
-  --border: #dad7d0;
-  --border-light: #edeae4;
-  --success: #2d7d46;
-  --success-soft: #2d7d4614;
+  --bg: #f9f9fc;
+  --bg-elevated: #fff;
+  --bg-inset: #ededf9;
+  --fg: #1a1a40;
+  --fg-secondary: #6c6c6c;
+  --fg-tertiary: #858598;
+  --fg-ghost: #b3b3bf;
+  --accent: #4c50cc;
+  --accent-soft: #5051c41a;
+  --accent-secondary: #23c0ad;
+  --accent-secondary-soft: #23c0ad1a;
+  --border: #e4e4f0;
+  --border-light: #ededf9;
+  --success: #23c0ad;
+  --success-soft: #23c0ad1a;
   --warning: #a07b1a;
   --warning-soft: #a07b1a14;
-  --error: #b33a2d;
-  --error-soft: #b33a2d14;
+  --error: #d9433e;
+  --error-soft: #d9433e14;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
 }
 
 *, :before, :after {
@@ -142,13 +150,13 @@ body {
 }
 
 .btn-dark {
-  background: var(--fg);
-  color: var(--bg);
-  border-radius: 0;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-pill);
 }
 
 .btn-dark:hover {
-  background: #333028;
+  background: #3e41a8;
 }
 
 .btn-dark:disabled {
@@ -159,12 +167,13 @@ body {
 .btn-outline {
   color: var(--fg);
   border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
   background: none;
-  border-radius: 0;
 }
 
 .btn-outline:hover {
-  border-color: var(--fg);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .btn-ghost {
@@ -182,10 +191,10 @@ body {
 .btn-danger {
   color: var(--error);
   border: 1px solid var(--error);
+  border-radius: var(--radius-pill);
   font-family: var(--font-body);
   cursor: pointer;
   background: none;
-  border-radius: 0;
   padding: 12px 24px;
   font-size: 13px;
   font-weight: 500;
@@ -202,7 +211,10 @@ body {
 
 .card {
   border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
   padding: 28px;
+  box-shadow: 0 4px 24px #5051c414;
 }
 
 .select-field {
@@ -211,23 +223,23 @@ body {
   color: var(--fg);
   background: var(--bg);
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   appearance: none;
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%236B6860' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%236C6C6C' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
   background-position: right 16px center;
   background-repeat: no-repeat;
-  border-radius: 0;
   padding: 14px 40px 14px 16px;
   font-size: 14px;
   transition: border-color .2s;
 }
 
 .select-field:hover {
-  border-color: var(--fg-tertiary);
+  border-color: var(--accent);
 }
 
 .select-field:focus {
-  border-color: var(--fg);
+  border-color: var(--accent);
   outline: none;
 }
 
@@ -335,6 +347,7 @@ body {
 
 .qr-wrap {
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   background: #fff;
   padding: 12px;
   display: inline-block;
@@ -342,6 +355,7 @@ body {
 
 .video-stage-main {
   border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   background: #111;
   width: 100%;
   min-height: 280px;
@@ -356,6 +370,7 @@ body {
 
 .video-stage-placeholder {
   border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
   background: var(--bg-inset);
   text-align: center;
   justify-content: center;
@@ -375,6 +390,7 @@ body {
 
 .video-strip .lk-participant-tile, .video-tile-empty {
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   background: var(--bg-elevated);
   min-height: 110px;
   overflow: hidden;

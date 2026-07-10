@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -27,17 +27,26 @@ export default function Home() {
     <div className="page">
       <div className="container" style={{ textAlign: "center" }}>
         {/* Title */}
-        <h1 className="display display-xl enter" style={{ marginBottom: 24 }}>
-          <em>Live</em> Translate
+        <Image
+          src="/dan-logo-color.svg"
+          alt="Dan Logo"
+          width={300}
+          height={80}
+        />
+        <h1
+          className="display display-lg enter "
+          style={{ marginBottom: 24, fontWeight: 700 }}
+        >
+          Classroom
         </h1>
 
         {/* Subtitle */}
         <p
           className="body enter-d1"
-          style={{ maxWidth: 340, margin: "0 auto 48px" }}
+          style={{ maxWidth: 420, margin: "0 auto 48px" }}
         >
-          Broadcast your voice. Attendees choose their language.
-          Translation spins up on demand.
+          Broadcast your voice, screen and video. Attendees choose their
+          language. Translation voice spins up on demand.
         </p>
 
         {/* CTA */}
@@ -57,49 +66,6 @@ export default function Home() {
             )}
           </button>
         </div>
-
-        {/* Steps */}
-        <div
-          className="enter-d3"
-          style={{
-            marginTop: 80,
-            display: "flex",
-            flexDirection: "column",
-            gap: 0,
-            textAlign: "left",
-          }}
-        >
-          <hr className="rule" />
-          {[
-            "Speak into your microphone — your audio goes live",
-            "Share the QR code with your audience",
-            "Each language picked spins up one Gemini session",
-          ].map((text, i) => (
-            <div key={i}>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 16,
-                  padding: "18px 0",
-                  alignItems: "baseline",
-                }}
-              >
-                <span className="mono" style={{ flexShrink: 0 }}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <p className="body-sm" style={{ color: "var(--fg-secondary)" }}>
-                  {text}
-                </p>
-              </div>
-              <hr className="rule" />
-            </div>
-          ))}
-        </div>
-
-        {/* Footer */}
-        <p className="mono enter-d4" style={{ marginTop: 48 }}>
-          Powered by Gemini Live API + LiveKit
-        </p>
       </div>
     </div>
   );

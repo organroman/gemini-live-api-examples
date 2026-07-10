@@ -4,6 +4,7 @@
   "/api/token/route": "app/api/token/route.js",
   "/api/translate/route": "app/api/translate/route.js",
   "/api/translate/status/route": "app/api/translate/status/route.js",
+  "/api/translate/unsubscribe/route": "app/api/translate/unsubscribe/route.js",
   "/page": "app/page.js",
   "/session/[id]/broadcast/page": "app/session/[id]/broadcast/page.js",
   "/session/[id]/watch/page": "app/session/[id]/watch/page.js"

@@ -370,17 +370,19 @@ class TranslationBridge {
     }
     async subscribeToSourceParticipant() {
         if (!this.room) return;
-        // Find the source participant and subscribe to their audio
+        // Subscribe to the source participant's audio track if it's already published.
+        // (It may not be yet — e.g. an attendee approved to speak only publishes
+        // their mic after they see the approval and tap "Unmute mic".)
         const participants = this.room.remoteParticipants;
         for (const [, participant] of participants){
             if (participant.identity === this.sourceParticipantIdentity) {
                 this.subscribeToParticipantAudio(participant);
-                return;
+                break;
             }
         }
-        // If source participant hasn't joined yet, wait for them
         console.log(`[TranslationBridge:${this.targetLanguage}] Waiting for source participant ${this.sourceParticipantIdentity}...`);
-        // Listen for the source participant to publish their track
+        // Always listen for (future) track publications from the source participant —
+        // covers both "hasn't joined yet" and "joined but publishes audio later".
         this.room.on(__TURBOPACK__imported__module__$5b$externals$5d2f40$livekit$2f$rtc$2d$node__$5b$external$5d$__$2840$livekit$2f$rtc$2d$node$2c$__esm_import$2c$__$5b$project$5d2f$node_modules$2f40$livekit$2f$rtc$2d$node$29$__["RoomEvent"].TrackPublished, (publication, participant)=>{
             if (participant.identity === this.sourceParticipantIdentity && publication.kind === __TURBOPACK__imported__module__$5b$externals$5d2f40$livekit$2f$rtc$2d$node__$5b$external$5d$__$2840$livekit$2f$rtc$2d$node$2c$__esm_import$2c$__$5b$project$5d2f$node_modules$2f40$livekit$2f$rtc$2d$node$29$__["TrackKind"].KIND_AUDIO) {
                 publication.setSubscribed(true);
@@ -394,7 +396,9 @@ class TranslationBridge {
         });
     }
     /**
-   * Manually subscribe to a participant's audio track (needed when autoSubscribe is off).
+   * Manually subscribe to a participant's already-published audio tracks
+   * (needed when autoSubscribe is off). Future publications are handled by
+   * the TrackPublished listener registered in subscribeToSourceParticipant.
    */ subscribeToParticipantAudio(participant) {
         for (const [, publication] of participant.trackPublications){
             if (publication.kind === __TURBOPACK__imported__module__$5b$externals$5d2f40$livekit$2f$rtc$2d$node__$5b$external$5d$__$2840$livekit$2f$rtc$2d$node$2c$__esm_import$2c$__$5b$project$5d2f$node_modules$2f40$livekit$2f$rtc$2d$node$29$__["TrackKind"].KIND_AUDIO) {
@@ -402,12 +406,6 @@ class TranslationBridge {
                 publication.setSubscribed(true);
             }
         }
-        // Also listen for TrackSubscribed to pipe to Gemini
-        this.room.on(__TURBOPACK__imported__module__$5b$externals$5d2f40$livekit$2f$rtc$2d$node__$5b$external$5d$__$2840$livekit$2f$rtc$2d$node$2c$__esm_import$2c$__$5b$project$5d2f$node_modules$2f40$livekit$2f$rtc$2d$node$29$__["RoomEvent"].TrackSubscribed, (track, pub, p)=>{
-            if (p.identity === this.sourceParticipantIdentity && pub.kind === __TURBOPACK__imported__module__$5b$externals$5d2f40$livekit$2f$rtc$2d$node__$5b$external$5d$__$2840$livekit$2f$rtc$2d$node$2c$__esm_import$2c$__$5b$project$5d2f$node_modules$2f40$livekit$2f$rtc$2d$node$29$__["TrackKind"].KIND_AUDIO) {
-                this.pipeTrackToGemini(track);
-            }
-        });
     }
     pipeTrackToGemini(track) {
         console.log(`[TranslationBridge:${this.targetLanguage}] Subscribed to ${this.sourceParticipantIdentity} audio track, piping to Gemini`);
@@ -507,6 +505,10 @@ class TranslationSessionManager {
     sessions = new Map();
     // Map<sessionId, SessionQaState>
     qaStates = new Map();
+    // Map<"sessionId:language", in-flight bridge creation> — prevents concurrent
+    // getOrCreate calls for the same language from spinning up duplicate bridges
+    // that both translate the same source audio (heard as repeated phrases).
+    pendingCreations = new Map();
     constructor(){}
     static getInstance() {
         if (!TranslationSessionManager.instance) {
@@ -536,32 +538,42 @@ class TranslationSessionManager {
     }
     // Translation management
     async getOrCreate(sessionId, targetLanguage, organizerIdentity) {
-        // Check if we already have a bridge for this language
-        let languageMap = this.translations.get(sessionId);
-        if (languageMap) {
-            const existingBridge = languageMap.get(targetLanguage);
-            if (existingBridge && existingBridge.status === "active") {
-                console.log(`[SessionManager] Reusing existing bridge for ${targetLanguage} in session ${sessionId}`);
-                existingBridge.subscriberCount++;
-                return existingBridge;
-            }
-            // If bridge exists but is in error/closed state, clean it up
-            if (existingBridge && (existingBridge.status === "error" || existingBridge.status === "closed")) {
-                console.log(`[SessionManager] Cleaning up stale bridge for ${targetLanguage}`);
-                await existingBridge.stop();
-                languageMap.delete(targetLanguage);
-            }
+        const languageMap = this.translations.get(sessionId);
+        const existingBridge = languageMap?.get(targetLanguage);
+        if (existingBridge && existingBridge.status === "active") {
+            console.log(`[SessionManager] Reusing existing bridge for ${targetLanguage} in session ${sessionId}`);
+            existingBridge.subscriberCount++;
+            return existingBridge;
         }
-        // Create a new bridge
+        // Another call is already creating this bridge — wait for it instead of
+        // starting a second one (which would double-translate the same audio).
+        const key = `${sessionId}:${targetLanguage}`;
+        const pending = this.pendingCreations.get(key);
+        if (pending) {
+            const bridge = await pending;
+            bridge.subscriberCount++;
+            return bridge;
+        }
+        // If bridge exists but is in error/closed state, clean it up
+        if (existingBridge && (existingBridge.status === "error" || existingBridge.status === "closed")) {
+            console.log(`[SessionManager] Cleaning up stale bridge for ${targetLanguage}`);
+            await existingBridge.stop();
+            languageMap.delete(targetLanguage);
+        }
+        const creation = this.createBridge(sessionId, targetLanguage, organizerIdentity);
+        this.pendingCreations.set(key, creation);
+        try {
+            const bridge = await creation;
+            bridge.subscriberCount++;
+            return bridge;
+        } finally{
+            this.pendingCreations.delete(key);
+        }
+    }
+    async createBridge(sessionId, targetLanguage, organizerIdentity) {
         console.log(`[SessionManager] Creating new bridge for ${targetLanguage} in session ${sessionId}`);
-        const config = {
-            geminiApiKey: process.env.GEMINI_API_KEY,
-            livekitUrl: process.env.LIVEKIT_URL || ("TURBOPACK compile-time value", "ws://localhost:7880") || "ws://localhost:7880",
-            livekitApiKey: process.env.LIVEKIT_API_KEY,
-            livekitApiSecret: process.env.LIVEKIT_API_SECRET
-        };
-        const bridge = new __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$translation$2d$bridge$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["TranslationBridge"](sessionId, targetLanguage, organizerIdentity, config, `translator-${targetLanguage}`);
-        // Store the bridge before starting (to prevent race conditions)
+        const bridge = new __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$translation$2d$bridge$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["TranslationBridge"](sessionId, targetLanguage, organizerIdentity, this.getConfig(), `translator-${targetLanguage}`);
+        let languageMap = this.translations.get(sessionId);
         if (!languageMap) {
             languageMap = new Map();
             this.translations.set(sessionId, languageMap);
@@ -569,7 +581,6 @@ class TranslationSessionManager {
         languageMap.set(targetLanguage, bridge);
         try {
             await bridge.start();
-            bridge.subscriberCount = 1;
             return bridge;
         } catch (error) {
             // Clean up on failure

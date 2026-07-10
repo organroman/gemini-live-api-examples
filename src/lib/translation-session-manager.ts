@@ -49,6 +49,11 @@ class TranslationSessionManager {
   // Map<sessionId, SessionQaState>
   private qaStates: Map<string, SessionQaState> = new Map();
 
+  // Map<"sessionId:language", in-flight bridge creation> — prevents concurrent
+  // getOrCreate calls for the same language from spinning up duplicate bridges
+  // that both translate the same source audio (heard as repeated phrases).
+  private pendingCreations: Map<string, Promise<TranslationBridge>> = new Map();
+
   private constructor() {}
 
   static getInstance(): TranslationSessionManager {
@@ -88,55 +93,69 @@ class TranslationSessionManager {
     targetLanguage: string,
     organizerIdentity: string,
   ): Promise<TranslationBridge> {
-    // Check if we already have a bridge for this language
-    let languageMap = this.translations.get(sessionId);
-    if (languageMap) {
-      const existingBridge = languageMap.get(targetLanguage);
-      if (existingBridge && existingBridge.status === "active") {
-        console.log(
-          `[SessionManager] Reusing existing bridge for ${targetLanguage} in session ${sessionId}`,
-        );
-        existingBridge.subscriberCount++;
-        return existingBridge;
-      }
-      // If bridge exists but is in error/closed state, clean it up
-      if (
-        existingBridge &&
-        (existingBridge.status === "error" ||
-          existingBridge.status === "closed")
-      ) {
-        console.log(
-          `[SessionManager] Cleaning up stale bridge for ${targetLanguage}`,
-        );
-        await existingBridge.stop();
-        languageMap.delete(targetLanguage);
-      }
+    const languageMap = this.translations.get(sessionId);
+    const existingBridge = languageMap?.get(targetLanguage);
+
+    if (existingBridge && existingBridge.status === "active") {
+      console.log(
+        `[SessionManager] Reusing existing bridge for ${targetLanguage} in session ${sessionId}`,
+      );
+      existingBridge.subscriberCount++;
+      return existingBridge;
     }
 
-    // Create a new bridge
+    // Another call is already creating this bridge — wait for it instead of
+    // starting a second one (which would double-translate the same audio).
+    const key = `${sessionId}:${targetLanguage}`;
+    const pending = this.pendingCreations.get(key);
+    if (pending) {
+      const bridge = await pending;
+      bridge.subscriberCount++;
+      return bridge;
+    }
+
+    // If bridge exists but is in error/closed state, clean it up
+    if (
+      existingBridge &&
+      (existingBridge.status === "error" || existingBridge.status === "closed")
+    ) {
+      console.log(
+        `[SessionManager] Cleaning up stale bridge for ${targetLanguage}`,
+      );
+      await existingBridge.stop();
+      languageMap!.delete(targetLanguage);
+    }
+
+    const creation = this.createBridge(sessionId, targetLanguage, organizerIdentity);
+    this.pendingCreations.set(key, creation);
+
+    try {
+      const bridge = await creation;
+      bridge.subscriberCount++;
+      return bridge;
+    } finally {
+      this.pendingCreations.delete(key);
+    }
+  }
+
+  private async createBridge(
+    sessionId: string,
+    targetLanguage: string,
+    organizerIdentity: string,
+  ): Promise<TranslationBridge> {
     console.log(
       `[SessionManager] Creating new bridge for ${targetLanguage} in session ${sessionId}`,
     );
-
-    const config = {
-      geminiApiKey: process.env.GEMINI_API_KEY!,
-      livekitUrl:
-        process.env.LIVEKIT_URL ||
-        process.env.NEXT_PUBLIC_LIVEKIT_URL ||
-        "ws://localhost:7880",
-      livekitApiKey: process.env.LIVEKIT_API_KEY!,
-      livekitApiSecret: process.env.LIVEKIT_API_SECRET!,
-    };
 
     const bridge = new TranslationBridge(
       sessionId,
       targetLanguage,
       organizerIdentity,
-      config,
+      this.getConfig(),
       `translator-${targetLanguage}`,
     );
 
-    // Store the bridge before starting (to prevent race conditions)
+    let languageMap = this.translations.get(sessionId);
     if (!languageMap) {
       languageMap = new Map();
       this.translations.set(sessionId, languageMap);
@@ -145,7 +164,6 @@ class TranslationSessionManager {
 
     try {
       await bridge.start();
-      bridge.subscriberCount = 1;
       return bridge;
     } catch (error) {
       // Clean up on failure

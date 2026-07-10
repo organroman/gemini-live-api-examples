@@ -400,10 +400,10 @@ function AttendeeView({
             fontWeight: 500,
             border: isCameraOn
               ? "1px solid var(--error)"
-              : "1px solid var(--fg)",
-            borderRadius: 0,
-            background: isCameraOn ? "transparent" : "var(--fg)",
-            color: isCameraOn ? "var(--error)" : "var(--bg)",
+              : "1px solid var(--accent)",
+            borderRadius: "var(--radius-pill)",
+            background: isCameraOn ? "transparent" : "var(--accent)",
+            color: isCameraOn ? "var(--error)" : "#FFFFFF",
             cursor: "pointer",
           }}
         >
@@ -434,10 +434,10 @@ function AttendeeView({
                 fontWeight: 500,
                 border: isMicOn
                   ? "1px solid var(--error)"
-                  : "1px solid var(--fg)",
-                borderRadius: 0,
-                background: isMicOn ? "transparent" : "var(--fg)",
-                color: isMicOn ? "var(--error)" : "var(--bg)",
+                  : "1px solid var(--accent)",
+                borderRadius: "var(--radius-pill)",
+                background: isMicOn ? "transparent" : "var(--accent)",
+                color: isMicOn ? "var(--error)" : "#FFFFFF",
                 cursor: "pointer",
               }}
             >

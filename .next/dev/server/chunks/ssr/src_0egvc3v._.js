@@ -19,7 +19,7 @@ function SessionQRCode({ url, size = 160 }) {
             size: size,
             level: "M",
             bgColor: "#ffffff",
-            fgColor: "#1A1917"
+            fgColor: "#1A1A40"
         }, void 0, false, {
             fileName: "[project]/src/components/SessionQRCode.tsx",
             lineNumber: 13,
@@ -444,9 +444,9 @@ function BroadcastControls({ sessionId }) {
                             fontSize: "14px",
                             fontWeight: 500,
                             border: isMicOn ? "1px solid var(--error)" : "none",
-                            borderRadius: 0,
-                            background: isMicOn ? "transparent" : "var(--fg)",
-                            color: isMicOn ? "var(--error)" : "var(--bg)",
+                            borderRadius: "var(--radius-pill)",
+                            background: isMicOn ? "transparent" : "var(--accent)",
+                            color: isMicOn ? "var(--error)" : "#FFFFFF",
                             cursor: "pointer"
                         }
                     }, void 0, false, {
@@ -470,10 +470,10 @@ function BroadcastControls({ sessionId }) {
                                     fontFamily: "var(--font-body)",
                                     fontSize: "14px",
                                     fontWeight: 500,
-                                    border: isCameraOn ? "1px solid var(--error)" : "1px solid var(--fg)",
-                                    borderRadius: 0,
-                                    background: isCameraOn ? "transparent" : "var(--fg)",
-                                    color: isCameraOn ? "var(--error)" : "var(--bg)",
+                                    border: isCameraOn ? "1px solid var(--error)" : "1px solid var(--accent)",
+                                    borderRadius: "var(--radius-pill)",
+                                    background: isCameraOn ? "transparent" : "var(--accent)",
+                                    color: isCameraOn ? "var(--error)" : "#FFFFFF",
                                     cursor: "pointer"
                                 },
                                 children: isCameraOn ? "Stop camera" : "Start camera"
@@ -490,10 +490,10 @@ function BroadcastControls({ sessionId }) {
                                     fontFamily: "var(--font-body)",
                                     fontSize: "14px",
                                     fontWeight: 500,
-                                    border: isScreenSharing ? "1px solid var(--error)" : "1px solid var(--fg)",
-                                    borderRadius: 0,
-                                    background: isScreenSharing ? "transparent" : "var(--fg)",
-                                    color: isScreenSharing ? "var(--error)" : "var(--bg)",
+                                    border: isScreenSharing ? "1px solid var(--error)" : "1px solid var(--accent)",
+                                    borderRadius: "var(--radius-pill)",
+                                    background: isScreenSharing ? "transparent" : "var(--accent)",
+                                    color: isScreenSharing ? "var(--error)" : "#FFFFFF",
                                     cursor: "pointer"
                                 },
                                 children: isScreenSharing ? "Stop sharing" : "Share screen"

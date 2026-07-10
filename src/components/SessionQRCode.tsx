@@ -15,7 +15,7 @@ export default function SessionQRCode({ url, size = 160 }: SessionQRCodeProps) {
         size={size}
         level="M"
         bgColor="#ffffff"
-        fgColor="#1A1917"
+        fgColor="#1A1A40"
       />
     </div>
   );

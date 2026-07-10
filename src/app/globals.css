@@ -1,31 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=DM+Mono:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --font-display: 'Instrument Serif', Georgia, serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Manrope', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
   --font-mono: 'DM Mono', 'SF Mono', monospace;
 
-  --bg: #F6F4F0;
-  --bg-elevated: #EDEAE4;
-  --bg-inset: #E5E2DB;
+  --bg: #F9F9FC;
+  --bg-elevated: #FFFFFF;
+  --bg-inset: #EDEDF9;
 
-  --fg: #1A1917;
-  --fg-secondary: #6B6860;
-  --fg-tertiary: #9C9890;
-  --fg-ghost: #C4C0B8;
+  --fg: #1A1A40;
+  --fg-secondary: #6C6C6C;
+  --fg-tertiary: #858598;
+  --fg-ghost: #B3B3BF;
 
-  --accent: #C8432B;
-  --accent-soft: rgba(200, 67, 43, 0.08);
+  --accent: #4C50CC;
+  --accent-soft: rgba(80, 81, 196, 0.1);
+  --accent-secondary: #23C0AD;
+  --accent-secondary-soft: rgba(35, 192, 173, 0.1);
 
-  --border: #DAD7D0;
-  --border-light: #EDEAE4;
+  --border: #E4E4F0;
+  --border-light: #EDEDF9;
 
-  --success: #2D7D46;
-  --success-soft: rgba(45, 125, 70, 0.08);
+  --success: #23C0AD;
+  --success-soft: rgba(35, 192, 173, 0.1);
   --warning: #A07B1A;
   --warning-soft: rgba(160, 123, 26, 0.08);
-  --error: #B33A2D;
-  --error-soft: rgba(179, 58, 45, 0.08);
+  --error: #D9433E;
+  --error-soft: rgba(217, 67, 62, 0.08);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
 }
 
 *,
@@ -166,13 +174,13 @@ body {
 }
 
 .btn-dark {
-  background: var(--fg);
-  color: var(--bg);
-  border-radius: 0;
+  background: var(--accent);
+  color: #FFFFFF;
+  border-radius: var(--radius-pill);
 }
 
 .btn-dark:hover {
-  background: #333028;
+  background: #3E41A8;
 }
 
 .btn-dark:disabled {
@@ -184,11 +192,12 @@ body {
   background: transparent;
   color: var(--fg);
   border: 1px solid var(--border);
-  border-radius: 0;
+  border-radius: var(--radius-pill);
 }
 
 .btn-outline:hover {
-  border-color: var(--fg);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .btn-ghost {
@@ -207,7 +216,7 @@ body {
   background: transparent;
   color: var(--error);
   border: 1px solid var(--error);
-  border-radius: 0;
+  border-radius: var(--radius-pill);
   padding: 12px 24px;
   font-family: var(--font-body);
   font-size: 13px;
@@ -230,6 +239,9 @@ body {
 
 .card {
   border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: 0 4px 24px rgba(80, 81, 196, 0.08);
   padding: 28px;
 }
 
@@ -245,9 +257,9 @@ body {
   color: var(--fg);
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 0;
+  border-radius: var(--radius-md);
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%236B6860' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%236C6C6C' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
   cursor: pointer;
@@ -255,12 +267,12 @@ body {
 }
 
 .select-field:hover {
-  border-color: var(--fg-tertiary);
+  border-color: var(--accent);
 }
 
 .select-field:focus {
   outline: none;
-  border-color: var(--fg);
+  border-color: var(--accent);
 }
 
 .select-field option {
@@ -358,6 +370,7 @@ body {
   background: white;
   display: inline-block;
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
 }
 
 /* Video stage */
@@ -366,6 +379,7 @@ body {
   width: 100%;
   min-height: 280px;
   border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   background: #111;
   overflow: hidden;
 }
@@ -381,6 +395,7 @@ body {
   width: 100%;
   min-height: 220px;
   border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
   background: var(--bg-inset);
   display: flex;
   align-items: center;
@@ -400,6 +415,7 @@ body {
 .video-tile-empty {
   min-height: 110px;
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   background: var(--bg-elevated);
   overflow: hidden;
 }

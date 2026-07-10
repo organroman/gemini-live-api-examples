@@ -1301,10 +1301,10 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                             fontFamily: "var(--font-body)",
                             fontSize: "14px",
                             fontWeight: 500,
-                            border: isCameraOn ? "1px solid var(--error)" : "1px solid var(--fg)",
-                            borderRadius: 0,
-                            background: isCameraOn ? "transparent" : "var(--fg)",
-                            color: isCameraOn ? "var(--error)" : "var(--bg)",
+                            border: isCameraOn ? "1px solid var(--error)" : "1px solid var(--accent)",
+                            borderRadius: "var(--radius-pill)",
+                            background: isCameraOn ? "transparent" : "var(--accent)",
+                            color: isCameraOn ? "var(--error)" : "#FFFFFF",
                             cursor: "pointer"
                         },
                         children: isCameraOn ? "Turn off camera" : "Turn on camera"
@@ -1364,10 +1364,10 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                                     fontFamily: "var(--font-body)",
                                     fontSize: "14px",
                                     fontWeight: 500,
-                                    border: isMicOn ? "1px solid var(--error)" : "1px solid var(--fg)",
-                                    borderRadius: 0,
-                                    background: isMicOn ? "transparent" : "var(--fg)",
-                                    color: isMicOn ? "var(--error)" : "var(--bg)",
+                                    border: isMicOn ? "1px solid var(--error)" : "1px solid var(--accent)",
+                                    borderRadius: "var(--radius-pill)",
+                                    background: isMicOn ? "transparent" : "var(--accent)",
+                                    color: isMicOn ? "var(--error)" : "#FFFFFF",
                                     cursor: "pointer"
                                 },
                                 children: isMicOn ? "Mute mic" : "Unmute mic"

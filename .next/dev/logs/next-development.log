@@ -1,84 +1,528 @@
-{"timestamp":"00:00:00.491","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:08.893","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: disconnected -> connecting {\"participant\":\"\",\"participantID\":\"\",\"room\":\"\"}"}
-{"timestamp":"00:00:08.893","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connecting to ws://localhost:7880/rtc/v1?access_token=%3Credacted%3E&join_request=CAESjg8fiwgAAAAAAAAT7VzbbtzIEYUCJFgIUID4aR_rB6jp6gsvbcyDLMvJIruGsGN7sW-hyJ4R4eElZI9m5P_Zv8sP5C1ojiRSw26tFTvAIttvmtPVdbpOV5Ezx4CP__zN0Ys_0VNMTsm3f_nH0Ys_fHNE__3L0fEf6-VStS_-9cvRzZycHNfzADBMeByymHGCjFKCYQgUvnsL311yQBqdklNyiifH3Tw4OdZzAuTkOJ2rnS7TJkjX63oblMVO5QYtuyIPOlWmlS4yCfDTDwsDr9p608hX79--_v4CCCBQYMBBQHhyXM7TTV7UkMD715ezd98vZj--u5wtzj5cvgFEhJBBAgRiQAaIBJCGJ8fZ_O58pD9df6JWN2XaSLOnbjbdjMeEkBkdLYUMWpVbFhL4a0TpzOAjlMDl-Q_vD9HYoGeHKDI4fzsBkYBWa9Vc15UK1I2q9J58HEPDScx9yLLU-3rKomp0Uao5kpebThXVVVrlS5XN8SEsNOrgDBH3yTNTlU2krAmWV31W3aZV19StDrJsuFKJsGkrWSi9lE3apmUnW90E13mrdlp2XZsF_YUFa3Wj1qN9FK61buRstt1uT7fqqtXZad2uZmrXqLYoVaW72ZBpll51QaeqPDCFjdKwcRpzij5Jkc_yNl3q4Lpel6oN2jJLdTBUsC1yFWRZoHZaVV1RV11AcJSVP1lUrjpZFn0Hd0pvGplmukm7rm_pIpd76VR2U1frW_N3kalgs2zTlXwVpdk90mxz-dNssfj7p090QZKfl8nPs8UV2f6zW_VjsCyqlWqbtqi07K7TgIoQeChfXciLM3nB5PkbyUMZv5ZJKC-EwcNEvgklp_LVuYzP5PkrGUWSMXnOJBfmY4IyRnkWSs5lxCQ9M5FhInkiEWVyfn-0utFGFKnbIvu4Vg-tUG52D3-3XfFJ-YH0A_nbH0j0A-kH0g_kb2cg6e9rIG-KXNkHMgkhiSCJIUkACQEkCEwAC4FFwGJAwgAJByQRIDGfE0DkgCgAMQTECBBjYAlwAhyBU-AMOAcugIfAI-AxICaA1Iw6AlIKPAFBQCAICkgZIDVf3QUI9uSTIAnhw2U8S8jjiUsiaPVuCsfw4TKZwok12hRvCzeC2OKZsIaz0B4d2aNjx1kY_I2G3LLAHRsi1wYXQ-LYgA4GFK4N9opNYzg22I_EHCfixBrO0RFO7eEORbm9XC7g7ANOYXutPLJHO7RHl_bUXqqZGscGR7E9gZjgwp5foCPcnt0MrHnrTnFH61ABm3WzVNmUgcFyrXZLlQWEDav9-y-JIG30PAkHJIamrZfFWgVFPh9FJvvIeHjFEjIOpaMF7GNxRMTEOHZ4AbOwD2ViQKJxJBvweB8ZjXgY9K_TIO1uy1Lp9nbvPah8ji-bNPuodPEpNY_woKxzZcC7zPttRT7nlBBcjlLyu6OzERY9j4Z8Bk18RzOuJvkK1ahHNHhfTTLCxFeo5oBmf4mIYoQ9UzRbNflj0fBONBxEY8_UzFbMYxZO9m02KMbxiytZ8scctOfgwxjwZ3aypY5Djv3V86GP-f3FF_luLu4TzMlLXah2NOl8f5t8uEweWXfiZOf-gvioqfHLmzp8XJh5gO_bYNTU9Jl3ZNFvQrO_JKSjW0oedJhjPOQwH3stguU6XRlFd3uaxY-Ldw-7xf7cfDi2QGc--hn59gcUODrz3bzT4daFeY80adEG26LK6615KpPhDfErP3iSEFZ1vQpaVV4d4Ie_g0ZLWVbCsmgP0CrNPlogaNbFIzh2UMZuythKGU8pYyuleZNZOc2Ci9SsWVgNfEh7jx3yMmGnZcLJyoSNlIkJ5x00oYwclJGbMrJSRlPKyKEuc6nLnlCX2dVlFnWZg9dRq1lw81qrNfCU11Vv4uJNnuBN7LyJhTex86KjncyCkxetDWXgCS_aW8q86h28T-iMdp3RojPadWYOmZlbZWYVmU01ZnaJOdop-dQWGi1ZKDlOKO-gCaVjeLh7drh1dPh0crh9cLijj7i7jbi1i_i0ibi9h7ijhbi7g7i1gfi0f7hjTNE1pvjEmKJ9TNEypugYU-poIrPg5KXWNjLwhJc6GslRLndXy63F8mmt3F6qcFQq3IUKa51iWqawVykc4yKm43Jv3D5pcup6ueyUPvnqhi2ynpatmkb2zmFQt4WqdP8l9eR_beyK5xXRrNPbeqODXK3T21Ga8Hlp9nVmdaVVpQN924wFif6bXLooi2o1yhI_L0tWr-s26Jo0Gx_ls23v-7skv7rBfO50q9IyeLz16X836Lf2X99VHkxyWF33_qu_d9296z54g9519677AHvX3bvu3nX3rrt33b3r7l1377p719277t51P4S96-5dd--6e9fdu-4WyLvu3nX3rvvYded923vX3bvu3nX3rrt33b3r7l1377p719277t519667d9296-5dd--6e9fdu-7edfeuu3fdvevuXfcvd937n22_H9c9bZp1kfVTc-e9vzbm--L83SXs7z_IU51m12lVmf9kyOZ8W3UM_1-06zLdBOapIMXdz74y3QWl6rp0pQKjo6QhRc5Pjr89-g_ztCjOEVMAAA%3D%3D {}"}
-{"timestamp":"00:00:08.915","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connected {}"}
-{"timestamp":"00:00:08.915","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connected to Livekit Server edition: 0, version: 1.13.2, protocol: 17, region: , nodeId: ND_BRGkrKugNfma, debugInfo: , agentProtocol: 1 {\"participant\":\"organizer-host\",\"participantID\":\"PA_PLH8CQYxyVUr\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:00:09.025","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connecting -> connected {\"participant\":\"organizer-host\",\"participantID\":\"PA_PLH8CQYxyVUr\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:00:09.047","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m publishing track {\"enabled\":true,\"kind\":\"audio\",\"muted\":false,\"participant\":\"organizer-host\",\"participantID\":\"PA_PLH8CQYxyVUr\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\",\"source\":\"microphone\",\"streamID\":\"bb2e205c-2a1c-433a-b7a7-64b11595cf5f\",\"streamTrackID\":\"bb2e205c-2a1c-433a-b7a7-64b11595cf5f\"}"}
-{"timestamp":"00:00:25.046","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: disconnected -> connecting {\"participant\":\"\",\"participantID\":\"\",\"room\":\"\"}"}
-{"timestamp":"00:00:25.046","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connecting to ws://localhost:7880/rtc/v1?access_token=%3Credacted%3E&join_request=CAESiw8fiwgAAAAAAAAT7VzLbtzIFY0WCQIBChCvZnl_gOq69eCjjF5IsjQxMjaEke1gdqHJ6hbh5gNktdTy_8zfzQ_MLih2S6SaVRordoBBpnbqU7fuqXvqXrL7GPDh3_568OIv9BiTY_Ld3_998OJP9NefDw7_XC8Wqn3xy88HN3NydFjPAwgFRcLCGCPKeBLSOAyBwuu38PqSA9LomByTYzw67ObB0aGeEyBHh-lcbXSZNkG6WtW3QVlsVG7QsivyoFNlWukikwD_enNl4GVbrxt5-v7tqx_OgQACBQYcBIRHh-U8XedFDQm8f3U5e_fD1ezHd5ezq5MPlxeAiBAySIBADMgAkQDS8Ogwm-_OR_rT9SdqdVOmjTR76mbdzXhMCJnR0VLIoFW5ZSGB7yNKZwYfoQQuz96830djg57so8jg7O0ERAJarVRzXVcqUDeq0lvycQwNJzH3IYtSb-spi6rRRanmSF6uO1VUH9MqX6hsjg9hoVEHZ4i4TZ6ZqmwiZU2w-Nhn1W1adU3d6iDLhiuVCOu2koXSC9mkbVp2stVNcJ23aqNl17VZ0F9YsFI3ajXaR-Fa60bOZre3t8e36mOrs-O6Xc7UplFtUapKd7Mh0yz92AWdqvLAFDZKw8ZpzCn6JEU-y9t0oYPrelWqNmjLLNXBUMFtkasgywK10arqirrqAoKjrPzJonLVybLoO7hTet3INNNN2nV9Sxe53Eqnspu6Wt2Zv4tMBetFmy7lDcne3CPNbS6Tz5vLC34-616zf6qfohCbn0hMcdlfVFEtVdu0RaVld50GVIRweiIJladcRkSeECliyc_lRSTJqTyPZRhJlkiOksQypjKMJTuRJ5E8P5OvTiSNJUN5eiGTSIbYrzKJsTw7leRCkjPJ6P3R6kYbUaRui-zTSj20QrnePPzddsVn5QfSD-TvfyDRD6QfSD-Qv5-BpH-sgbwpcmUfyCSEJIIkhiQBJASQIDABLAQWAYsBCQMkHJBEgMR8TgCRA6IAxBAQI0CMgSXACXAEToEz4By4AB4Cj4DHgJgAUjPqCEgp8AQEAYEgKCBlgNR8dRcg2JNPgiSED5fxLCGPJy6JoNWbKRzDh8tkCifWaFO8LdwIYotnwhrOQnt0ZI-OHWdh8A8acssCd2yIXBtcDIljAzoYULg22Cs2jeHYYD8Sc5yIE2s4R0c4tYc7FOX2crmAkw84he218sge7dAeXdpTe6lmahwbHMX2BGKCC3t-gY5we3YzsOatO8UdrUMFrFfNQmVTBgaLldosVBYQNqz2778kgrTR8yQckBiatl4UKxUU-XwUmWwj4-EVS8g4lI4WsI_FERET49jhBczCPpSJAYnGkWzA421kNOJh0L9Og7S7K0ul27ut96DyOb5s0uyT0sXn1DzCg7LOlQF3mbfbinzOKSG4GKXku6OzERY9j4Z8AU28oxlXk3yDatQjGryvJhlh4htUs0ezvUREMcKeKZqtmvyxaLgTDQfR2DM1sxXzmIWTbZsNinH86koW_DEH7Tn4MAb8mZ1sqWOfY3v1fOhjfn_xRb6Zi_sEc_JSF6odTTrf3iYfLpNH1p042bm9ID5qavz6pg4fF2Ye4Ns2GDU1feYdWfSb0GwvCenolpIHHeYYDznMx16LYLFKl0bRzZbm6serdw-7xfbcfDi2QGc--gX5tgcUODrzbt7pcOvCvEeatGiD26LK61vzVCbDG-I3fvAkISzrehm0qvy4h-__DhotZVkJi6LdQ6s0-2SBoFkVj-DYQRm7KWMrZTyljK2U5k1m5TQLLlKzZmE18D7tPbbPy4SdlgknKxM2UiYmnDtoQhk5KCM3ZWSljKaUkUNd5lKXPaEus6vLLOoyB6-jVrPg5rVWa-Apr6vexMWbPMGb2HkTC29i50VHO5kFJy9aG8rAE160t5R51Tt4n9AZ7TqjRWe068wcMjO3yswqMptqzOwSc7RT8qktNFqyUHKcUO6gCaVjeLh7drh1dPh0crh9cLijj7i7jbi1i_i0ibi9h7ijhbi7g7i1gfi0f7hjTNE1pvjEmKJ9TNEypugYU-poIrPg5KXWNjLwhJc6GslRLndXy63F8mmt3F6qcFQq3IUKa51iWqawVykc4yKm43Jv3D5pcup6seiUPvrmhi2ynpYtm0b2zmFQt4WqdP8l9eh_beyK5xXRrNK7eq2DXK3Su1Ga8HlptnVmdaVVpQN914wFif6bXLooi2o5yhI_L0tWr-o26Jo0Gx_li23v-7skv7nBfO50q9IyeLz16X836Lf2X99VHkxyWF33_qu_d9296z54g9519677AHvX3bvu3nX3rrt33b3r7l1377p719277t5134e96-5dd--6e9fdu-4WyLvu3nX3rvvYded923vX3bvu3nX3rrt33b3r7l1377p719277t519667d9296-5dd--6e9fdu-7edfeuu3fdvevuXfevd937n21_HNc9bZpVkfVTs_PeXxnz_ers3SVs7z_IU51m12lVmf9kyOZ8W3UM_1-06zLdBOapIMXuZ1-ZboJSdV26VIHRUdKQIudHh98d_Af1IYtHD1MAAA%3D%3D {}"}
-{"timestamp":"00:00:25.056","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connected {}"}
-{"timestamp":"00:00:25.056","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connected to Livekit Server edition: 0, version: 1.13.2, protocol: 17, region: , nodeId: ND_BRGkrKugNfma, debugInfo: , agentProtocol: 1 {\"participant\":\"attendee-d2nw2e\",\"participantID\":\"PA_Z6qgMswMCmWX\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:00:25.165","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connecting -> connected {\"participant\":\"attendee-d2nw2e\",\"participantID\":\"PA_Z6qgMswMCmWX\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:00:33.580","source":"Browser","level":"ERROR","message":"Translation request error: {}"}
-{"timestamp":"00:00:33.587","source":"Server","level":"ERROR","message":"[browser] \"Translation request error:\" \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:00:33.587","source":"Browser","level":"ERROR","message":"Translation request error: \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:00:37.304","source":"Browser","level":"ERROR","message":"Translation request error: {}"}
-{"timestamp":"00:00:37.305","source":"Server","level":"ERROR","message":"[browser] \"Translation request error:\" \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:00:37.305","source":"Browser","level":"ERROR","message":"Translation request error: \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:00:41.510","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m Page leave detected, disconnecting {\"participant\":\"attendee-d2nw2e\",\"participantID\":\"PA_Z6qgMswMCmWX\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:00:41.510","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m disconnect from room {\"participant\":\"attendee-d2nw2e\",\"participantID\":\"PA_Z6qgMswMCmWX\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:00:41.510","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connected -> disconnected {\"participant\":\"attendee-d2nw2e\",\"participantID\":\"PA_Z6qgMswMCmWX\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:00:43.403","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: disconnected -> connecting {\"participant\":\"\",\"participantID\":\"\",\"room\":\"\"}"}
-{"timestamp":"00:00:43.403","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connecting to ws://localhost:7880/rtc/v1?access_token=%3Credacted%3E&join_request=CAESkg8fiwgAAAAAAAAT7VzLbuPIFY0XCQIDDpBezfL-AK269eCjGlr4mRlg2nHG7c5kF5osyUyLj5AlW-7_mb_LD2QXFCVbtFjlaac7wCBTO-vUrXvqnrqXlE4Dvf-H3--9-R09xOSQfPPHv--9-Q399097-7-tZzPVvvnXT3t3U3KwX08DYBGGIYqIhBRpFCLDBCh8dwHfXXJAGh2SQ3KIB_vdNDjY11MC5GA_naqVLtMmSBeL-j4oi5XKDVp2RR50qkwrXWQS4K_vrgw8b-tlI4-vL06_PwMCCBQYcBAQHuyX03SZFzUkcH16OXn__dXkh_eXk6ujD5fngIgQMkiAQAzIAJEA0vBgP5tuzkf60_UnanVTpo00e-pm2U14TAiZ0MFSyKBVuWUhgT9FlE4MPkAJXJ68u95FY4Me7aLI4ORiBCIBrRaqua0rFag7Vek1-TCGhqOYx5BZqdf1lEXV6KJUUyRvl50qqpu0ymcqm-JTWGjUwQkirpNnpiqbSFkTzG76rLpNq66pWx1k2fZKJcKyrWSh9Ew2aZuWnWx1E9zmrVpp2XVtFvQXFizUnVoM9lG41bqRk8n9_f3hvbppdXZYt_OJWjWqLUpV6W6yzTRJb7qgU1UemMIGadgwjTlFn6TIJ3mbznRwWy9K1QZtmaU62FZwX-QqyLJArbSquqKuuoDgICt_sahcdbIs-g7ulF42Ms10k3Zd39JFLtfSqeyurhYP5u8iU8Fy1qZzeU3zT49Ic5_L6G_fXs4vflz-uY6WZ7n651_-IX68vn530V9UUc1V27RFpWV3mwZUhHB-Lk-PZZLIk0iyM8lQEiY5k3gkEyJPQ8nP5BGX0Zk8JjI5kSenMqTy-EienEmRSMpkcipFLFkkT5k8Rsm5PDqWNJLnTB6dPx6tbrQRReq2yD4u1FMrlMvV099tV3xSfiD9QP7yBxL9QPqB9AP5yxlI-usayLsiV_aBTEJIIkhiSBJAQgAJAhPAQmARsBiQMEDCAUkESMznBBA5IApADAExAsQYWAKcAEfgFDgDzoEL4CHwCHgMiAkgNaOOgJQCT0AQEAiCAlIGSM1XdwGCvfgkSEL4cBlPEvJ84pIIWr0awzF8uEzGcGKNNsXbwo0gtngmrOEstEdH9ujYcRYG39KQWxa4Y0Pk2uBiSBwb0MGAwrXBXrFpDMcG-5GY40ScWMM5OsKpPdyhKLeXywUcfcAxbK-VR_Zoh_bo0p7aSzVT49jgKLYnECNc2PMLdITbs5uBNW_dMe5oHSpguWhmKhszMJgt1GqmsoCw7Wr__ksiSBs9TcItEkPT1rNioYIinw4ik3VkvH3FEjIMpYMF7GNxQMTEMHb7AmZhH8rEFomGkWyLx-vIaMDDoH-dBmn3UJZKtw9r70HlU3zbpNlHpYtPqXmEB2WdKwNuMq-3FfmUU0JwNkjJN0dnAyx6HQ35DJp4QzOsJvkK1ahnNPhYTTLAxFeoZodmfYmIYoC9UjRbNflz0XAjGm5FY6_UzFbMcxZO1m22VYzjF1cy4885aM_Bt2PAX9nJljp2OdZXz7d9zB8vvshXU_GYYEre6kK1g0nn69vk28vkkXUnjnauL4gPmhq_vKnD54WZB_i6DQZNTV95Rxb9RjTrS0I6uKXkSYcpxtsc5mOvRTBbpHOj6GpNc_XD1fun3WJ9br49tkBnPvoZ-dYHFDg482be6fbWhXmPNGnRBvdFldf35qlMtm-In_nBk4Qwr-t50KryZgff_R00WMqyEmZFu4NWafbRAkGzKJ7BsYMydlPGVsp4TBlbKc2bzMppFlykZs3CauBd2kdsl5cJOy0TTlYmbKRMjDg30IgyclBGbsrIShmNKSOHusylLntBXWZXl1nUZQ5eR61mwc1rrdbAY15XvYmLN3mBN7HzJhbexM6LjnYyC05etDaUgUe8aG8p86p38L6gM9p1RovOaNeZOWRmbpWZVWQ21pjZJeZop-RjW2iwZKHkOKLcQCNKx_Bw9-xw6-jw8eRw--BwRx9xdxtxaxfxcRNxew9xRwtxdwdxawPxcf9wx5iia0zxhTFF-5iiZUzRMabU0URmwclLrW1k4BEvdTSSo1zurpZbi-XjWrm9VOGoVLgLFdY6xbhMYa9SOMZFjMfl0bh90eTU9WzWKX3w1Q1bZD0tmzeN7J3DoG4LVen-S-rB_9rYFa8rolmkD_VSB7lapA-DNOHr0qzrzOpKq0oH-qEZChL9N7l0URbVfJAlfl2WrF7UbdA1aTY8ymfb3o93SX52g_nc6ValZfB868v_btBv7b--qzwY5bC67v1Xf--6e9d96w1619277lvYu-7edfeuu3fdvevuXXfvunvX3bvu3nX3rvsu7F1377p719277t51t0Dedfeuu3fdh64779veu-7edfeuu3fdvevuXXfvunvX3bvu3nX3rrt33b3r7l1377p719277t519667d9296-5dd--6f7nr3v9s-_W47mnTLIqsn5qN935qzPerk_eXsL7_IE91mt2mVWX-kyGb823VMfx_0a7LdBOYp4IUm599ZboKStV16VwFRkdJQ4qcH-x_s_cfbUiZ1Q9TAAA%3D {}"}
-{"timestamp":"00:00:43.412","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connected {}"}
-{"timestamp":"00:00:43.412","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connected to Livekit Server edition: 0, version: 1.13.2, protocol: 17, region: , nodeId: ND_BRGkrKugNfma, debugInfo: , agentProtocol: 1 {\"participant\":\"attendee-friu6n\",\"participantID\":\"PA_MuSZWh6JqTao\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:00:43.517","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connecting -> connected {\"participant\":\"attendee-friu6n\",\"participantID\":\"PA_MuSZWh6JqTao\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:00:52.938","source":"Browser","level":"ERROR","message":"Translation request error: {}"}
-{"timestamp":"00:00:52.938","source":"Server","level":"ERROR","message":"[browser] \"Translation request error:\" \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:00:52.938","source":"Browser","level":"ERROR","message":"Translation request error: \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:01:09.567","source":"Browser","level":"ERROR","message":"Translation request error: {}"}
-{"timestamp":"00:01:09.567","source":"Server","level":"ERROR","message":"[browser] \"Translation request error:\" \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:01:09.567","source":"Browser","level":"ERROR","message":"Translation request error: \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:01:12.492","source":"Browser","level":"ERROR","message":"Translation request error: {}"}
-{"timestamp":"00:01:12.492","source":"Server","level":"ERROR","message":"[browser] \"Translation request error:\" \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:01:12.492","source":"Browser","level":"ERROR","message":"Translation request error: \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:01:18.766","source":"Browser","level":"ERROR","message":"Translation request error: {}"}
-{"timestamp":"00:01:18.766","source":"Server","level":"ERROR","message":"[browser] \"Translation request error:\" \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:01:18.766","source":"Browser","level":"ERROR","message":"Translation request error: \"\\u001b[31mError: Session not found\\u001b[39m\\n\\u001b[31m    at LanguageSelector.useCallback[handleChange] (src/app/session/[id]/watch/components/LanguageSelector.tsx:88:17)\\u001b[39m\\n  \\u001b[90m86 |\\u001b[0m\\n  \\u001b[90m87 |\\u001b[0m         \\u001b[36mif\\u001b[0m (!res.ok) {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m88 |\\u001b[0m           \\u001b[36mthrow\\u001b[0m \\u001b[36mnew\\u001b[0m \\u001b[33mError\\u001b[0m(data.error || \\u001b[32m\\\"Translation request failed\\\"\\u001b[0m);\\n  \\u001b[90m   |\\u001b[0m                 \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m89 |\\u001b[0m         }\\n  \\u001b[90m90 |\\u001b[0m\\n  \\u001b[90m91 |\\u001b[0m         onLanguageChange(langCode, data.translatorIdentity);\" \"\\u001b[2m(src/app/session/[id]/watch/components/LanguageSelector.tsx:94:17)\\u001b[22m\""}
-{"timestamp":"00:01:26.944","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m Page leave detected, disconnecting {\"participant\":\"organizer-host\",\"participantID\":\"PA_PLH8CQYxyVUr\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:01:26.944","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m disconnect from room {\"participant\":\"organizer-host\",\"participantID\":\"PA_PLH8CQYxyVUr\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:01:26.944","source":"Browser","level":"INFO","message":"unpublishing track {\"enabled\":true,\"muted\":false,\"participant\":\"organizer-host\",\"participantID\":\"PA_PLH8CQYxyVUr\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\",\"trackID\":\"TR_AM8FKXEDmFVA4L\",\"trackInfo\":{\"enabled\":true,\"encrypted\":false,\"kind\":\"audio\",\"mimeType\":\"\",\"muted\":false,\"name\":\"\",\"source\":\"microphone\",\"streamID\":\"bb2e205c-2a1c-433a-b7a7-64b11595cf5f\",\"streamTrackID\":\"bb2e205c-2a1c-433a-b7a7-64b11595cf5f\",\"trackID\":\"TR_AM8FKXEDmFVA4L\"}}"}
-{"timestamp":"00:01:26.944","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connected -> disconnected {\"participant\":\"organizer-host\",\"participantID\":\"PA_PLH8CQYxyVUr\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:01:28.322","source":"Server","level":"LOG","message":"[SessionManager] Created session ecb27777 for organizer organizer-host"}
-{"timestamp":"00:01:28.415","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: disconnected -> connecting {\"participant\":\"\",\"participantID\":\"\",\"room\":\"\"}"}
-{"timestamp":"00:01:28.415","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connecting to ws://localhost:7880/rtc/v1?access_token=%3Credacted%3E&join_request=CAESlA8fiwgAAAAAAAAT7VzbbhzHEQUDxDAIMED05Mf6geF29WUuLewDRUqRYlsgTEkJ8pThTO9yop2LZ3rJpf_Hf-cfyFvQM0vucKebFiMFMOIG-MA9XV2n63TVzu4hwMM_fX3w7Ct6jMkx-ebP_zx49oevD-i_fz44_GO9WKj22S8_H1zPydFhPQ-AIkHGWBhxTliccIwoUHjzFt6cc0AaHZNjcoxHh908ODrUcwLk6DCdq40u0yZIV6v6JiiLjcoNWnZFHnSqTCtdZBLgb99fGHjZ1utGvnj_9uy7l0AAgQIDDgLCo8Nynq7zooYE3p-dz959dzH74d357OLkw_krQEQIGSRAIAZkgEgAaXh0mM235yP96foTtbop00aaPXWz7mY8JoTM6GgpZNCq3LKQwF8iSmcGH6EEzk-_f7-PxgY92UeRwenbCYgEtFqp5qquVKCuVaUH8nEMDScxdyGLUg_1lEXV6KJUcyTP150qqsu0yhcqm-N9WGjUwRkiDskzU5VNpKwJFpd9Vt2mVdfUrQ6ybHelEmHdVrJQeiGbtE3LTra6Ca7yVm207Lo2C_oLC1bqWq1G-yhcad3I2ezm5ub4Rl22Ojuu2-VMbRrVFqWqdDfbZZqll13QqSoPTGGjNGycxpyiT1Lks7xNFzq4qlelaoO2zFId7Cq4KXIVZFmgNlpVXVFXXUBwlJU_WlSuOlkWfQd3Sq8bmWa6Sbuub-kil4N0Kruuq9Wt-b3IVLBetOlShqsfwzukucnlP7JNu0luT7_99jVbfFT_SvHN7K-vX_-9v6iiWqq2aYtKy-4qDagIQVDJTuWZkK-EPEP5ksqTRIaJFKH5Cal8kciTE0leyFdc0kQiky_O5Fkkz5jkJ5K9kqdcnlCJQp68lPGJPCWSJ5IzGXOJ7O5odaONKFK3RfZxpe5boVxv7n9vu-In5QfSD-RvfyDRD6QfSD-Qv52BpL-vgbwucmUfyCSEJIIkhiQBJASQIDABLAQWAYsBCQMkHJBEgMS8TgCRA6IAxBAQI0CMgSXACXAEToEz4By4AB4Cj4DHgJgAUjPqCEgp8AQEAYEgKCBlgNR8dBcg2KPvBEkIH87jWUIeTlwSQas3UziGD-fJFE6s0aZ4W7gRxBbPhDWchfboyB4dO87C4DUNuWWBOzZErg0uhsSxAR0MKFwb7BWbxnBssB-JOU7EiTWcoyOc2sMdinJ7uVzAyQecwvZaeWSPdmiPLu2pvVQzNY4NjmJ7AjHBhT2_QEe4PbsZWPPUneKO1qEC1qtmobIpA4PFSm0WKgsI2632z78kgrTR8yTcITE0bb0oVioo8vkoMhki490jlpBxKB0tYB-LIyImxrG7BzAL-1Amdkg0jmQ7PB4ioxEPg_5xGqTdbVkq3d4O3oPK5_i8SbOPShc_peYtPCjrXBlwm3nYVuRzTgnBxSgl3x6djbDoaTTkE2jiLc24muQLVKMe0OBdNckIE1-gmj2a4RIRxQh7omi2avKHouFWNNyJxp6oma2YhyycDG22U4zjZ1ey4A85aM_Bd2PAn9jJljr2OYar57s-5ncXX-SbubhLMCfPdaHa0aTz4Tb57jJ5ZN2Jk53DBfFRU-PnN3X4sDDzBj60waip6RPvyKLfhGa4JKSjW0rudZhjvMthXvZaBItVujSKbgaaix8u3t3vFsO5-e7YAp356CfkGw4ocHTm7bzT3a0L8xxp0qINbooqr2_MuzLZPSF-5QtPEsKyrpdBq8rLPXz_e9BoKctKWBTtHlql2UcLBM2qeADHDsrYTRlbKeMpZWylNE8yK6dZcJGaNQurgfdp77B9XibstEw4WZmwkTIx4dxCE8rIQRm5KSMrZTSljBzqMpe67BF1mV1dZlGXOXgdtZoFN6-1WgNPeV31Ji7e5BHexM6bWHgTOy862sksOHnR2lAGnvCivaXMo97B-4jOaNcZLTqjXWfmkJm5VWZWkdlUY2aXmKOdkk9todGShZLjhHILTSgdw8Pds8Oto8Onk8Ptg8MdfcTdbcStXcSnTcTtPcQdLcTdHcStDcSn_cMdY4quMcVHxhTtY4qWMUXHmFJHE5kFJy-1tpGBJ7zU0UiOcrm7Wm4tlk9r5fZShaNS4S5UWOsU0zKFvUrhGBcxHZc74_ZRk1PXi0Wn9NEXN2yR9bRs2TSydw6Dui1UpfsPqUf_a2NXPK2IZpXe1msd5GqV3o7ShE9LM9SZ1ZVWlQ70bTMWJPpvcumiLKrlKEv8tCxZvarboGvSbHyUT7a97-6S_OoG87rTrUrL4OHWx_9u0G_tP76rPJjksLru_Ud_77p7133nDXrX3bvuO9i77t519667d9296-5dd--6e9fdu-7edfeu-z7sXXfvunvX3bvu3nW3QN519667d93Hrjvv29677t519667d9296-5dd--6e9fdu-7edfeuu3fdvevuXXfvunvX3bvu3nX3rrt33b3r7l1377p_vuvef237_bjuadOsiqyfmq33fmbM94vTd-cw3H-QpzrNrtKqMv9kyOZ8W3UM_1-06zLdBOZdQYrt174y3QSl6rp0qQKjo6QhRc6PDr85-A_jSqHuEVMAAA%3D%3D {}"}
-{"timestamp":"00:01:28.433","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connected {}"}
-{"timestamp":"00:01:28.433","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connected to Livekit Server edition: 0, version: 1.13.2, protocol: 17, region: , nodeId: ND_BRGkrKugNfma, debugInfo: , agentProtocol: 1 {\"participant\":\"organizer-host\",\"participantID\":\"PA_odeAbyfWo3fp\",\"room\":\"ecb27777\",\"roomID\":\"RM_XVYRhfFnybNN\"}"}
-{"timestamp":"00:01:28.534","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connecting -> connected {\"participant\":\"organizer-host\",\"participantID\":\"PA_odeAbyfWo3fp\",\"room\":\"ecb27777\",\"roomID\":\"RM_XVYRhfFnybNN\"}"}
-{"timestamp":"00:01:28.569","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m publishing track {\"enabled\":true,\"kind\":\"audio\",\"muted\":false,\"participant\":\"organizer-host\",\"participantID\":\"PA_odeAbyfWo3fp\",\"room\":\"ecb27777\",\"roomID\":\"RM_XVYRhfFnybNN\",\"source\":\"microphone\",\"streamID\":\"65240275-4859-4cda-aca7-44e914c04a64\",\"streamTrackID\":\"65240275-4859-4cda-aca7-44e914c04a64\"}"}
-{"timestamp":"00:01:34.879","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m Page leave detected, disconnecting {\"participant\":\"attendee-friu6n\",\"participantID\":\"PA_MuSZWh6JqTao\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:01:34.879","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m disconnect from room {\"participant\":\"attendee-friu6n\",\"participantID\":\"PA_MuSZWh6JqTao\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:01:34.888","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connected -> disconnected {\"participant\":\"attendee-friu6n\",\"participantID\":\"PA_MuSZWh6JqTao\",\"room\":\"d011be3a\",\"roomID\":\"RM_xw8Wjbo49ZT5\"}"}
-{"timestamp":"00:01:36.736","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: disconnected -> connecting {\"participant\":\"\",\"participantID\":\"\",\"room\":\"\"}"}
-{"timestamp":"00:01:36.736","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connecting to ws://localhost:7880/rtc/v1?access_token=%3Credacted%3E&join_request=CAESkw8fiwgAAAAAAAAT7VzLbhvJFY0WCQIBChCvZnn3QYt169GPMrjQy4mBGUewbOexSru7SHXEfqC7KFL6n_m7_EB2QTUpscWu0lixAwwytRNP3bqn7ql7u8ljwIe_--3Bq9_QY0yOyXe__8fBq1_Rf_94cPjrejZT7at__XhwOyVHh_U0gFjQhIecJzSJkcQsimOg8PYdvL3kgDQ6JsfkGI8Ou2lwdKinBMjRYTpVa12mTZAuFvUqKIu1yg1adkUedKpMK11kEuAvP1wZeN7Wy0aefnx3_v0FEECgwICDgPDosJymy7yoIYGP55eTD99fTd5_uJxcnXy6fAOICCGDBAjEgAwQCSANjw6z6fZ8pD9df6JWN2XaSLOnbpbdhMeEkAkdLIUMWpVbFhL4Y0TpxOADlMDl2Q8f99HYoCf7KDI4ezcCkYBWC9Vc15UK1K2q9IZ8GEPDUcxDyKzUm3rKomp0UaopktfLThXV57TKZyqb4mNYaNTBCSJukmemKptIWRPMPvdZdZtWXVO3Osiy3ZVKhGVbyULpmWzSNi072eomuM5btday69os6C8sWKhbtRjso3CtdSMnk9VqdbxSn1udHdftfKLWjWqLUlW6m-wyTdLPXdCpKg9MYYM0bJjGnKJPUuSTvE1nOriuF6Vqg7bMUh3sKlgVuQqyLFBrraquqKsuIDjIyp8tKledLIu-gzull41MM92kXde3dJHLjXQqu62rxZ35u8hUsJy16Vz--Q-Lfz4gzSqXN38trv52c8UvyOrvizi_X7-_uL-8fzvvL6qo5qpt2qLSsrtOAypCoGcypvLsVJ6eyNMzecGkOJFvqDwXMjmVyZk8YZKeyoRLciIFkUkiT1FehPINk5zJUyHPL2RyId8QeRpJwmQUShKbDARlePZwtLrRRhSp2yK7WajHViiX68e_2664V34g_UD-_AcS_UD6gfQD-fMZSPrLGsjbIlf2gUxCSCJIYkgSQEIACQITwEJgEbAYkDBAwgFJBEjM5wQQOSAKQAwBMQLEGFgCnABH4BQ4A86BC-Ah8Ah4DIgJIDWjjoCUAk9AEBAIggJSBkjNV3cBgj37JEhC-HQZTxLydOKSCFq9HsMxfLpMxnBijTbF28KNILZ4JqzhLLRHR_bo2HEWBn-iIbcscMeGyLXBxZA4NqCDAYVrg71i0xiODfYjMceJOLGGc3SEU3u4Q1FuL5cLOPmEY9heK4_s0Q7t0aU9tZdqpsaxwVFsTyBGuLDnF-gIt2c3A2veumPc0TpUwHLRzFQ2ZmAwW6j1TGUBYbvV_v2XRJA2epqEOySGpq1nxUIFRT4dRCabyHj3iiVkGEoHC9jH4oCIiWHs7gXMwj6UiR0SDSPZDo83kdGAh0H_Og3S7q4slW7vNt6Dyqf4ukmzG6WL-9Q8woOyzpUBt5k324p8yikhOBuk5NujswEWvYyGfAFNvKUZVpN8g2rUExp8qCYZYOIbVLNHs7lERDHAXiiarZr8qWi4FQ13orEXamYr5ikLJ5s22ynG8asrmfGnHLTn4Lsx4C_sZEsd-xybq-e7PuYPF1_k66l4SDAlr3Wh2sGk881t8t1l8si6E0c7NxfEB02NX9_U4dPCzAN80waDpqYvvCOLfiOazSUhHdxS8qjDFONdDvOx1yKYLdK5UXS9obl6f_XhcbfYnJvvji3QmY9-Qb7NAQUOzrydd7q7dWHeI01atMGqqPJ6ZZ7KZPeG-IkfPEkI87qeB60qP-_h-7-DBktZVsKsaPfQKs1uLBA0i-IJHDsoYzdlbKWMx5SxldK8yaycZsFFatYsrAbep33A9nmZsNMy4WRlwkbKxIhzC40oIwdl5KaMrJTRmDJyqMtc6rJn1GV2dZlFXebgddRqFty81moNPOZ11Zu4eJNneBM7b2LhTey86Ggns-DkRWtDGXjEi_aWMq96B-8zOqNdZ7TojHadmUNm5laZWUVmY42ZXWKOdko-toUGSxZKjiPKLTSidAwPd88Ot44OH08Otw8Od_QRd7cRt3YRHzcRt_cQd7QQd3cQtzYQH_cPd4wpusYUnxlTtI8pWsYUHWNKHU1kFpy81NpGBh7xUkcjOcrl7mq5tVg-rpXbSxWOSoW7UGGtU4zLFPYqhWNcxHhcHozbZ01OXc9mndJH39ywRdbTsnnTyN45DOq2UJXuv6Qe_a-NXfGyIppFelcvdZCrRXo3SBO-LM2mzqyutKp0oO-aoSDRf5NLF2VRzQdZ4pdlyepF3QZdk2bDo3yx7f1wl-QnN5jPnW5VWgZPtz7_7wb91v7ru8qDUQ6r695_9feuu3fdd96gd929676DvevuXXfvunvX3bvu3nX3rrt33b3r7l1377rvw9519667d9296-5ddwvkXXfvunvXfei6877tvevuXXfvunvX3bvu3nX3rrt33b3r7l1377p719277t519667d9296-5dd--6e9fdu-7edfeu-9e77v3Ptl-O6542zaLI-qnZeu_nxny_OvtwCZv7D_JUp9l1WlXmPxmyOd9WHcP_F-26TDeBeSpIsf3ZV6broFRdl85VYHSUNKTI-dHhdwf_Ab_s3iMPUwAA {}"}
-{"timestamp":"00:01:36.742","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connected {}"}
-{"timestamp":"00:01:36.743","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connected to Livekit Server edition: 0, version: 1.13.2, protocol: 17, region: , nodeId: ND_BRGkrKugNfma, debugInfo: , agentProtocol: 1 {\"participant\":\"attendee-xfdhir\",\"participantID\":\"PA_b6sWUaxC4gds\",\"room\":\"ecb27777\",\"roomID\":\"RM_XVYRhfFnybNN\"}"}
-{"timestamp":"00:01:36.851","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connecting -> connected {\"participant\":\"attendee-xfdhir\",\"participantID\":\"PA_b6sWUaxC4gds\",\"room\":\"ecb27777\",\"roomID\":\"RM_XVYRhfFnybNN\"}"}
-{"timestamp":"00:01:40.365","source":"Server","level":"LOG","message":"[SessionManager] Creating new bridge for az in session ecb27777"}
-{"timestamp":"00:01:40.367","source":"Server","level":"LOG","message":"[TranslationBridge:az] Starting bridge for session ecb27777"}
-{"timestamp":"00:01:40.508","source":"Server","level":"LOG","message":"[TranslationBridge:az] Joined room as translator-az"}
-{"timestamp":"00:01:40.514","source":"Server","level":"LOG","message":"[TranslationBridge:az] Published translated audio track (sid: TR_AM8oM7KLQQZFtg)"}
-{"timestamp":"00:01:40.665","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini WebSocket connected"}
-{"timestamp":"00:01:40.665","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sending Gemini setup: \"{\\n  \\\"setup\\\": {\\n    \\\"model\\\": \\\"models/gemini-3.5-live-translate-preview\\\",\\n    \\\"outputAudioTranscription\\\": {},\\n    \\\"generationConfig\\\": {\\n      \\\"responseModalities\\\": [\\n        \\\"AUDIO\\\"\\n      ],\\n      \\\"translationConfig\\\": {\\n        \\\"targetLanguageCode\\\": \\\"az\\\",\\n        \\\"echoTargetLanguage\\\": true\\n      }\\n    },\\n    \\\"realtimeInputConfig\\\": {\\n      \\\"automaticActivityDetection\\\": {\\n        \\\"disabled\\\": false\\n      }\\n    }\\n  }\\n}\""}
-{"timestamp":"00:01:41.128","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini message (pre-setup): \"{\\\"setupComplete\\\":{}}\""}
-{"timestamp":"00:01:41.129","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini setup complete"}
-{"timestamp":"00:01:41.222","source":"Server","level":"LOG","message":"[TranslationBridge:az] Bridge is active"}
-{"timestamp":"00:01:41.241","source":"Server","level":"LOG","message":"[TranslationBridge:az] Subscribed to organizer-host audio track, piping to Gemini"}
-{"timestamp":"00:01:41.343","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #1 to Gemini (12800 bytes base64, 4800 samples)"}
-{"timestamp":"00:01:41.442","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #2 to Gemini (12800 bytes base64, 4800 samples)"}
-{"timestamp":"00:01:41.543","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #3 to Gemini (12800 bytes base64, 4800 samples)"}
-{"timestamp":"00:01:44.407","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1 from Gemini (16000 bytes base64)"}
-{"timestamp":"00:01:44.427","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2 from Gemini (16000 bytes base64)"}
-{"timestamp":"00:01:44.607","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3 from Gemini (16000 bytes base64)"}
-{"timestamp":"00:01:53.134","source":"Server","level":"LOG","message":"[TranslationBridge:az] Transcription: \"Salam.\""}
-{"timestamp":"00:01:53.149","source":"Browser","level":"LOG","message":"🚀 ~ data: {\"final\":false,\"language\":\"az\",\"segmentId\":\"az-0\",\"text\":\"Salam.\",\"timestamp\":1783528956124,\"type\":\"transcription\"}"}
-{"timestamp":"00:02:01.425","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m Page leave detected, disconnecting {\"participant\":\"organizer-host\",\"participantID\":\"PA_odeAbyfWo3fp\",\"room\":\"ecb27777\",\"roomID\":\"RM_XVYRhfFnybNN\"}"}
-{"timestamp":"00:02:01.425","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m disconnect from room {\"participant\":\"organizer-host\",\"participantID\":\"PA_odeAbyfWo3fp\",\"room\":\"ecb27777\",\"roomID\":\"RM_XVYRhfFnybNN\"}"}
-{"timestamp":"00:02:01.442","source":"Browser","level":"INFO","message":"unpublishing track {\"enabled\":true,\"muted\":true,\"participant\":\"organizer-host\",\"participantID\":\"PA_odeAbyfWo3fp\",\"room\":\"ecb27777\",\"roomID\":\"RM_XVYRhfFnybNN\",\"trackID\":\"TR_AMa77MNUeh8rBw\",\"trackInfo\":{\"enabled\":false,\"encrypted\":false,\"kind\":\"audio\",\"mimeType\":\"\",\"muted\":true,\"name\":\"\",\"source\":\"microphone\",\"streamID\":\"65240275-4859-4cda-aca7-44e914c04a64\",\"streamTrackID\":\"65240275-4859-4cda-aca7-44e914c04a64\",\"trackID\":\"TR_AMa77MNUeh8rBw\"}}"}
-{"timestamp":"00:02:01.442","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connected -> disconnected {\"participant\":\"organizer-host\",\"participantID\":\"PA_odeAbyfWo3fp\",\"room\":\"ecb27777\",\"roomID\":\"RM_XVYRhfFnybNN\"}"}
-{"timestamp":"00:02:08.857","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #100 from Gemini (16000 bytes base64)"}
-{"timestamp":"00:02:33.856","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #200 from Gemini (16000 bytes base64)"}
-{"timestamp":"00:02:58.961","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #300 from Gemini (16000 bytes base64)"}
-{"timestamp":"00:03:23.947","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #400 from Gemini (16000 bytes base64)"}
-{"timestamp":"00:03:48.857","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #500 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:00:00.821","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:06.026","source":"Browser","level":"WARN","message":"Image with src \"/dan-logo-color.svg\" was detected as the Largest Contentful Paint (LCP). Please add the `loading=\"eager\"` property if this image is above the fold.\nRead more: https://nextjs.org/docs/app/api-reference/components/image#loading"}
+{"timestamp":"00:00:06.029","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mImage with src \\\"/dan-logo-color.svg\\\" was detected as the Largest Contentful Paint (LCP). Please add the `loading=\\\"eager\\\"` property if this image is above the fold.\\nRead more: https://nextjs.org/docs/app/api-reference/components/image#loading\\u001b[39m\""}
+{"timestamp":"00:00:06.029","source":"Browser","level":"WARN","message":"\u001b[33mImage with src \"/dan-logo-color.svg\" was detected as the Largest Contentful Paint (LCP). Please add the `loading=\"eager\"` property if this image is above the fold.\nRead more: https://nextjs.org/docs/app/api-reference/components/image#loading\u001b[39m"}
+{"timestamp":"00:00:07.876","source":"Server","level":"LOG","message":"[SessionManager] Created session f456b878 for organizer organizer-host"}
+{"timestamp":"00:00:08.275","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: disconnected -> connecting {\"participant\":\"\",\"participantID\":\"\",\"room\":\"\"}"}
+{"timestamp":"00:00:08.275","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connecting to ws://localhost:7880/rtc/v1?access_token=%3Credacted%3E&join_request=CAESlw8fiwgAAAAAAAAT7Vxdb-O4FUUKtFgESIHO0z7eP6CYVyT1wYEf8jGznXZ3JpjMTPtYRaIddawPSHTs7P_Zf9c_0LeCkh0pFpmddKfAoss3-_DyHt7Dey37BMjxH785evEH_xTjU_Ltn_5x9OJ33xz5__7p6Pj31WIhmxf_-unobk5Ojqu5BxhSQjCilJGYEAzjkIIPb97CmysG6Ien5JSc4slxO_dOjtWcADk5TuZyq4qk9pLVqtp4Rb6VmUaLNs-8VhZJqfJUAPzth2sNL5tqXYvzj28vv38FBBB8oMCAQ3ByXMyTdZZXEMPHy6vZh--vZ-8_XM2uzz5dvQZEhIBCDAQiQAqIBNAPTo7T-e58pDtdd6JG1UVSC72nqtftjEWEkJk_WgooNDIzLMTwXej7M42PUAJXFz98PEQjjZ4dokjh4u0ERAJKrmR9W5XSk3eyVD35OMYPJjH7kEWh-nqKvKxVXsg5kpfrVublTVJmC5nO8SEs0OrgDBH75KmuyiRSWnuLmy6rapKyratGeWk6XKlAWDelyKVaiDppkqIVjaq926yRWyXatkm97sK8lbyTq9E-H26VqsVsttlsTjfyplHpadUsZ3JbyyYvZKna2ZBplty0XivLzNOFjdLQcRp9ii5Jns2yJlko77ZaFbLxmiJNlDdUsMkz6aWpJ7dKlm1ela1HcJSVPVlUJltR5F0Ht1Kta5Gkqk7atmvpPBO9dDK9q8rVvX6dp9JbL5pkKS5ywvZIvcnENnj9l7PN-3dB9Gb5Pvj893_ez1bv6Lu_dheVl0vZ1E1eKtHeJp7PAyAX4pIK_logFYyK80iEr0V8Ic65eHUu2IW4DPWL8FKEkY5kVASRoFyQWPAzcXYuwkBcMvGKCDwTZxf6BeHi7JUIiSDB_mhVrbQoQjV5-nklH1qhWG8fXjdt_qN0A-kG8tc_kOgG0g2kG8hfz0D6v62BvMszaR7IOIA4hDiCOAYkBJAgUA40ABoCjQAJBSQMkISARL-PAZEBIgfEABBDQIyAxsAIMATmA6PAGDAOLAAWAosAMQb09agjoO8Di4ET4AjcB_QpoK-_unPg9MlPgjiAT1fRLCaPJy4OoVHbKRzBp6t4CsfGaF28KVwLYoqn3BhOA3N0aI6OLGeh8Gc_YIYFZtkQ2jbYGGLLBrQwILdtMFesG8OywXwkajkRI8ZwhpZw3xxuUZSZy2Uczj7hFDbXykJztEV7tGnvm0vVU2PZYCm2I-ATnJvzc7SEm7PrgdVP3SluaR2fw3pVL2Q6ZaCwWMntQqYeocNq9_yLQ0hqNY-DAYmgbqpFvpJens1HkXEfGQ2PWELGof5oAbtYHBFRPo4dHsA06EIpH5BwHEkHPOojwxEPhe5x6iXtfVFI1dz33oPM5viyTtLPUuU_Jvoj3CuqTGpwl7nflmdz5hOCi1FKtjs6HWHh82jIF9BEO5pxNfFXqEY-osF9NfEI41-hmgOa_hIR-Qh7pmimarLHouFONBxEo8_UzFTMYxZG-jYbFGP4iytZsMccfsfBhjFgz-xkQx2HHP3Vs6GP2f7i82w75_sEc_JS5bIZTTrrb5MNl8lC406c7OwviI2aGn95UwePC9Mf4H0bjJraf-YdGfSb0PSXhP7oluIHHeYYDTn0204Lb7FKllrRbU9z_f76w8Nu3p-bDcfmaM3nf0G-_oAcR2fezbs_3DrXz5E6yRtvk5dZtdGfymR4QvzMD544gGVVLb1GFjcH-OHvoNFSmhawyJsDtEzSzwYI6lX-CI4slJGdMjJSRlPKyEipn2RGTr1gI9VrBlYNH9LusUNeys20lFtZKTeRUj7h3EETytBCGdopQyNlOKUMLepSm7r0CXWpWV1qUJdaeC216gU7r7FaDU95bfXGNt74Cd7YzBsbeGMzL1raSS9YedHYUBqe8KK5pfSj3sL7hM5o1hkNOqNZZ2qRmdpVpkaR6VRjapaYoZmSTW2h0ZKBkuGEcgdNKC3Dw-yzw4yjw6aTw8yDwyx9xOxtxIxdxKZNxMw9xCwtxOwdxIwNxKb9wyxjirYxxSfGFM1jioYxRcuY-pYm0gtWXt_YRhqe8PqWRrKUy-zVMmOxbForM5fKLZVye6HcWCeflsnNVXLLuPDpuOyN2ydNTlUtFq1UJ1_dsEXa0dJlXYvOOfSqJpel6r6knvyvjV3-vCLqVXJfrZWXyVVyP0oTPC9NX2dalUqWylP39ViQ8L_JpfIiL5ejLNHzsqTVqmq8tk7S8VG-2Pbe3yX52Q36fasamRTe461P_92g29p9fZeZN8lhdN27r_7OdXeu--ANOtfdue4D7Fx357o719257s51d667c92d6-5cd-e6O9f9EHauu3PdnevuXHfnuhsg57o719257mPXvfPVnevuXPfBG3Suu3PdB9i57s51d667c92d6-5cd-e6O9fdue7OdXeu-yHsXHfnujvX3bnuznU3QM51d667c93Hrnv3s-2347ondb3K025qdt77pTbfry8-XEF__16WqCS9TcpS_5Mhk_Nt1DH4f9GuTVXt6U8FwXc_-4pk6xWybZOl9LSOwg98ZOzk-Nuj_wCCnA3HEVMAAA%3D%3D {}"}
+{"timestamp":"00:00:08.276","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connected {}"}
+{"timestamp":"00:00:08.276","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connected to Livekit Server edition: 0, version: 1.13.2, protocol: 17, region: , nodeId: ND_BRGkrKugNfma, debugInfo: , agentProtocol: 1 {\"participant\":\"organizer-host\",\"participantID\":\"PA_4K28UoyUxerg\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\"}"}
+{"timestamp":"00:00:08.365","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connecting -> connected {\"participant\":\"organizer-host\",\"participantID\":\"PA_4K28UoyUxerg\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\"}"}
+{"timestamp":"00:00:08.398","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m publishing track {\"enabled\":true,\"kind\":\"audio\",\"muted\":false,\"participant\":\"organizer-host\",\"participantID\":\"PA_4K28UoyUxerg\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\",\"source\":\"microphone\",\"streamID\":\"e01d2925-eedc-4994-b121-8435fd463aa5\",\"streamTrackID\":\"e01d2925-eedc-4994-b121-8435fd463aa5\"}"}
+{"timestamp":"00:00:36.044","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: disconnected -> connecting {\"participant\":\"\",\"participantID\":\"\",\"room\":\"\"}"}
+{"timestamp":"00:00:36.044","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connecting to ws://localhost:7880/rtc/v1?access_token=%3Credacted%3E&join_request=CAESjw8fiwgAAAAAAAAT7VzLbtzIFY0WCQIBGiBezfLuA6rr1oOPMnqhl5MBbEMY2Q6SVSiyukW4-QBZLbXmf-bv8gPZBcVuiVSzSmPFDjDI1E596tY9dU_dS3YfAz787o8Hr_5AjzE5Jt__6Z8Hr35H__3zweHv68VCta_-9fPB7ZwcHdbzAJAhDUUYxiGPeBQnJGZA4Yf38MMlB6TRMTkmx3h02M2Do0M9J0CODtO52ugybYJ0tarvgrLYqNygZVfkQafKtNJFJgH-9u7KwMu2Xjfy9OP787cXQACBAgMOAsKjw3KervOihgQ-nl_OPry9mv344XJ2dfLp8g0gIoQMEiAQAzJAJIA0PDrM5rvzkf50_Yla3ZRpI82eull3Mx4TQmZ0tBQyaFVuWUjgLxGlM4OPUAKXZ-8-7qOxQU_2UWRw9n4CIgGtVqq5qSsVqFtV6S35OIaGk5iHkEWpt_WURdXoolRzJK_XnSqq67TKFyqb42NYaNTBGSJuk2emKptIWRMsrvusuk2rrqlbHWTZcKUSYd1WslB6IZu0TctOtroJbvJWbbTsujYL-gsLVupWrUb7KNxo3cjZ7O7u7vhOXbc6O67b5UxtGtUWpap0NxsyzdLrLuhUlQemsFEaNk5jTtEnKfJZ3qYLHdzUq1K1QVtmqQ6GCu6KXAVZFqiNVlVX1FUXEBxl5c8WlatOlkXfwZ3S60ammW7SrutbusjlVjqV3dbV6t78XWQqWC_adCnp6Vv9gDR3uVz8I4-vZp_fpbOL2_RNdvY5_fP67Prvb_uLKqqlapu2qLTsbtKAihDiRAqUPJHkXEYXMo4lTeS5kFFsQErkWSjfhPIkkQmV4Rt5JmTI5UkoxYU8v5CUSnYh-ak851KEEiOJsTw9lfRMnpxKfvpwtLrRRhSp2yL7vFKPrVCuN49_t13xk_ID6Qfy1z-Q6AfSD6QfyF_PQNLf1kDeFrmyD2QSQhJBEkOSABICSBCYABYCi4DFgIQBEg5IIkBiPieAyAFRAGIIiBEgxsAS4AQ4AqfAGXAOXAAPgUfAY0BMAKkZdQSkFHgCgoBAEBSQMkBqvroLEOzZJ0ESwqfLeJaQpxOXRNDqzRSO4dNlMoUTa7Qp3hZuBLHFM2ENZ6E9OrJHx46zMPgrDbllgTs2RK4NLobEsQEdDChcG-wVm8ZwbLAfiTlOxIk1nKMjnNrDHYpye7lcwMknnML2Wnlkj3Zojy7tqb1UMzWODY5iewIxwYU9v0BHuD27GVjz1p3ijtahAtarZqGyKQODxUptFioLCBtW-_dfEkHa6HkSDkgMTVsvipUKinw-iky2kfHwiiVkHEpHC9jH4oiIiXHs8AJmYR_KxIBE40g24PE2MhrxMOhfp0Ha3Zel0u391ntQ-RxfN2n2Wenip9Q8woOyzpUBd5m324p8zikhuBil5LujsxEWvYyGfAFNvKMZV5N8g2rUExp8qCYZYeIbVLNHs71ERDHCXiiarZr8qWi4Ew0H0dgLNbMV85SFk22bDYpx_OpKFvwpB-05-DAG_IWdbKljn2N79XzoY_5w8UW-mYuHBHPyWheqHU06394mHy6TR9adONm5vSA-amr8-qYOnxZmHuDbNhg1NX3hHVn0m9BsLwnp6JaSRx3mGA85zMdei2CxSpdG0c2W5urHqw-Pu8X23Hw4tkBnPvoF-bYHFDg6827e6XDrwrxHmrRog7uiyus781QmwxviF37wJCEs63oZtKq83sP3fweNlrKshEXR7qFVmn22QNCsiidw7KCM3ZSxlTKeUsZWSvMms3KaBRepWbOwGnif9gHb52XCTsuEk5UJGykTE84dNKGMHJSRmzKyUkZTysihLnOpy55Rl9nVZRZ1mYPXUatZcPNaqzXwlNdVb-LiTZ7hTey8iYU3sfOio53MgpMXrQ1l4Akv2lvKvOodvM_ojHad0aIz2nVmDpmZW2VmFZlNNWZ2iTnaKfnUFhotWSg5Tih30ITSMTzcPTvcOjp8OjncPjjc0Ufc3Ubc2kV82kTc3kPc0ULc3UHc2kB82j_cMaboGlN8ZkzRPqZoGVN0jCl1NJFZcPJSaxsZeMJLHY3kKJe7q-XWYvm0Vm4vVTgqFe5ChbVOMS1T2KsUjnER03F5MG6fNTl1vVh0Sh99c8MWWU_Llk0je-cwqNtCVbr_knr0vzZ2xcuKaFbpfb3WQa5W6f0oTfiyNNs6s7rSqtKBvm_GgkT_TS5dlEW1HGWJX5Ylq1d1G3RNmo2P8sW298Ndkl_cYD53ulVpGTzd-vy_G_Rb-6_vKg8mOayue__V37vu3nUfvEHvunvXfYC96-5dd--6e9fdu-7edfeuu3fdvevuXXfvuu_D3nX3rrt33b3r7l13C-Rdd--6e9d97Lrzvu296-5dd--6e9fdu-7edfeuu3fdvevuXXfvunvX3bvu3nX3rrt33b3r7l1377p719277t51967717vu_c-2347rnjbNqsj6qdl57-fGfL86-3AJ2_sP8lSn2U1aVeY_GbI531Ydw_8X7bpMN4F5Kkix-9lXppugVF2XLlVgdJQ0pMj50eH3B_8BHBv5bg9TAAA%3D {}"}
+{"timestamp":"00:00:36.057","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connected {}"}
+{"timestamp":"00:00:36.057","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connected to Livekit Server edition: 0, version: 1.13.2, protocol: 17, region: , nodeId: ND_BRGkrKugNfma, debugInfo: , agentProtocol: 1 {\"participant\":\"attendee-b9q6lx\",\"participantID\":\"PA_dmPfHwVCoUzH\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\"}"}
+{"timestamp":"00:00:36.158","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connecting -> connected {\"participant\":\"attendee-b9q6lx\",\"participantID\":\"PA_dmPfHwVCoUzH\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\"}"}
+{"timestamp":"00:00:45.677","source":"Server","level":"LOG","message":"[SessionManager] Creating new bridge for az in session f456b878"}
+{"timestamp":"00:00:45.679","source":"Server","level":"LOG","message":"[TranslationBridge:az] Starting bridge for session f456b878"}
+{"timestamp":"00:00:45.889","source":"Server","level":"LOG","message":"[TranslationBridge:az] Joined room as translator-az"}
+{"timestamp":"00:00:45.895","source":"Server","level":"LOG","message":"[TranslationBridge:az] Published translated audio track (sid: TR_AMUfvxjqtsrAeD)"}
+{"timestamp":"00:00:46.097","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini WebSocket connected"}
+{"timestamp":"00:00:46.097","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sending Gemini setup: \"{\\n  \\\"setup\\\": {\\n    \\\"model\\\": \\\"models/gemini-3.5-live-translate-preview\\\",\\n    \\\"outputAudioTranscription\\\": {},\\n    \\\"generationConfig\\\": {\\n      \\\"responseModalities\\\": [\\n        \\\"AUDIO\\\"\\n      ],\\n      \\\"translationConfig\\\": {\\n        \\\"targetLanguageCode\\\": \\\"az\\\",\\n        \\\"echoTargetLanguage\\\": true\\n      }\\n    },\\n    \\\"realtimeInputConfig\\\": {\\n      \\\"automaticActivityDetection\\\": {\\n        \\\"disabled\\\": false\\n      }\\n    }\\n  }\\n}\""}
+{"timestamp":"00:00:46.664","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini message (pre-setup): \"{\\\"setupComplete\\\":{}}\""}
+{"timestamp":"00:00:46.665","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini setup complete"}
+{"timestamp":"00:00:46.706","source":"Server","level":"LOG","message":"[TranslationBridge:az] Waiting for source participant organizer-host..."}
+{"timestamp":"00:00:46.707","source":"Server","level":"LOG","message":"[TranslationBridge:az] Bridge is active"}
+{"timestamp":"00:00:46.725","source":"Server","level":"LOG","message":"[TranslationBridge:az] Subscribed to organizer-host audio track, piping to Gemini"}
+{"timestamp":"00:00:46.824","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #1 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:00:46.923","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #2 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:00:47.023","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #3 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:00:49.925","source":"Server","level":"LOG","message":"[TranslationBridge:az] Transcription: \"Amma hə, bilmirəm.\""}
+{"timestamp":"00:00:49.935","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:00:49.937","source":"Browser","level":"LOG","message":"🚀 ~ data: {\"final\":false,\"language\":\"az\",\"segmentId\":\"az-0\",\"text\":\"Amma hə, bilmirəm.\",\"timestamp\":1783686348162,\"type\":\"transcription\"}"}
+{"timestamp":"00:00:49.954","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:00:50.106","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:00:50.630","source":"Server","level":"LOG","message":"[TranslationBridge:az] Transcription: \" Şey,\""}
+{"timestamp":"00:00:50.641","source":"Browser","level":"LOG","message":"🚀 ~ data: {\"final\":false,\"language\":\"az\",\"segmentId\":\"az-0\",\"text\":\" Şey,\",\"timestamp\":1783686348867,\"type\":\"transcription\"}"}
+{"timestamp":"00:00:51.630","source":"Server","level":"LOG","message":"[TranslationBridge:az] Transcription: \" yəni\""}
+{"timestamp":"00:00:51.639","source":"Browser","level":"LOG","message":"🚀 ~ data: {\"final\":false,\"language\":\"az\",\"segmentId\":\"az-0\",\"text\":\" yəni\",\"timestamp\":1783686349867,\"type\":\"transcription\"}"}
+{"timestamp":"00:01:14.356","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #100 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:01:36.722","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:01:39.353","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #200 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:02:04.353","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #300 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:02:26.721","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #1000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:02:29.353","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #400 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:02:54.357","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #500 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:03:16.720","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #1500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:03:17.052","source":"Server","level":"LOG","message":"✓ Compiled in 46ms"}
+{"timestamp":"00:03:17.225","source":"Browser","level":"ERROR","message":"uncaughtError: ReferenceError: BroadcastControls is not defined"}
+{"timestamp":"00:03:17.225","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m disconnect from room {\"participant\":\"organizer-host\",\"participantID\":\"PA_4K28UoyUxerg\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\"}"}
+{"timestamp":"00:03:17.225","source":"Browser","level":"INFO","message":"unpublishing track {\"enabled\":true,\"muted\":true,\"participant\":\"organizer-host\",\"participantID\":\"PA_4K28UoyUxerg\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\",\"trackID\":\"TR_AMVkG4ZLaWN927\",\"trackInfo\":{\"enabled\":false,\"encrypted\":false,\"kind\":\"audio\",\"mimeType\":\"\",\"muted\":true,\"name\":\"\",\"source\":\"microphone\",\"streamID\":\"e01d2925-eedc-4994-b121-8435fd463aa5\",\"streamTrackID\":\"e01d2925-eedc-4994-b121-8435fd463aa5\",\"trackID\":\"TR_AMVkG4ZLaWN927\"}}"}
+{"timestamp":"00:03:17.225","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connected -> disconnected {\"participant\":\"organizer-host\",\"participantID\":\"PA_4K28UoyUxerg\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\"}"}
+{"timestamp":"00:03:17.284","source":"Server","level":"ERROR","message":"[browser] \"\\u001b[31mUncaught ReferenceError: BroadcastControls is not defined\\u001b[39m\\n\\u001b[31m    at BroadcastPage (src/app/session/[id]/broadcast/page.tsx:161:10)\\u001b[39m\\n  \\u001b[90m159 |\\u001b[0m         <\\u001b[33mRoomAudioRenderer\\u001b[0m />\\n  \\u001b[90m160 |\\u001b[0m\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m161 |\\u001b[0m         <\\u001b[33mBroadcastControls\\u001b[0m sessionId={sessionId} />\\n  \\u001b[90m    |\\u001b[0m          \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m162 |\\u001b[0m       </\\u001b[33mLiveKitRoom\\u001b[0m>\\n  \\u001b[90m163 |\\u001b[0m     </div>\\n  \\u001b[90m164 |\\u001b[0m   );\""}
+{"timestamp":"00:03:17.284","source":"Browser","level":"ERROR","message":"\u001b[31mUncaught ReferenceError: BroadcastControls is not defined\u001b[39m\n\u001b[31m    at BroadcastPage (src/app/session/[id]/broadcast/page.tsx:161:10)\u001b[39m\n  \u001b[90m159 |\u001b[0m         <\u001b[33mRoomAudioRenderer\u001b[0m />\n  \u001b[90m160 |\u001b[0m\n\u001b[31m\u001b[1m>\u001b[0m \u001b[90m161 |\u001b[0m         <\u001b[33mBroadcastControls\u001b[0m sessionId={sessionId} />\n  \u001b[90m    |\u001b[0m          \u001b[31m\u001b[1m^\u001b[0m\n  \u001b[90m162 |\u001b[0m       </\u001b[33mLiveKitRoom\u001b[0m>\n  \u001b[90m163 |\u001b[0m     </div>\n  \u001b[90m164 |\u001b[0m   );"}
+{"timestamp":"00:03:19.411","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #600 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:03:44.353","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #700 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:04:09.353","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #800 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:04:34.351","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #900 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:04:40.675","source":"Server","level":"WARN","message":"⚠ Fast Refresh had to perform a full reload due to a runtime error."}
+{"timestamp":"00:04:40.801","source":"Server","level":"LOG","message":"✓ Compiled in 3ms"}
+{"timestamp":"00:04:41.073","source":"Browser","level":"ERROR","message":"uncaughtError: ReferenceError: BroadcastControls is not defined"}
+{"timestamp":"00:04:41.073","source":"Server","level":"ERROR","message":"[browser] \"\\u001b[31mUncaught ReferenceError: BroadcastControls is not defined\\u001b[39m\\n\\u001b[31m    at BroadcastPage (src/app/session/[id]/broadcast/page.tsx:148:10)\\u001b[39m\\n  \\u001b[90m146 |\\u001b[0m         <\\u001b[33mRoomAudioRenderer\\u001b[0m />\\n  \\u001b[90m147 |\\u001b[0m\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m148 |\\u001b[0m         <\\u001b[33mBroadcastControls\\u001b[0m sessionId={sessionId} />\\n  \\u001b[90m    |\\u001b[0m          \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m149 |\\u001b[0m       </\\u001b[33mLiveKitRoom\\u001b[0m>\\n  \\u001b[90m150 |\\u001b[0m     </div>\\n  \\u001b[90m151 |\\u001b[0m   );\""}
+{"timestamp":"00:04:41.073","source":"Browser","level":"ERROR","message":"\u001b[31mUncaught ReferenceError: BroadcastControls is not defined\u001b[39m\n\u001b[31m    at BroadcastPage (src/app/session/[id]/broadcast/page.tsx:148:10)\u001b[39m\n  \u001b[90m146 |\u001b[0m         <\u001b[33mRoomAudioRenderer\u001b[0m />\n  \u001b[90m147 |\u001b[0m\n\u001b[31m\u001b[1m>\u001b[0m \u001b[90m148 |\u001b[0m         <\u001b[33mBroadcastControls\u001b[0m sessionId={sessionId} />\n  \u001b[90m    |\u001b[0m          \u001b[31m\u001b[1m^\u001b[0m\n  \u001b[90m149 |\u001b[0m       </\u001b[33mLiveKitRoom\u001b[0m>\n  \u001b[90m150 |\u001b[0m     </div>\n  \u001b[90m151 |\u001b[0m   );"}
+{"timestamp":"00:04:59.353","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1000 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:05:16.888","source":"Server","level":"LOG","message":"✓ Compiled in 88ms"}
+{"timestamp":"00:05:16.985","source":"Server","level":"WARN","message":"⚠ Fast Refresh had to perform a full reload due to a runtime error."}
+{"timestamp":"00:05:17.326","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: disconnected -> connecting {\"participant\":\"\",\"participantID\":\"\",\"room\":\"\"}"}
+{"timestamp":"00:05:17.326","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connecting to ws://localhost:7880/rtc/v1?access_token=%3Credacted%3E&join_request=CAESjQ8fiwgAAAAAAAAT7VzbbtzIEYUCJFgIUID4aR_rB6jp6gsvbcyD5MtmEdsrrGxv8haK7BkRHl5A9mhG-z_7d_mBvAVNjjTUsFtrxQ6wyPab5nR1na7TVeTMMeDjP39z9OxP9BSTU_LtX_559OwP3xzRf_9ydPzHerFQ7bN__XJ0Mycnx_U8ABYmnEdJJJKI0iSJY4FA4ft38P0FB6TRKTklp3hy3M2Dk2M9J0BOjtO52uoybYJ0tao3QVlsVW7QsivyoFNlWukikwA_vb008LKt1408__Du5ZtXQMDkZ8BBQHhyXM7TdV7UkMCHlxez928uZz--v5hdnn28eA2ICCGDBAjEgAwQCSANT46z-e58pD9df6JWN2XaSLOnbtbdjMeEkBkdLYUMWpVbFhL4LqJ0ZvARSuDixdsPh2hs0LNDFBm8eDcBkYBWK9Vc15UK1I2q9EA-jqHhJOYuZFHqoZ6yqBpdlGqO5Pm6U0V1lVb5QmVzvA8LjTo4Q8QheWaqsomUNcHiqs-q27TqmrrVQZbtr1QirNtKFkovZJO2adnJVjfBdd6qrZZd12ZBf2HBSt2o1WgfhWutGzmbbTab0426anV2WrfLmdo2qi1KVeluts80S6-6oFNVHpjCRmnYOI05RZ-kyGd5my50cF2vStUGbZmlOthXsClyFWRZoLZaVV1RV11AcJSVP1pUrjpZFn0Hd0qvG5lmukm7rm_pIpeDdCq7qavVrfm7yFSwXrTpUr5OLpM7pNnkEqMLsWluf6h-mv39b6sfLunbf9RvXja6v6iiWqq2aYtKy-46DagI4TyWcSjZmYyoRC7PqWTnUgj5GqWIZPRaMi5DLmMiBcpYyLNI4isZn8kXkdkYMhkSKc5l9EqGiUHOY5MBz2QUSR7dHa1utBFF6rbIPq3UfSuU6-39321X_Kz8QPqB_O0PJPqB9APpB_K3M5D09zWQN0Wu7AOZhJBEkMSQJICEABIEJoCFwCJgMSBhgIQDkgiQmM8JIHJAFIAYAmIEiDGwBDgBjsApcAacAxfAQ-AR8BgQE0BqRh0BKQWegCAgEAQFpAyQmq_uAgR79EmQhPDxIp4l5OHEJRG0ejuFY_h4kUzhxBptireFG0Fs8UxYw1loj47s0bHjLAz-SkNuWeCODZFrg4shcWxABwMK1wZ7xaYxHBvsR2KOE3FiDefoCKf2cIei3F4uF3D2EaewvVYe2aMd2qNLe2ov1UyNY4Oj2J5ATHBhzy_QEW7PbgbWvHWnuKN1qID1qlmobMrAYLFS24XKAsL2q_37L4kgbfQ8CfdIDE1bL4qVCop8PopMhsh4_4olZBxKRwvYx-KIiIlx7P4FzMI-lIk9Eo0j2R6Ph8hoxMOgf50GaXdblkq3t4P3oPI5Pm_S7JPSxc-peYQHZZ0rA-4yD9uKfM4pIbgYpeS7o7MRFj2NhnwGTbyjGVeTfIVq1AMavKsmGWHiK1RzQDNcIqIYYU8UzVZN_lA03ImGe9HYEzWzFfOQhZOhzfaKcfziShb8IQftOfh-DPgTO9lSxyHHcPV838f87uKLfDsXdwnm5LkuVDuadD7cJt9fJo-sO3Gyc7ggPmpq_PKmDh8WZh7gQxuMmpo-8Y4s-k1ohktCOrql5F6HOcb7HOZjr0WwWKVLo-h2oLn88fL9_W4xnJvvjy3QmY9-Rr7hgAJHZ97NO93fujDvkSYt2mBTVHm9MU9lsn9D_MoPniSEZV0vg1aVVwf44e-g0VKWlbAo2gO0SrNPFgiaVfEAjh2UsZsytlLGU8rYSmneZFZOs-AiNWsWVgMf0t5hh7xM2GmZcLIyYSNlYsK5gyaUkYMyclNGVspoShk51GUuddkj6jK7usyiLnPwOmo1C25ea7UGnvK66k1cvMkjvImdN7HwJnZedLSTWXDyorWhDDzhRXtLmVe9g_cRndGuM1p0RrvOzCEzc6vMrCKzqcbMLjFHOyWf2kKjJQslxwnlDppQOoaHu2eHW0eHTyeH2weHO_qIu9uIW7uIT5uI23uIO1qIuzuIWxuIT_uHO8YUXWOKj4wp2scULWOKjjGljiYyC05eam0jA094qaORHOVyd7XcWiyf1srtpQpHpcJdqLDWKaZlCnuVwjEuYjoud8btoyanrheLTumTr27YIutp2bJpZO8cBnVbqEr3X1JP_tfGrnhaEc0qva3XOsjVKr0dpQmflmaoM6srrSod6NtmLEj03-TSRVlUy1GW-GlZsnpVt0HXpNn4KJ9te9_dJfnVDeZzp1uVlsHDrY__u0G_tf_6rvJgksPquvdf_b3r7l33vTfoXXfvuu9h77p719277t519667d9296-5dd--6e9fdu-6HsHfdvevuXXfvunvX3QJ519277t51H7vuvG9777p719277t519667d9296-5dd--6e9fdu-7edfeuu3fdvevuXXfvunvX3bvu3nX3rrt33b3r_uWue_-z7ffjuqdNsyqyfmp23vtLY75fvnh_AcP9B3mq0-w6rSrznwzZnG-rjuH_i3ZdppvAPBWk2P3sK9NtUKquS5cqMDpKGlLk_OT426P_APJw6c4RUwAA {}"}
+{"timestamp":"00:05:17.360","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m signal connected {}"}
+{"timestamp":"00:05:17.360","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connected to Livekit Server edition: 0, version: 1.13.2, protocol: 17, region: , nodeId: ND_BRGkrKugNfma, debugInfo: , agentProtocol: 1 {\"participant\":\"organizer-host\",\"participantID\":\"PA_uYcUScFKe9yK\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\"}"}
+{"timestamp":"00:05:17.452","source":"Browser","level":"INFO","message":"publishing track {\"enabled\":true,\"kind\":\"audio\",\"muted\":false,\"participant\":\"organizer-host\",\"participantID\":\"PA_uYcUScFKe9yK\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\",\"source\":\"microphone\",\"streamID\":\"39b90f83-4913-41e8-95a3-977d44e475ba\",\"streamTrackID\":\"39b90f83-4913-41e8-95a3-977d44e475ba\"}"}
+{"timestamp":"00:05:17.476","source":"Browser","level":"INFO","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m connection state changed: connecting -> connected {\"participant\":\"organizer-host\",\"participantID\":\"PA_uYcUScFKe9yK\",\"room\":\"f456b878\",\"roomID\":\"RM_5bAGav9eGHAT\"}"}
+{"timestamp":"00:05:17.503","source":"Server","level":"LOG","message":"[TranslationBridge:az] Subscribed to organizer-host audio track, piping to Gemini"}
+{"timestamp":"00:05:20.639","source":"Server","level":"LOG","message":"[TranslationBridge:az] Transcription: \" Mən əslində\""}
+{"timestamp":"00:05:20.649","source":"Browser","level":"LOG","message":"🚀 ~ data: {\"final\":false,\"language\":\"az\",\"segmentId\":\"az-0\",\"text\":\" Mən əslində\",\"timestamp\":1783686618878,\"type\":\"transcription\"}"}
+{"timestamp":"00:05:21.633","source":"Server","level":"LOG","message":"[TranslationBridge:az] Transcription: \" mən\""}
+{"timestamp":"00:05:21.642","source":"Browser","level":"LOG","message":"🚀 ~ data: {\"final\":false,\"language\":\"az\",\"segmentId\":\"az-0\",\"text\":\" mən\",\"timestamp\":1783686619872,\"type\":\"transcription\"}"}
+{"timestamp":"00:05:24.354","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1100 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:05:49.352","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1200 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:06:06.902","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #2000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:06:14.352","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1300 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:06:39.352","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1400 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:06:56.902","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #2500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:07:04.353","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1500 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:07:29.352","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1600 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:07:46.902","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #3000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:07:54.358","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1700 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:08:19.354","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1800 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:08:36.902","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #3500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:08:42.568","source":"Server","level":"LOG","message":"✓ Compiled in 20ms"}
+{"timestamp":"00:08:44.353","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #1900 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:09:09.356","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2000 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:09:26.901","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #4000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:09:31.739","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:31.739","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:31.750","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:31.750","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:31.764","source":"Server","level":"LOG","message":"✓ Compiled in 141ms"}
+{"timestamp":"00:09:34.354","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2100 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:09:35.168","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:35.168","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:37.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:37.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:40.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:40.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:43.761","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:43.761","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:46.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:46.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:49.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:49.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:49.916","source":"Server","level":"LOG","message":"[TranslationBridge:az] Audio resumed after 3062ms gap (frame #2151)"}
+{"timestamp":"00:09:52.752","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:52.753","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:55.770","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:55.770","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:58.770","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:58.770","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:09:58.876","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:09:58.876","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:00.170","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:00.171","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:00.453","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:00.453","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:00.853","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:00.853","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:01.753","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:01.753","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:01.866","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2200 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:10:02.043","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:02.043","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:02.455","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:02.455","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:02.871","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:02.871","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:02.871","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:02.871","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:04.056","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:04.056","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:04.471","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:04.471","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:04.652","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:04.652","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:04.753","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:04.753","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:04.870","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:04.870","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:05.909","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:05.909","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:06.475","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:06.475","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:06.630","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:06.630","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:06.874","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:06.874","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:07.770","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:07.770","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:10.754","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:10.754","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:13.763","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:13.763","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:16.754","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:16.754","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:16.903","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #4500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:10:19.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:19.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:22.754","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:22.754","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:25.762","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:25.762","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:26.863","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2300 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:10:28.761","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:28.761","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:31.755","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:31.755","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:34.757","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:34.757","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:37.257","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini WebSocket closed {}"}
+{"timestamp":"00:10:37.257","source":"Server","level":"LOG","message":"[TranslationBridge:az] Reconnecting Gemini WebSocket..."}
+{"timestamp":"00:10:37.413","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini WebSocket reconnected"}
+{"timestamp":"00:10:37.413","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sending Gemini setup: \"{\\n  \\\"setup\\\": {\\n    \\\"model\\\": \\\"models/gemini-3.5-live-translate-preview\\\",\\n    \\\"outputAudioTranscription\\\": {},\\n    \\\"generationConfig\\\": {\\n      \\\"responseModalities\\\": [\\n        \\\"AUDIO\\\"\\n      ],\\n      \\\"translationConfig\\\": {\\n        \\\"targetLanguageCode\\\": \\\"az\\\",\\n        \\\"echoTargetLanguage\\\": true\\n      }\\n    },\\n    \\\"realtimeInputConfig\\\": {\\n      \\\"automaticActivityDetection\\\": {\\n        \\\"disabled\\\": false\\n      }\\n    }\\n  }\\n}\""}
+{"timestamp":"00:10:37.762","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:37.762","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:37.784","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini reconnect setup complete"}
+{"timestamp":"00:10:40.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:40.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:40.887","source":"Server","level":"LOG","message":"[TranslationBridge:az] Audio resumed after 4269ms gap (frame #2340)"}
+{"timestamp":"00:10:43.764","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:43.764","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:46.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:46.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:49.762","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:49.762","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:52.755","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:52.755","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:55.582","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2400 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:10:55.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:55.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:10:58.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:10:58.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:01.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:01.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:04.757","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:04.757","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:07.401","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #5000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:11:07.761","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:07.761","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:10.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:10.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:13.763","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:13.763","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:14.148","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:14.148","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:14.575","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:14.575","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:14.808","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:14.808","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:15.774","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:15.774","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:16.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:16.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:19.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:19.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:20.580","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2500 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:11:22.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:22.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:25.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:25.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:28.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:28.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:31.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:31.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:34.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:34.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:37.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:37.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:40.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:40.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:43.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:43.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:45.582","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2600 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:11:46.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:46.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:49.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:49.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:52.748","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:52.748","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:55.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:55.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:11:57.401","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #5500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:11:58.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:11:58.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:01.745","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:01.745","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:04.761","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:04.761","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:07.762","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:07.762","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:10.581","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2700 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:12:10.761","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:10.761","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:13.763","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:13.763","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:16.743","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:16.743","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:19.748","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:19.748","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:22.749","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:22.749","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:25.752","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:25.752","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:28.762","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:28.762","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:31.750","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:31.750","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:34.762","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:34.762","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:35.627","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2800 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:12:37.750","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:37.750","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:40.763","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:40.763","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:43.746","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:43.746","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:46.751","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:46.751","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:47.403","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #6000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:12:49.763","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:49.763","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:52.748","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:52.748","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:55.765","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:55.765","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:12:58.764","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:12:58.764","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:00.584","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #2900 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:13:01.747","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:01.747","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:04.763","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:04.763","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:07.754","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:07.754","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:10.750","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:10.750","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:13.765","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:13.765","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:16.765","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:16.765","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:19.765","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:19.765","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:22.755","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:22.755","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:25.592","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3000 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:13:25.766","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:25.766","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:28.757","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:28.757","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:31.755","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:31.755","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:34.765","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:34.765","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:37.400","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #6500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:13:37.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:37.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:40.766","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:40.766","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:43.766","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:43.766","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:46.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:46.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:49.768","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:49.768","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:50.583","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3100 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:13:52.752","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:52.752","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:55.761","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:55.761","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:13:58.767","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:13:58.767","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:01.752","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:01.752","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:04.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:04.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:07.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:07.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:10.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:10.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:13.769","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:13.769","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:15.581","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3200 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:14:16.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:16.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:19.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:19.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:22.752","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:22.752","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:25.755","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:25.755","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:27.402","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #7000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:14:28.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:28.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:31.753","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:31.753","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:34.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:34.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:37.753","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:37.753","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:40.582","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3300 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:14:40.754","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:40.754","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:43.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:43.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:46.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:46.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:49.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:49.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:52.754","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:52.754","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:55.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:55.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:14:58.755","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:14:58.755","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:01.755","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:01.755","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:04.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:04.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:05.582","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3400 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:15:07.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:07.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:10.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:10.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:13.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:13.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:16.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:16.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:17.401","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #7500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:15:19.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:19.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:22.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:22.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:25.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:25.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:28.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:28.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:30.581","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3500 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:15:31.756","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:31.756","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:34.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:34.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:37.747","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:37.748","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:40.757","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:40.757","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:43.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:43.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:46.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:46.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:49.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:49.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:52.747","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:52.747","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:55.585","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3600 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:15:55.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:55.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:15:58.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:15:58.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:01.758","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:01.758","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:04.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:04.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:07.401","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #8000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:16:07.761","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:07.761","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:10.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:10.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:13.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:13.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:16.759","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:16.759","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:19.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:19.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:20.583","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3700 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:16:22.749","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:22.749","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:25.760","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:25.760","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:28.748","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:28.748","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:31.750","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:31.750","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:32.020","source":"Browser","level":"LOG","message":"false"}
+{"timestamp":"00:16:32.020","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m false"}
+{"timestamp":"00:16:32.066","source":"Server","level":"LOG","message":"✓ Compiled in 7ms"}
+{"timestamp":"00:16:32.077","source":"Browser","level":"LOG","message":"false"}
+{"timestamp":"00:16:32.077","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m false"}
+{"timestamp":"00:16:35.045","source":"Browser","level":"LOG","message":"false"}
+{"timestamp":"00:16:35.045","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m false"}
+{"timestamp":"00:16:38.044","source":"Browser","level":"LOG","message":"false"}
+{"timestamp":"00:16:38.044","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m false"}
+{"timestamp":"00:16:40.039","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:40.039","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:40.512","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:40.512","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:41.030","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:41.030","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:41.722","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:41.722","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:42.131","source":"Browser","level":"LOG","message":"true"}
+{"timestamp":"00:16:42.131","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m true"}
+{"timestamp":"00:16:42.131","source":"Browser","level":"LOG","message":"false"}
+{"timestamp":"00:16:42.131","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m false"}
+{"timestamp":"00:16:42.928","source":"Browser","level":"LOG","message":"false"}
+{"timestamp":"00:16:42.928","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m false"}
+{"timestamp":"00:16:44.044","source":"Browser","level":"LOG","message":"false"}
+{"timestamp":"00:16:44.044","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m false"}
+{"timestamp":"00:16:45.584","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3800 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:16:47.044","source":"Browser","level":"LOG","message":"false"}
+{"timestamp":"00:16:47.044","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m false"}
+{"timestamp":"00:16:50.045","source":"Browser","level":"LOG","message":"false"}
+{"timestamp":"00:16:50.045","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m false"}
+{"timestamp":"00:16:53.044","source":"Browser","level":"LOG","message":"false"}
+{"timestamp":"00:16:53.045","source":"Browser","level":"LOG","message":"\u001b[2;38;2;124;124;124m%s\u001b[0m false"}
+{"timestamp":"00:16:53.976","source":"Server","level":"LOG","message":"✓ Compiled in 11ms"}
+{"timestamp":"00:16:57.402","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #8500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:17:10.582","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #3900 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:17:35.580","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #4000 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:17:47.401","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #9000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:18:00.581","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #4100 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:18:25.584","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #4200 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:18:37.403","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #9500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:18:50.580","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #4300 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:19:15.583","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #4400 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:19:27.401","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #10000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:19:40.228","source":"Server","level":"LOG","message":"[TranslationBridge:az] Audio resumed after 2396ms gap (frame #4490)"}
+{"timestamp":"00:19:42.422","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #4500 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:20:07.423","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #4600 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:20:17.402","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #10500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:20:27.878","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini reconnected WS closed {}"}
+{"timestamp":"00:20:29.047","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini WebSocket reconnected"}
+{"timestamp":"00:20:29.047","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sending Gemini setup: \"{\\n  \\\"setup\\\": {\\n    \\\"model\\\": \\\"models/gemini-3.5-live-translate-preview\\\",\\n    \\\"outputAudioTranscription\\\": {},\\n    \\\"generationConfig\\\": {\\n      \\\"responseModalities\\\": [\\n        \\\"AUDIO\\\"\\n      ],\\n      \\\"translationConfig\\\": {\\n        \\\"targetLanguageCode\\\": \\\"az\\\",\\n        \\\"echoTargetLanguage\\\": true\\n      }\\n    },\\n    \\\"realtimeInputConfig\\\": {\\n      \\\"automaticActivityDetection\\\": {\\n        \\\"disabled\\\": false\\n      }\\n    }\\n  }\\n}\""}
+{"timestamp":"00:20:29.625","source":"Server","level":"LOG","message":"[TranslationBridge:az] Gemini reconnect setup complete"}
+{"timestamp":"00:20:32.766","source":"Server","level":"LOG","message":"[TranslationBridge:az] Audio resumed after 5093ms gap (frame #4682)"}
+{"timestamp":"00:20:36.964","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #4700 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:21:01.967","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #4800 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:21:09.202","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #11000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:21:26.962","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #4900 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:21:51.962","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #5000 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:21:59.203","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #11500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:22:16.963","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #5100 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:22:41.961","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #5200 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:22:49.202","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #12000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:23:06.962","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #5300 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:23:31.961","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #5400 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:23:39.201","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #12500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:23:56.962","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #5500 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:24:21.960","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #5600 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:24:29.202","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #13000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:24:46.961","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #5700 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:25:08.479","source":"Server","level":"LOG","message":"✓ Compiled in 17ms"}
+{"timestamp":"00:25:11.965","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #5800 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:25:19.201","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #13500 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:25:36.962","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #5900 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:25:40.512","source":"Server","level":"LOG","message":"✓ Compiled in 7ms"}
+{"timestamp":"00:26:01.961","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #6000 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:26:09.201","source":"Server","level":"LOG","message":"[TranslationBridge:az] Sent audio frame #14000 to Gemini (12800 bytes base64, 4800 samples)"}
+{"timestamp":"00:26:13.204","source":"Server","level":"LOG","message":"✓ Compiled in 15ms"}
+{"timestamp":"00:26:26.973","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #6100 from Gemini (16000 bytes base64)"}
+{"timestamp":"00:26:51.966","source":"Server","level":"LOG","message":"[TranslationBridge:az] Received audio frame #6200 from Gemini (16000 bytes base64)"}
