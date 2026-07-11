@@ -82,6 +82,7 @@ async function GET(req) {
             status: 400
         });
     }
+    const name = req.nextUrl.searchParams.get("name") || identity;
     const apiKey = process.env.LIVEKIT_API_KEY;
     const apiSecret = process.env.LIVEKIT_API_SECRET;
     if (!apiKey || !apiSecret) {
@@ -93,7 +94,7 @@ async function GET(req) {
     }
     const at = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$livekit$2d$server$2d$sdk$2f$dist$2f$AccessToken$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["AccessToken"](apiKey, apiSecret, {
         identity,
-        name: identity,
+        name,
         ttl: "4h"
     });
     const canPublishMedia = role === "organizer" || role === "attendee";

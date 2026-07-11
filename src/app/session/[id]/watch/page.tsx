@@ -3,9 +3,7 @@
 import { useEffect, useState, useCallback, useRef, use } from "react";
 import {
   LiveKitRoom,
-  ParticipantTile,
   RoomAudioRenderer,
-  TrackLoop,
   TrackToggle,
   useRoomContext,
   useTracks,
@@ -14,6 +12,12 @@ import {
 import "@livekit/components-styles";
 import { Track, RoomEvent } from "livekit-client";
 import LanguageSelector from "./components/LanguageSelector";
+import TextInput from "@/components/TextInput";
+import Waveform from "@/components/Waveform";
+import VideoStage from "@/components/VideoStage";
+import { useQaStatus } from "@/hooks/useQaStatus";
+import { useRoomDataChannel } from "@/hooks/useRoomDataChannel";
+import { isLocalTrackEnabled } from "@/lib/track-utils";
 
 interface TranscriptEntry {
   id: string;
@@ -23,21 +27,13 @@ interface TranscriptEntry {
   timestamp: number;
 }
 
-interface QaStatus {
-  sessionId: string;
-  pendingSpeakerIdentities: string[];
-  activeSpeakerIdentity: string | null;
-  activeTranslatorIdentity: string | null;
-  organizerTargetLanguage: string;
-  requestedByCurrentUser?: boolean;
-  approvedForCurrentUser?: boolean;
-}
-
 function AttendeeView({
   sessionId,
+  sessionName,
   attendeeIdentity,
 }: {
   sessionId: string;
+  sessionName?: string;
   attendeeIdentity: string;
 }) {
   const room = useRoomContext();
@@ -45,15 +41,7 @@ function AttendeeView({
   const [translatorIdentity, setTranslatorIdentity] = useState<string | null>(
     null,
   );
-  const [qaStatus, setQaStatus] = useState<QaStatus>({
-    sessionId,
-    pendingSpeakerIdentities: [],
-    activeSpeakerIdentity: null,
-    activeTranslatorIdentity: null,
-    organizerTargetLanguage: "uk",
-    requestedByCurrentUser: false,
-    approvedForCurrentUser: false,
-  });
+  const { qaStatus, setQaStatus } = useQaStatus(sessionId, room, attendeeIdentity);
   const [transcripts, setTranscripts] = useState<TranscriptEntry[]>([]);
   const transcriptEndRef = useRef<HTMLDivElement | null>(null);
   const currentLanguageRef = useRef(currentLanguage);
@@ -67,59 +55,43 @@ function AttendeeView({
   );
 
   // Listen for transcription data from translator bots
-  useEffect(() => {
-    if (!room) return;
+  useRoomDataChannel<{
+    type: string;
+    segmentId: string;
+    text: string;
+    language: string;
+    final: boolean;
+    timestamp: number;
+  }>(room, "transcription", (data) => {
+    if (data.type !== "transcription") return;
 
-    const handleData = (
-      payload: Uint8Array,
-      participant: unknown,
-      kind: unknown,
-      topic: string | undefined,
-    ) => {
-      // Only handle transcription topic
-      if (topic !== "transcription") return;
+    // Only show transcriptions for the currently selected language
+    if (data.language !== currentLanguageRef.current) return;
 
-      try {
-        const data = JSON.parse(new TextDecoder().decode(payload));
-        console.log("🚀 ~ data:", data);
-        if (data.type !== "transcription") return;
+    setTranscripts((prev) => {
+      const existing = prev.findIndex((t) => t.id === data.segmentId);
+      const entry: TranscriptEntry = {
+        id: data.segmentId,
+        text: data.text,
+        language: data.language,
+        final: data.final,
+        timestamp: data.timestamp,
+      };
 
-        // Only show transcriptions for the currently selected language
-        if (data.language !== currentLanguageRef.current) return;
-
-        setTranscripts((prev) => {
-          const existing = prev.findIndex((t) => t.id === data.segmentId);
-          const entry: TranscriptEntry = {
-            id: data.segmentId,
-            text: data.text,
-            language: data.language,
-            final: data.final,
-            timestamp: data.timestamp,
-          };
-
-          if (existing >= 0) {
-            const updated = [...prev];
-            updated[existing] = {
-              ...updated[existing],
-              text: updated[existing].text + data.text,
-              final: data.final,
-            };
-            return updated;
-          }
-
-          const next = [...prev, entry];
-          return next.slice(-50);
-        });
-      } catch {
-        // Not a JSON transcription message
+      if (existing >= 0) {
+        const updated = [...prev];
+        updated[existing] = {
+          ...updated[existing],
+          text: updated[existing].text + data.text,
+          final: data.final,
+        };
+        return updated;
       }
-    };
 
-    room.on(RoomEvent.DataReceived, handleData);
-    return () => {
-      room.off(RoomEvent.DataReceived, handleData);
-    };
-  }, [room]);
+      const next = [...prev, entry];
+      return next.slice(-50);
+    });
+  });
 
   // Auto-scroll transcript
   useEffect(() => {
@@ -184,33 +156,8 @@ function AttendeeView({
     );
   });
 
-  const isCameraOn = cameraTracks.some((t) => t.participant.isLocal);
-  const isMicOn = audioTracks.some((t) => t.participant.isLocal);
-
-  const fetchQaStatus = useCallback(async () => {
-    if (!attendeeIdentity) return;
-    try {
-      const res = await fetch(
-        `/api/questions?sessionId=${sessionId}&identity=${attendeeIdentity}`
-      );
-      const data = await res.json();
-      if (data.error) return;
-      setQaStatus(data);
-    } catch (err) {
-      console.error("Failed to fetch Q&A status:", err);
-    }
-  }, [sessionId, attendeeIdentity]);
-
-  useEffect(() => {
-    const bootstrap = setTimeout(() => {
-      void fetchQaStatus();
-    }, 0);
-    const interval = setInterval(fetchQaStatus, 2000);
-    return () => {
-      clearTimeout(bootstrap);
-      clearInterval(interval);
-    };
-  }, [fetchQaStatus]);
+  const isCameraOn = isLocalTrackEnabled(cameraTracks);
+  const isMicOn = isLocalTrackEnabled(audioTracks);
 
   const requestQuestion = useCallback(async () => {
     try {
@@ -230,7 +177,7 @@ function AttendeeView({
     } catch (err) {
       console.error("Failed to request question:", err);
     }
-  }, [sessionId, attendeeIdentity]);
+  }, [sessionId, attendeeIdentity, setQaStatus]);
 
   const cancelQuestion = useCallback(async () => {
     try {
@@ -250,7 +197,7 @@ function AttendeeView({
     } catch (err) {
       console.error("Failed to cancel question:", err);
     }
-  }, [sessionId, attendeeIdentity]);
+  }, [sessionId, attendeeIdentity, setQaStatus]);
 
   // Unsubscribe from translation when tab closes
   useEffect(() => {
@@ -318,36 +265,18 @@ function AttendeeView({
       {/* Header */}
       <div style={{ marginBottom: 40 }}>
         <h1 className="display display-lg" style={{ marginBottom: 8 }}>
-          <em>Listening</em>
+          <em>{sessionName || "Listening"}</em>
         </h1>
         <p className="mono">{sessionId}</p>
       </div>
 
       {/* Video stage */}
       <div style={{ marginBottom: 24 }}>
-        {primaryScreenTrack ? (
-          <div className="video-stage-main" style={{ marginBottom: 12 }}>
-            <TrackLoop tracks={[primaryScreenTrack]}>
-              <ParticipantTile />
-            </TrackLoop>
-          </div>
-        ) : (
-          <div className="video-stage-placeholder" style={{ marginBottom: 12 }}>
-            <p className="body-sm">Waiting for shared screen</p>
-          </div>
-        )}
-
-        <div className="video-strip">
-          {cameraTracks.length === 0 ? (
-            <div className="video-tile-empty">
-              <p className="body-sm">No participant cameras yet</p>
-            </div>
-          ) : (
-            <TrackLoop tracks={cameraTracks}>
-              <ParticipantTile />
-            </TrackLoop>
-          )}
-        </div>
+        <VideoStage
+          screenTrack={primaryScreenTrack}
+          screenPlaceholder="Waiting for shared screen"
+          cameraTracks={cameraTracks}
+        />
       </div>
 
       {/* Status */}
@@ -360,11 +289,7 @@ function AttendeeView({
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div className={`waveform ${isReceivingAudio ? "active" : "idle"}`}>
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="waveform-bar" />
-              ))}
-            </div>
+            <Waveform active={isReceivingAudio} />
 
             {isConnected ? (
               <span className="status status--active">
@@ -536,26 +461,47 @@ export default function WatchPage({
   const [livekitUrl, setLivekitUrl] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [started, setStarted] = useState(false);
+  const [joining, setJoining] = useState(false);
   const [attendeeIdentity, setAttendeeIdentity] = useState("");
+  const [attendeeName, setAttendeeName] = useState("");
+  const [sessionName, setSessionName] = useState<string | undefined>();
 
+  // Fetch session details (for display only) as soon as the page loads —
+  // separate from the token request, which needs the attendee's name first.
   useEffect(() => {
-    async function fetchToken() {
+    async function fetchSession() {
       try {
-        const identity = `attendee-${Math.random().toString(36).slice(2, 8)}`;
-        const res = await fetch(
-          `/api/token?room=${sessionId}&identity=${identity}&role=attendee`
-        );
+        const res = await fetch(`/api/sessions/${sessionId}`);
         const data = await res.json();
-        if (data.error) throw new Error(data.error);
-        setAttendeeIdentity(identity);
-        setToken(data.token);
-        setLivekitUrl(data.serverUrl);
+        if (data.error) return;
+        setSessionName(data.sessionName);
       } catch (err) {
-        setError((err as Error).message);
+        console.error("Failed to fetch session:", err);
       }
     }
-    fetchToken();
+    fetchSession();
   }, [sessionId]);
+
+  const joinSession = useCallback(async () => {
+    setJoining(true);
+    try {
+      const identity = `attendee-${Math.random().toString(36).slice(2, 8)}`;
+      const name = attendeeName.trim() || identity;
+      const res = await fetch(
+        `/api/token?room=${sessionId}&identity=${identity}&name=${encodeURIComponent(name)}&role=attendee`
+      );
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setAttendeeIdentity(identity);
+      setToken(data.token);
+      setLivekitUrl(data.serverUrl);
+      setStarted(true);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setJoining(false);
+    }
+  }, [sessionId, attendeeName]);
 
   if (error) {
     return (
@@ -576,36 +522,48 @@ export default function WatchPage({
     );
   }
 
+  if (!started) {
+    return (
+      <div className="page">
+        <div className="container enter" style={{ textAlign: "center" }}>
+          <h1 className="display display-lg" style={{ marginBottom: 12 }}>
+            <em>{sessionName || "Ready"}</em>
+          </h1>
+          <p className="body-sm" style={{ marginBottom: 24 }}>
+            Enter your name to join and enable audio.
+          </p>
+          <div style={{ maxWidth: 320, margin: "0 auto 24px", textAlign: "left" }}>
+            <TextInput
+              id="attendee-name"
+              label="Your name"
+              placeholder="e.g. Alex"
+              value={attendeeName}
+              onChange={setAttendeeName}
+            />
+          </div>
+          <button className="btn" onClick={joinSession} disabled={joining}>
+            {joining ? (
+              <>
+                <span className="spinner" /> Joining…
+              </>
+            ) : (
+              "Start listening"
+            )}
+          </button>
+          <p className="mono" style={{ marginTop: 32, fontSize: 12 }}>
+            Session {sessionId}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (!token || !livekitUrl || !attendeeIdentity) {
     return (
       <div className="page">
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
           <div className="spinner" />
           <p className="mono">Joining…</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!started) {
-    return (
-      <div className="page">
-        <div className="container enter" style={{ textAlign: "center" }}>
-          <h1 className="display display-lg" style={{ marginBottom: 12 }}>
-            <em>Ready</em>
-          </h1>
-          <p className="body-sm" style={{ marginBottom: 40 }}>
-            Tap below to join the broadcast and enable audio.
-          </p>
-          <button
-            className="btn"
-            onClick={() => setStarted(true)}
-          >
-            Start listening
-          </button>
-          <p className="mono" style={{ marginTop: 32, fontSize: 12 }}>
-            Session {sessionId}
-          </p>
         </div>
       </div>
     );
@@ -627,7 +585,11 @@ export default function WatchPage({
         }}
       >
         <RoomAudioRenderer />
-        <AttendeeView sessionId={sessionId} attendeeIdentity={attendeeIdentity} />
+        <AttendeeView
+          sessionId={sessionId}
+          sessionName={sessionName}
+          attendeeIdentity={attendeeIdentity}
+        />
       </LiveKitRoom>
     </div>
   );

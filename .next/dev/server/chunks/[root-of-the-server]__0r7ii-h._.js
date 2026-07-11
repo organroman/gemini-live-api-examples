@@ -480,10 +480,6 @@ __turbopack_async_result__();
 
 return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 
-__turbopack_context__.s([
-    "default",
-    ()=>__TURBOPACK__default__export__
-]);
 /**
  * TranslationSessionManager: Singleton that enforces "max 1 Gemini Live API
  * session per language per room" constraint.
@@ -491,7 +487,11 @@ __turbopack_context__.s([
  * Usage:
  *   const manager = TranslationSessionManager.getInstance();
  *   const bridge = await manager.getOrCreate(sessionId, targetLanguage, organizerIdentity);
- */ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$translation$2d$bridge$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/translation-bridge.ts [app-route] (ecmascript)");
+ */ __turbopack_context__.s([
+    "default",
+    ()=>__TURBOPACK__default__export__
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$translation$2d$bridge$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/translation-bridge.ts [app-route] (ecmascript)");
 var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
     __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$translation$2d$bridge$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__
 ]);
@@ -509,6 +509,10 @@ class TranslationSessionManager {
     // getOrCreate calls for the same language from spinning up duplicate bridges
     // that both translate the same source audio (heard as repeated phrases).
     pendingCreations = new Map();
+    // Lazily-created client for pushing state to rooms over the LiveKit data
+    // channel, so organizer/attendee UIs don't have to poll for QA/translation
+    // status.
+    roomService = null;
     constructor(){}
     static getInstance() {
         if (!TranslationSessionManager.instance) {

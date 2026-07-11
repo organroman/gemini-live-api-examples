@@ -6,13 +6,21 @@ import TranslationSessionManager from "@/lib/translation-session-manager";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
-    const organizerName = body.organizerName || "organizer";
+    const organizerName = (body.organizerName || "").trim() || "Host";
+    const sessionName = (body.sessionName || "").trim() || undefined;
 
     const sessionId = uuidv4().slice(0, 8); // Short, readable ID
-    const organizerIdentity = `organizer-${organizerName}`;
+    // Kept independent of the free-text organizer name — LiveKit identities
+    // need to be stable, collision-free, and safe for arbitrary characters.
+    const organizerIdentity = `organizer-${sessionId}`;
 
     const manager = TranslationSessionManager.getInstance();
-    manager.createSession(sessionId, organizerIdentity);
+    manager.createSession(
+      sessionId,
+      organizerIdentity,
+      organizerName,
+      sessionName,
+    );
 
     // Build the attendee join URL
     const protocol = req.headers.get("x-forwarded-proto") || "http";
@@ -22,6 +30,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       sessionId,
       organizerIdentity,
+      organizerName,
+      sessionName,
       joinUrl,
       broadcastUrl: `${protocol}://${host}/session/${sessionId}/broadcast`,
     });

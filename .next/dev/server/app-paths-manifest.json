@@ -1,5 +1,6 @@
 {
   "/api/questions/route": "app/api/questions/route.js",
+  "/api/sessions/[sessionId]/route": "app/api/sessions/[sessionId]/route.js",
   "/api/sessions/route": "app/api/sessions/route.js",
   "/api/token/route": "app/api/token/route.js",
   "/api/translate/route": "app/api/translate/route.js",

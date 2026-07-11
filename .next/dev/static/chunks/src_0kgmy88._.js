@@ -797,9 +797,7 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$room$2d$Q0GUQkyk$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__L__as__LiveKitRoom$3e$__ = __turbopack_context__.i("[project]/node_modules/@livekit/components-react/dist/room-Q0GUQkyk.mjs [app-client] (ecmascript) <export L as LiveKitRoom>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__P__as__ParticipantTile$3e$__ = __turbopack_context__.i("[project]/node_modules/@livekit/components-react/dist/components-DqcPwJ_9.mjs [app-client] (ecmascript) <export P as ParticipantTile>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__R__as__RoomAudioRenderer$3e$__ = __turbopack_context__.i("[project]/node_modules/@livekit/components-react/dist/components-DqcPwJ_9.mjs [app-client] (ecmascript) <export R as RoomAudioRenderer>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__j__as__TrackLoop$3e$__ = __turbopack_context__.i("[project]/node_modules/@livekit/components-react/dist/components-DqcPwJ_9.mjs [app-client] (ecmascript) <export j as TrackLoop>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__T__as__TrackToggle$3e$__ = __turbopack_context__.i("[project]/node_modules/@livekit/components-react/dist/components-DqcPwJ_9.mjs [app-client] (ecmascript) <export T as TrackToggle>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$contexts$2d$DzwYztG5$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__f__as__useRoomContext$3e$__ = __turbopack_context__.i("[project]/node_modules/@livekit/components-react/dist/contexts-DzwYztG5.mjs [app-client] (ecmascript) <export f as useRoomContext>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$hooks$2d$CA4A5LBF$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__t__as__useTracks$3e$__ = __turbopack_context__.i("[project]/node_modules/@livekit/components-react/dist/hooks-CA4A5LBF.mjs [app-client] (ecmascript) <export t as useTracks>");
@@ -966,8 +964,8 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
         }
         return !!translatorIdentity && t.participant.identity === translatorIdentity && pub.isSubscribed;
     });
-    const isCameraOn = cameraTracks.some((t)=>t.participant.isLocal);
-    const isMicOn = audioTracks.some((t)=>t.participant.isLocal);
+    const isCameraOn = cameraTracks.some((t)=>t.participant.isLocal && !t.publication?.isMuted);
+    const isMicOn = audioTracks.some((t)=>t.participant.isLocal && !t.publication?.isMuted);
     const fetchQaStatus = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "AttendeeView.useCallback[fetchQaStatus]": async ()=>{
             if (!attendeeIdentity) return;
@@ -984,6 +982,8 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
         sessionId,
         attendeeIdentity
     ]);
+    // Fetch once on mount; live updates after that arrive over the LiveKit
+    // data channel (see the effect below) instead of polling.
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "AttendeeView.useEffect": ()=>{
             const bootstrap = setTimeout({
@@ -991,16 +991,63 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                     void fetchQaStatus();
                 }
             }["AttendeeView.useEffect.bootstrap"], 0);
-            const interval = setInterval(fetchQaStatus, 2000);
             return ({
-                "AttendeeView.useEffect": ()=>{
-                    clearTimeout(bootstrap);
-                    clearInterval(interval);
-                }
+                "AttendeeView.useEffect": ()=>clearTimeout(bootstrap)
             })["AttendeeView.useEffect"];
         }
     }["AttendeeView.useEffect"], [
         fetchQaStatus
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "AttendeeView.useEffect": ()=>{
+            if (!room) return;
+            const handleReconnected = {
+                "AttendeeView.useEffect.handleReconnected": ()=>{
+                    void fetchQaStatus();
+                }
+            }["AttendeeView.useEffect.handleReconnected"];
+            room.on(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$livekit$2d$client$2f$dist$2f$livekit$2d$client$2e$esm$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RoomEvent"].Reconnected, handleReconnected);
+            return ({
+                "AttendeeView.useEffect": ()=>{
+                    room.off(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$livekit$2d$client$2f$dist$2f$livekit$2d$client$2e$esm$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RoomEvent"].Reconnected, handleReconnected);
+                }
+            })["AttendeeView.useEffect"];
+        }
+    }["AttendeeView.useEffect"], [
+        room,
+        fetchQaStatus
+    ]);
+    // Server pushes QA status changes over the room's data channel (see
+    // TranslationSessionManager.broadcastQaStatus) instead of polling.
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "AttendeeView.useEffect": ()=>{
+            if (!room || !attendeeIdentity) return;
+            const handleData = {
+                "AttendeeView.useEffect.handleData": (payload, participant, kind, topic)=>{
+                    if (topic !== "qa-status") return;
+                    try {
+                        const data = JSON.parse(new TextDecoder().decode(payload));
+                        if (data.type !== "qa-status") return;
+                        setQaStatus({
+                            ...data,
+                            requestedByCurrentUser: data.pendingSpeakerIdentities.includes(attendeeIdentity),
+                            approvedForCurrentUser: data.activeSpeakerIdentity === attendeeIdentity
+                        });
+                    } catch  {
+                    // Not a JSON status message
+                    }
+                }
+            }["AttendeeView.useEffect.handleData"];
+            room.on(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$livekit$2d$client$2f$dist$2f$livekit$2d$client$2e$esm$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RoomEvent"].DataReceived, handleData);
+            return ({
+                "AttendeeView.useEffect": ()=>{
+                    room.off(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$livekit$2d$client$2f$dist$2f$livekit$2d$client$2e$esm$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RoomEvent"].DataReceived, handleData);
+                }
+            })["AttendeeView.useEffect"];
+        }
+    }["AttendeeView.useEffect"], [
+        room,
+        attendeeIdentity
     ]);
     const requestQuestion = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "AttendeeView.useCallback[requestQuestion]": async ()=>{
@@ -1148,12 +1195,12 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                             children: "Listening"
                         }, void 0, false, {
                             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                            lineNumber: 321,
+                            lineNumber: 364,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 320,
+                        lineNumber: 363,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1161,13 +1208,13 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                         children: sessionId
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 323,
+                        lineNumber: 366,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 319,
+                lineNumber: 362,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1180,23 +1227,23 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                         style: {
                             marginBottom: 12
                         },
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__j__as__TrackLoop$3e$__["TrackLoop"], {
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TrackLoop, {
                             tracks: [
                                 primaryScreenTrack
                             ],
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__P__as__ParticipantTile$3e$__["ParticipantTile"], {}, void 0, false, {
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ParticipantTile, {}, void 0, false, {
                                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                lineNumber: 331,
+                                lineNumber: 374,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                            lineNumber: 330,
+                            lineNumber: 373,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 329,
+                        lineNumber: 372,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "video-stage-placeholder",
@@ -1208,12 +1255,12 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                             children: "Waiting for shared screen"
                         }, void 0, false, {
                             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                            lineNumber: 336,
+                            lineNumber: 379,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 335,
+                        lineNumber: 378,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1225,34 +1272,34 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                                 children: "No participant cameras yet"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                lineNumber: 343,
+                                lineNumber: 386,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                            lineNumber: 342,
+                            lineNumber: 385,
                             columnNumber: 13
-                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__j__as__TrackLoop$3e$__["TrackLoop"], {
+                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TrackLoop, {
                             tracks: cameraTracks,
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__P__as__ParticipantTile$3e$__["ParticipantTile"], {}, void 0, false, {
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ParticipantTile, {}, void 0, false, {
                                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                lineNumber: 347,
+                                lineNumber: 390,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                            lineNumber: 346,
+                            lineNumber: 389,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 340,
+                        lineNumber: 383,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 327,
+                lineNumber: 370,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1280,12 +1327,12 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                                         className: "waveform-bar"
                                     }, i, false, {
                                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                        lineNumber: 365,
+                                        lineNumber: 408,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                lineNumber: 363,
+                                lineNumber: 406,
                                 columnNumber: 13
                             }, this),
                             isConnected ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1295,14 +1342,14 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                                         className: "status-dot pulse"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                        lineNumber: 371,
+                                        lineNumber: 414,
                                         columnNumber: 17
                                     }, this),
                                     currentLanguage === "original" ? "Original" : currentLanguage.toUpperCase()
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                lineNumber: 370,
+                                lineNumber: 413,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 className: "status status--waiting",
@@ -1311,37 +1358,37 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                                         className: "status-dot pulse"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                        lineNumber: 378,
+                                        lineNumber: 421,
                                         columnNumber: 17
                                     }, this),
                                     "Waiting for broadcast"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                lineNumber: 377,
+                                lineNumber: 420,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 362,
+                        lineNumber: 405,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                    lineNumber: 355,
+                    lineNumber: 398,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 354,
+                lineNumber: 397,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
                 className: "rule"
             }, void 0, false, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 386,
+                lineNumber: 429,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1358,7 +1405,7 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                         children: "Your video"
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 390,
+                        lineNumber: 433,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__T__as__TrackToggle$3e$__["TrackToggle"], {
@@ -1378,20 +1425,20 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                         children: isCameraOn ? "Turn off camera" : "Turn on camera"
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 393,
+                        lineNumber: 436,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 389,
+                lineNumber: 432,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
                 className: "rule"
             }, void 0, false, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 414,
+                lineNumber: 457,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1408,7 +1455,7 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                         children: "Ask a question"
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 418,
+                        lineNumber: 461,
                         columnNumber: 9
                     }, this),
                     qaStatus.approvedForCurrentUser ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1421,7 +1468,7 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                                 children: "You are live. Speak in your language, organizer hears translated audio."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                lineNumber: 424,
+                                lineNumber: 467,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__T__as__TrackToggle$3e$__["TrackToggle"], {
@@ -1441,7 +1488,7 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                                 children: isMicOn ? "Mute mic" : "Unmute mic"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                lineNumber: 427,
+                                lineNumber: 470,
                                 columnNumber: 13
                             }, this)
                         ]
@@ -1455,7 +1502,7 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                                 children: "Request pending approval from organizer."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                lineNumber: 449,
+                                lineNumber: 492,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1464,7 +1511,7 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                                 children: "Cancel request"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                lineNumber: 452,
+                                lineNumber: 495,
                                 columnNumber: 13
                             }, this)
                         ]
@@ -1474,20 +1521,20 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                         children: "Request to speak"
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 457,
+                        lineNumber: 500,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 417,
+                lineNumber: 460,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
                 className: "rule"
             }, void 0, false, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 463,
+                lineNumber: 506,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1500,19 +1547,19 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                     onLanguageChange: handleLanguageChange
                 }, void 0, false, {
                     fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                    lineNumber: 467,
+                    lineNumber: 510,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 466,
+                lineNumber: 509,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
                 className: "rule"
             }, void 0, false, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 474,
+                lineNumber: 517,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1529,7 +1576,7 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                         children: "Transcription"
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 478,
+                        lineNumber: 521,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1543,7 +1590,7 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                             children: currentLanguage === "original" ? "Select a language to see transcription" : "Waiting for translated speech…"
                         }, void 0, false, {
                             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                            lineNumber: 490,
+                            lineNumber: 533,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
@@ -1563,38 +1610,38 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                                         children: t.text
                                     }, `${t.id}-${i}`, false, {
                                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                        lineNumber: 498,
+                                        lineNumber: 541,
                                         columnNumber: 17
                                     }, this)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     ref: transcriptEndRef
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                                    lineNumber: 511,
+                                    lineNumber: 554,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                            lineNumber: 496,
+                            lineNumber: 539,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 482,
+                        lineNumber: 525,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 477,
+                lineNumber: 520,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
                 className: "rule"
             }, void 0, false, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 517,
+                lineNumber: 560,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1605,17 +1652,17 @@ function AttendeeView({ sessionId, attendeeIdentity }) {
                 children: "Each language activates a dedicated Gemini Live API session for real-time translation."
             }, void 0, false, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 520,
+                lineNumber: 563,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-        lineNumber: 317,
+        lineNumber: 360,
         columnNumber: 5
     }, this);
 }
-_s(AttendeeView, "C1dYIY8EzWcpXYM4gbnqIC/7Pwg=", false, function() {
+_s(AttendeeView, "PF7s4wxXdRU90FZQVWjuXgRBLX4=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$contexts$2d$DzwYztG5$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__f__as__useRoomContext$3e$__["useRoomContext"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$hooks$2d$CA4A5LBF$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__X__as__useRemoteParticipants$3e$__["useRemoteParticipants"],
@@ -1670,7 +1717,7 @@ function WatchPage({ params }) {
                         children: "Something went wrong"
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 564,
+                        lineNumber: 607,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1681,7 +1728,7 @@ function WatchPage({ params }) {
                         children: error
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 567,
+                        lineNumber: 610,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1690,18 +1737,18 @@ function WatchPage({ params }) {
                         children: "Retry"
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 568,
+                        lineNumber: 611,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 563,
+                lineNumber: 606,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-            lineNumber: 562,
+            lineNumber: 605,
             columnNumber: 7
         }, this);
     }
@@ -1720,7 +1767,7 @@ function WatchPage({ params }) {
                         className: "spinner"
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 583,
+                        lineNumber: 626,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1728,18 +1775,18 @@ function WatchPage({ params }) {
                         children: "Joining…"
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 584,
+                        lineNumber: 627,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 582,
+                lineNumber: 625,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-            lineNumber: 581,
+            lineNumber: 624,
             columnNumber: 7
         }, this);
     }
@@ -1761,12 +1808,12 @@ function WatchPage({ params }) {
                             children: "Ready"
                         }, void 0, false, {
                             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                            lineNumber: 595,
+                            lineNumber: 638,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 594,
+                        lineNumber: 637,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1777,7 +1824,7 @@ function WatchPage({ params }) {
                         children: "Tap below to join the broadcast and enable audio."
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 597,
+                        lineNumber: 640,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1786,7 +1833,7 @@ function WatchPage({ params }) {
                         children: "Start listening"
                     }, void 0, false, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 600,
+                        lineNumber: 643,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1801,18 +1848,18 @@ function WatchPage({ params }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                        lineNumber: 606,
+                        lineNumber: 649,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                lineNumber: 593,
+                lineNumber: 636,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-            lineNumber: 592,
+            lineNumber: 635,
             columnNumber: 7
         }, this);
     }
@@ -1835,7 +1882,7 @@ function WatchPage({ params }) {
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$livekit$2f$components$2d$react$2f$dist$2f$components$2d$DqcPwJ_9$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__R__as__RoomAudioRenderer$3e$__["RoomAudioRenderer"], {}, void 0, false, {
                     fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                    lineNumber: 629,
+                    lineNumber: 672,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AttendeeView, {
@@ -1843,18 +1890,18 @@ function WatchPage({ params }) {
                     attendeeIdentity: attendeeIdentity
                 }, void 0, false, {
                     fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-                    lineNumber: 630,
+                    lineNumber: 673,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-            lineNumber: 616,
+            lineNumber: 659,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/session/[id]/watch/page.tsx",
-        lineNumber: 615,
+        lineNumber: 658,
         columnNumber: 5
     }, this);
 }

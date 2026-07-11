@@ -7,6 +7,7 @@
  *   const bridge = await manager.getOrCreate(sessionId, targetLanguage, organizerIdentity);
  */
 
+import { RoomServiceClient, DataPacket_Kind } from "livekit-server-sdk";
 import { TranslationBridge, BridgeStatus } from "./translation-bridge";
 
 export interface TranslationInfo {
@@ -19,6 +20,8 @@ export interface TranslationInfo {
 export interface SessionInfo {
   sessionId: string;
   organizerIdentity: string;
+  organizerName: string;
+  sessionName?: string;
   createdAt: Date;
 }
 
@@ -35,6 +38,19 @@ interface SessionQaState {
   activeSpeakerIdentity: string | null;
   activeBridge: TranslationBridge | null;
   organizerTargetLanguage: string;
+}
+
+// In dev, Next.js Fast Refresh re-evaluates this module on every save to any
+// file in its import graph (including this one), which would otherwise reset
+// the static `instance` field and silently drop every in-memory session.
+// Stashing the singleton on globalThis survives that. No effect in
+// production, where the module is only ever loaded once anyway.
+declare global {
+  // Typed as unknown (not TranslationSessionManager) on purpose: TS treats
+  // `x instanceof TranslationSessionManager` as tautologically true when x
+  // is already typed as TranslationSessionManager, which breaks narrowing
+  // in the "this is a stale instance from before a reload" branch below.
+  var __translationSessionManager: unknown;
 }
 
 class TranslationSessionManager {
@@ -54,20 +70,56 @@ class TranslationSessionManager {
   // that both translate the same source audio (heard as repeated phrases).
   private pendingCreations: Map<string, Promise<TranslationBridge>> = new Map();
 
+  // Lazily-created client for pushing state to rooms over the LiveKit data
+  // channel, so organizer/attendee UIs don't have to poll for QA/translation
+  // status.
+  private roomService: RoomServiceClient | null = null;
+
   private constructor() {}
 
   static getInstance(): TranslationSessionManager {
-    if (!TranslationSessionManager.instance) {
-      TranslationSessionManager.instance = new TranslationSessionManager();
+    if (process.env.NODE_ENV === "production") {
+      if (!TranslationSessionManager.instance) {
+        TranslationSessionManager.instance = new TranslationSessionManager();
+      }
+      return TranslationSessionManager.instance;
     }
-    return TranslationSessionManager.instance;
+
+    const previous = globalThis.__translationSessionManager;
+    // `previous` may be an instance of a *stale* class object from before
+    // Fast Refresh reloaded this module — `instanceof` against the current
+    // class reference is false in that case, since the reloaded module
+    // defines a brand new class. When that happens, rebuild against the
+    // current class (so code changes here take effect) but carry over the
+    // live Maps instead of losing every active session.
+    if (previous instanceof TranslationSessionManager) {
+      return previous;
+    }
+
+    const instance = new TranslationSessionManager();
+    if (previous) {
+      const stale = previous as TranslationSessionManager;
+      instance.translations = stale.translations;
+      instance.sessions = stale.sessions;
+      instance.qaStates = stale.qaStates;
+      instance.pendingCreations = stale.pendingCreations;
+    }
+    globalThis.__translationSessionManager = instance;
+    return instance;
   }
 
   // Session management
-  createSession(sessionId: string, organizerIdentity: string): SessionInfo {
+  createSession(
+    sessionId: string,
+    organizerIdentity: string,
+    organizerName: string,
+    sessionName?: string,
+  ): SessionInfo {
     const info: SessionInfo = {
       sessionId,
       organizerIdentity,
+      organizerName,
+      sessionName,
       createdAt: new Date(),
     };
     this.sessions.set(sessionId, info);
@@ -101,6 +153,7 @@ class TranslationSessionManager {
         `[SessionManager] Reusing existing bridge for ${targetLanguage} in session ${sessionId}`,
       );
       existingBridge.subscriberCount++;
+      this.broadcastTranslations(sessionId);
       return existingBridge;
     }
 
@@ -111,6 +164,7 @@ class TranslationSessionManager {
     if (pending) {
       const bridge = await pending;
       bridge.subscriberCount++;
+      this.broadcastTranslations(sessionId);
       return bridge;
     }
 
@@ -132,6 +186,7 @@ class TranslationSessionManager {
     try {
       const bridge = await creation;
       bridge.subscriberCount++;
+      this.broadcastTranslations(sessionId);
       return bridge;
     } finally {
       this.pendingCreations.delete(key);
@@ -216,6 +271,8 @@ class TranslationSessionManager {
         this.translations.delete(sessionId);
       }
     }
+
+    this.broadcastTranslations(sessionId);
   }
 
   async removeTranslation(
@@ -232,6 +289,7 @@ class TranslationSessionManager {
       console.log(
         `[SessionManager] Removed bridge for ${targetLanguage} in session ${sessionId}`,
       );
+      this.broadcastTranslations(sessionId);
     }
   }
 
@@ -265,6 +323,59 @@ class TranslationSessionManager {
     };
   }
 
+  private getRoomService(): RoomServiceClient {
+    if (!this.roomService) {
+      const config = this.getConfig();
+      this.roomService = new RoomServiceClient(
+        config.livekitUrl,
+        config.livekitApiKey,
+        config.livekitApiSecret,
+      );
+    }
+    return this.roomService;
+  }
+
+  /**
+   * Push current QA status to everyone in the room over the data channel,
+   * so clients don't have to poll /api/questions. Best-effort — a failed
+   * broadcast shouldn't fail the mutation that triggered it (a client that
+   * misses it will still pick up the latest state on its next reconnect).
+   */
+  private broadcastQaStatus(sessionId: string): void {
+    const status = this.getQaStatus(sessionId);
+    const payload = new TextEncoder().encode(
+      JSON.stringify({ type: "qa-status", ...status }),
+    );
+    this.getRoomService()
+      .sendData(sessionId, payload, DataPacket_Kind.RELIABLE, {
+        topic: "qa-status",
+      })
+      .catch((error) => {
+        console.error(
+          `[SessionManager] Failed to broadcast QA status for ${sessionId}:`,
+          error,
+        );
+      });
+  }
+
+  /** Push current translation list to everyone in the room. See broadcastQaStatus. */
+  private broadcastTranslations(sessionId: string): void {
+    const translations = this.getActiveTranslations(sessionId);
+    const payload = new TextEncoder().encode(
+      JSON.stringify({ type: "translations", translations }),
+    );
+    this.getRoomService()
+      .sendData(sessionId, payload, DataPacket_Kind.RELIABLE, {
+        topic: "translations",
+      })
+      .catch((error) => {
+        console.error(
+          `[SessionManager] Failed to broadcast translations for ${sessionId}:`,
+          error,
+        );
+      });
+  }
+
   private getOrCreateQaState(sessionId: string): SessionQaState {
     const existing = this.qaStates.get(sessionId);
     if (existing) return existing;
@@ -290,6 +401,7 @@ class TranslationSessionManager {
       state.pending.add(attendeeIdentity);
     }
 
+    this.broadcastQaStatus(sessionId);
     return this.getQaStatus(sessionId);
   }
 
@@ -301,6 +413,7 @@ class TranslationSessionManager {
       void this.endActiveQuestion(sessionId);
     }
 
+    this.broadcastQaStatus(sessionId);
     return this.getQaStatus(sessionId);
   }
 
@@ -348,6 +461,7 @@ class TranslationSessionManager {
     state.pending.delete(attendeeIdentity);
     state.organizerTargetLanguage = organizerTargetLanguage;
 
+    this.broadcastQaStatus(sessionId);
     return this.getQaStatus(sessionId);
   }
 
@@ -361,6 +475,7 @@ class TranslationSessionManager {
     state.activeBridge = null;
     state.activeSpeakerIdentity = null;
 
+    this.broadcastQaStatus(sessionId);
     return this.getQaStatus(sessionId);
   }
 

@@ -1,54 +1,42 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import {
   useLocalParticipant,
   useRoomContext,
   useRemoteParticipants,
-  ParticipantTile,
-  TrackLoop,
   TrackToggle,
   useTracks,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { RoomEvent, Track } from "livekit-client";
-import SessionQRCode from "@/components/SessionQRCode";
-import { SUPPORTED_LANGUAGES } from "@/lib/languages";
-
-interface TranslationInfo {
-  language: string;
-  translatorIdentity: string;
-  status: string;
-  subscriberCount: number;
-}
-
-interface QaStatus {
-  sessionId: string;
-  pendingSpeakerIdentities: string[];
-  activeSpeakerIdentity: string | null;
-  activeTranslatorIdentity: string | null;
-  organizerTargetLanguage: string;
-}
+import ConfirmModal from "@/components/ConfirmModal";
+import InviteButton from "@/components/InviteButton";
+import MediaControls from "@/components/MediaControls";
+import QaPanel from "@/components/QaPanel";
+import TranslationsList from "@/components/TranslationsList";
+import VideoStage from "@/components/VideoStage";
+import { useQaStatus } from "@/hooks/useQaStatus";
+import { useTranslations } from "@/hooks/useTranslations";
+import { isLocalTrackEnabled } from "@/lib/track-utils";
+import { CircleXIcon, UsersIcon } from "lucide-react";
 
 export default function BroadcastControls({
   sessionId,
+  sessionName,
 }: {
   sessionId: string;
+  sessionName?: string;
 }) {
+  console.log("🚀 ~ sessionName:", sessionName);
   const room = useRoomContext();
   const { localParticipant } = useLocalParticipant();
-  const [translations, setTranslations] = useState<TranslationInfo[]>([]);
-  const [qaStatus, setQaStatus] = useState<QaStatus>({
-    sessionId,
-    pendingSpeakerIdentities: [],
-    activeSpeakerIdentity: null,
-    activeTranslatorIdentity: null,
-    organizerTargetLanguage: "uk",
-  });
-  const audioTracks = useTracks([Track.Source.Microphone]);
   const cameraTracks = useTracks([Track.Source.Camera]);
   const screenShareTracks = useTracks([Track.Source.ScreenShare]);
   const remoteParticipants = useRemoteParticipants();
+
+  const translations = useTranslations(sessionId, room);
+  const { qaStatus, setQaStatus } = useQaStatus(sessionId, room);
 
   // Count only real attendees, not translator bots
   const listenerCount = remoteParticipants.filter(
@@ -62,41 +50,21 @@ export default function BroadcastControls({
       ? `${window.location.origin}/session/${sessionId}/watch`
       : "";
 
-  const fetchTranslations = useCallback(async () => {
-    try {
-      const res = await fetch(`/api/translate/status?sessionId=${sessionId}`);
-      const data = await res.json();
-      setTranslations(data.translations || []);
-    } catch (err) {
-      console.error("Failed to fetch translations:", err);
-    }
-  }, [sessionId]);
+  const nameForIdentity = useCallback(
+    (identity: string) =>
+      remoteParticipants.find((p) => p.identity === identity)?.name || identity,
+    [remoteParticipants],
+  );
 
-  const fetchQaStatus = useCallback(async () => {
-    try {
-      const res = await fetch(`/api/questions?sessionId=${sessionId}`);
-      const data = await res.json();
-      if (data.error) return;
-      setQaStatus(data);
-    } catch (err) {
-      console.error("Failed to fetch question status:", err);
-    }
-  }, [sessionId]);
+  const [showEndConfirm, setShowEndConfirm] = useState(false);
 
-  useEffect(() => {
-    const bootstrap = setTimeout(() => {
-      void fetchTranslations();
-      void fetchQaStatus();
-    }, 0);
-    const interval = setInterval(fetchTranslations, 3000);
-    const qaInterval = setInterval(fetchQaStatus, 2000);
-    return () => {
-      clearTimeout(bootstrap);
-      clearInterval(interval);
-      clearInterval(qaInterval);
-    };
-  }, [fetchTranslations, fetchQaStatus]);
+  const endBroadcast = useCallback(() => {
+    room.disconnect();
+    window.location.href = "/";
+  }, [room]);
 
+  // Subscribe to whichever reverse-translator is currently live (the
+  // organizer only ever hears the approved speaker's translated audio).
   useEffect(() => {
     if (!room) return;
 
@@ -148,7 +116,7 @@ export default function BroadcastControls({
         console.error("Failed to approve question:", err);
       }
     },
-    [sessionId, localParticipant.identity],
+    [sessionId, localParticipant.identity, setQaStatus],
   );
 
   const endActiveQuestion = useCallback(async () => {
@@ -168,277 +136,122 @@ export default function BroadcastControls({
     } catch (err) {
       console.error("Failed to end active question:", err);
     }
-  }, [sessionId, localParticipant.identity]);
+  }, [sessionId, localParticipant.identity, setQaStatus]);
 
   const primaryScreenTrack = screenShareTracks[0];
-  const isMicOn = audioTracks.some(
-    (t) =>
-      t.participant.identity === localParticipant.identity &&
-      !t.publication?.isMuted,
-  );
-  const isCameraOn = cameraTracks.some(
-    (t) => t.participant.identity === localParticipant.identity,
-  );
-  const isScreenSharing = screenShareTracks.some(
-    (t) => t.participant.identity === localParticipant.identity,
-  );
+  const isScreenSharing = isLocalTrackEnabled(screenShareTracks);
 
   return (
-    <div className="container enter" style={{ maxWidth: 980 }}>
-      {/* Header */}
-      <div style={{ marginBottom: 48 }}>
-        <h1 className="display display-lg" style={{ marginBottom: 8 }}>
-          Broadcasting
-        </h1>
-        <p className="mono">{sessionId}</p>
-      </div>
-
-      {/* Video stage */}
-      <div style={{ marginBottom: 40 }}>
-        {primaryScreenTrack ? (
-          <div className="video-stage-main" style={{ marginBottom: 12 }}>
-            <TrackLoop tracks={[primaryScreenTrack]}>
-              <ParticipantTile />
-            </TrackLoop>
-          </div>
-        ) : (
-          <div className="video-stage-placeholder" style={{ marginBottom: 12 }}>
-            <p className="body-sm">
-              Start screen share to present slides and demos
-            </p>
-          </div>
-        )}
-
-        <div className="video-strip">
-          {cameraTracks.length === 0 ? (
-            <div className="video-tile-empty">
-              <p className="body-sm">No cameras active yet</p>
-            </div>
-          ) : (
-            <TrackLoop tracks={cameraTracks}>
-              <ParticipantTile />
-            </TrackLoop>
-          )}
-        </div>
-      </div>
-
-      {/* Mic status */}
-      <div style={{ marginBottom: 40 }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: 20,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div className={`waveform ${isMicOn ? "active" : "idle"}`}>
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="waveform-bar" />
-              ))}
-            </div>
-            <span
-              className="status"
-              style={{ color: isMicOn ? "var(--success)" : "var(--fg-ghost)" }}
-            >
-              <span className={`status-dot ${isMicOn ? "pulse" : ""}`} />
-              {isMicOn ? "Live" : "Muted"}
-            </span>
-          </div>
-
-          <span className="mono">
-            {listenerCount} listener{listenerCount !== 1 ? "s" : ""}
-          </span>
+    <>
+      <div className="container enter" style={{ maxWidth: 980 }}>
+        {/* Header */}
+        <div style={{ marginBottom: 48 }}>
+          <h1 className="display display-lg" style={{ marginBottom: 8 }}>
+            {sessionName || "Broadcasting"}
+          </h1>
+          <p className="mono">{sessionId}</p>
         </div>
 
-        <TrackToggle
-          source={Track.Source.Microphone}
-          style={{
-            width: "100%",
-            padding: "14px 32px",
-            fontFamily: "var(--font-body)",
-            fontSize: "14px",
-            fontWeight: 500,
-            border: isMicOn ? "1px solid var(--error)" : "none",
-            borderRadius: "var(--radius-pill)",
-            background: isMicOn ? "transparent" : "var(--accent)",
-            color: isMicOn ? "var(--error)" : "#FFFFFF",
-            cursor: "pointer",
-          }}
-        />
-        <div style={{ paddingTop: 28 }}>
-          <button
-            className="btn-danger"
-            onClick={() => {
-              room.disconnect();
-              window.location.href = "/";
-            }}
-            style={{ width: "100%" }}
-          >
-            End broadcast
-          </button>
+        {/* Video stage */}
+        <div style={{ marginBottom: 40 }}>
+          <VideoStage
+            screenTrack={primaryScreenTrack}
+            screenPlaceholder="Start screen share to present slides and demos"
+            screenTileClassName="mono"
+            cameraTracks={cameraTracks}
+          />
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 10,
-            marginTop: 10,
-          }}
-        >
-          <TrackToggle
-            source={Track.Source.Camera}
+        {/* Controls */}
+        <div style={{ marginBottom: 40 }}>
+          <div
             style={{
-              width: "100%",
-              padding: "14px 20px",
-              fontFamily: "var(--font-body)",
-              fontSize: "14px",
-              fontWeight: 500,
-              border: isCameraOn
-                ? "1px solid var(--error)"
-                : "1px solid var(--accent)",
-              borderRadius: "var(--radius-pill)",
-              background: isCameraOn ? "transparent" : "var(--accent)",
-              color: isCameraOn ? "var(--error)" : "#FFFFFF",
-              cursor: "pointer",
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 10,
             }}
           >
-            {isCameraOn ? "Stop camera" : "Start camera"}
-          </TrackToggle>
+            <MediaControls />
 
-          <TrackToggle
-            source={Track.Source.ScreenShare}
-            style={{
-              width: "100%",
-              padding: "14px 20px",
-              fontFamily: "var(--font-body)",
-              fontSize: "14px",
-              fontWeight: 500,
-              border: isScreenSharing
-                ? "1px solid var(--error)"
-                : "1px solid var(--accent)",
-              borderRadius: "var(--radius-pill)",
-              background: isScreenSharing ? "transparent" : "var(--accent)",
-              color: isScreenSharing ? "var(--error)" : "#FFFFFF",
-              cursor: "pointer",
-            }}
-          >
-            {isScreenSharing ? "Stop sharing" : "Share screen"}
-          </TrackToggle>
-        </div>
-      </div>
-
-      <hr className="rule" />
-
-      {/* QR code */}
-      <div
-        style={{
-          padding: "32px 0",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 16,
-        }}
-      >
-        <span className="label">Share with attendees</span>
-        <SessionQRCode url={joinUrl} size={140} />
-        <p
-          className="mono"
-          style={{ wordBreak: "break-all", textAlign: "center" }}
-        >
-          {joinUrl}
-        </p>
-      </div>
-
-      <hr className="rule" />
-
-      {/* Active translations */}
-      <div style={{ padding: "28px 0" }}>
-        <span className="label" style={{ marginBottom: 16, display: "block" }}>
-          Translations · {translations.length}
-        </span>
-
-        {translations.length === 0 ? (
-          <p className="body-sm italic">
-            None yet — attendees can request them
-          </p>
-        ) : (
-          translations.map((t) => {
-            const lang = SUPPORTED_LANGUAGES.find((l) => l.code === t.language);
-            return (
-              <div key={t.language} className="lang-row">
-                <div className="lang-row-left">
-                  <span className="lang-flag">{lang?.flag || "🌐"}</span>
-                  <span className="lang-name">
-                    {lang?.name || t.language.toUpperCase()}
-                  </span>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <span className="lang-meta">
-                    {t.subscriberCount} listener
-                    {t.subscriberCount !== 1 ? "s" : ""}
-                  </span>
-                  <span
-                    className={`status status--${t.status === "active" ? "active" : "waiting"}`}
-                  >
-                    <span className="status-dot pulse" />
-                    {t.status}
-                  </span>
-                </div>
+            <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  gap: 2,
+                }}
+              >
+                <UsersIcon width={16} height={16} className="mono" />
+                <span className="mono">
+                  {listenerCount} listener{listenerCount !== 1 ? "s" : ""}
+                </span>
               </div>
-            );
-          })
-        )}
-      </div>
 
-      <hr className="rule" />
+              <InviteButton joinUrl={joinUrl} />
 
-      {/* Listener Q&A */}
-      <div style={{ padding: "28px 0" }}>
-        <span className="label" style={{ marginBottom: 16, display: "block" }}>
-          Listener Q&A
-        </span>
+              <QaPanel
+                qaStatus={qaStatus}
+                onApprove={approveQuestion}
+                onEndActive={endActiveQuestion}
+                nameForIdentity={nameForIdentity}
+              />
 
-        {qaStatus.activeSpeakerIdentity ? (
-          <div style={{ marginBottom: 14 }}>
-            <p className="body-sm" style={{ marginBottom: 8 }}>
-              Live question: {qaStatus.activeSpeakerIdentity}
-            </p>
-            <button className="btn btn-outline" onClick={endActiveQuestion}>
-              End question
+              <TrackToggle
+                source={Track.Source.ScreenShare}
+                style={{
+                  padding: "8px 24px",
+                  fontFamily: "var(--font-body)",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  border: isScreenSharing
+                    ? "1px solid var(--success)"
+                    : "1px solid var(--accent)",
+                  borderRadius: "var(--radius-pill)",
+                  background: isScreenSharing
+                    ? "var(--success)"
+                    : "var(--accent)",
+                  color: isScreenSharing ? "var(--error)" : "#FFFFFF",
+                  cursor: "pointer",
+                }}
+              >
+                {isScreenSharing ? "Stop sharing" : "Share screen"}
+              </TrackToggle>
+            </div>
+
+            <button
+              className="btn-danger"
+              onClick={() => setShowEndConfirm(true)}
+              style={{
+                padding: "8px 12px",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <CircleXIcon /> End
             </button>
           </div>
-        ) : (
-          <p className="body-sm italic" style={{ marginBottom: 14 }}>
-            No active speaker
-          </p>
-        )}
+        </div>
 
-        {qaStatus.pendingSpeakerIdentities.length === 0 ? (
-          <p className="body-sm italic">No pending requests</p>
-        ) : (
-          qaStatus.pendingSpeakerIdentities.map((identity) => (
-            <div key={identity} className="lang-row">
-              <div className="lang-row-left">
-                <span className="lang-name">{identity}</span>
-              </div>
-              <button
-                className="btn btn-outline"
-                onClick={() => approveQuestion(identity)}
-                style={{ padding: "8px 14px", fontSize: 12 }}
-              >
-                Approve
-              </button>
-            </div>
-          ))
-        )}
+        <hr className="rule" />
+
+        <TranslationsList translations={translations} />
+
+        <hr className="rule" />
       </div>
 
-      <hr className="rule" />
-
-      {/* End */}
-    </div>
+      {showEndConfirm && (
+        <ConfirmModal
+          title="End broadcast?"
+          message="This will disconnect all listeners and end the session for everyone. This can't be undone."
+          confirmLabel="End broadcast"
+          cancelLabel="Cancel"
+          danger
+          onConfirm={endBroadcast}
+          onCancel={() => setShowEndConfirm(false)}
+        />
+      )}
+    </>
   );
 }

@@ -14,6 +14,8 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  const name = req.nextUrl.searchParams.get("name") || identity;
+
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
@@ -26,7 +28,7 @@ export async function GET(req: NextRequest) {
 
   const at = new AccessToken(apiKey, apiSecret, {
     identity,
-    name: identity,
+    name,
     ttl: "4h",
   });
 

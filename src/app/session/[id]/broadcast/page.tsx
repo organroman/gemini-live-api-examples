@@ -1,63 +1,11 @@
 "use client";
 
-import { useEffect, useState, useCallback, use } from "react";
-import {
-  LiveKitRoom,
-  useLocalParticipant,
-  useRoomContext,
-  useRemoteParticipants,
-  ParticipantTile,
-  RoomAudioRenderer,
-  TrackLoop,
-  TrackToggle,
-  useTracks,
-} from "@livekit/components-react";
+import { useEffect, useState, use } from "react";
+import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
-import { RoomEvent, Track } from "livekit-client";
-import SessionQRCode from "@/components/SessionQRCode";
-import { SUPPORTED_LANGUAGES } from "@/lib/languages";
+
 import BroadcastControls from "@/components/BroadcastControls";
-
-
-
-// const FLAGS: Record<string, string> = {
-//   en: "🇺🇸",
-//   es: "🇪🇸",
-//   fr: "🇫🇷",
-//   de: "🇩🇪",
-//   it: "🇮🇹",
-//   pt: "🇧🇷",
-//   ja: "🇯🇵",
-//   ko: "🇰🇷",
-//   zh: "🇨🇳",
-//   ar: "🇸🇦",
-//   hi: "🇮🇳",
-//   ru: "🇷🇺",
-//   tr: "🇹🇷",
-//   nl: "🇳🇱",
-//   pl: "🇵🇱",
-//   sv: "🇸🇪",
-// };
-
-// const LANG_NAMES: Record<string, string> = {
-//   en: "English",
-//   es: "Spanish",
-//   fr: "French",
-//   de: "German",
-//   it: "Italian",
-//   pt: "Portuguese",
-//   ja: "Japanese",
-//   ko: "Korean",
-//   zh: "Chinese",
-//   ar: "Arabic",
-//   hi: "Hindi",
-//   ru: "Russian",
-//   tr: "Turkish",
-//   nl: "Dutch",
-//   pl: "Polish",
-//   sv: "Swedish",
-// };
-
+import ErrorScreen from "@/components/ErrorScreen";
 
 export default function BroadcastPage({
   params,
@@ -67,17 +15,22 @@ export default function BroadcastPage({
   const { id: sessionId } = use(params);
   const [token, setToken] = useState("");
   const [livekitUrl, setLivekitUrl] = useState("");
+  const [sessionName, setSessionName] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchToken() {
       try {
-        const identity = `organizer-host`;
+        const sessionRes = await fetch(`/api/sessions/${sessionId}`);
+        const session = await sessionRes.json();
+        if (session.error) throw new Error(session.error as string);
+        setSessionName(session.sessionName);
+
         const res = await fetch(
-          `/api/token?room=${sessionId}&identity=${identity}&role=organizer`,
+          `/api/token?room=${sessionId}&identity=${session.organizerIdentity}&name=${encodeURIComponent(session.organizerName)}&role=organizer`,
         );
         const data = await res.json();
-        if (data.error) throw new Error(data.error);
+        if (data.error) throw new Error(data.error as string);
         setToken(data.token);
         setLivekitUrl(data.serverUrl);
       } catch (err) {
@@ -88,24 +41,7 @@ export default function BroadcastPage({
   }, [sessionId]);
 
   if (error) {
-    return (
-      <div className="page">
-        <div className="container" style={{ textAlign: "center" }}>
-          <p className="display display-md" style={{ marginBottom: 16 }}>
-            Something went wrong
-          </p>
-          <p className="body-sm" style={{ marginBottom: 32 }}>
-            {error}
-          </p>
-          <button
-            className="btn btn-outline"
-            onClick={() => (window.location.href = "/")}
-          >
-            Go home
-          </button>
-        </div>
-      </div>
-    );
+    return <ErrorScreen error={error} />;
   }
 
   if (!token || !livekitUrl) {
@@ -126,7 +62,7 @@ export default function BroadcastPage({
   }
 
   return (
-    <div className="page page-top">
+    <div className="page">
       <LiveKitRoom
         video={false}
         audio={true}
@@ -146,7 +82,7 @@ export default function BroadcastPage({
       >
         <RoomAudioRenderer />
 
-        <BroadcastControls sessionId={sessionId} />
+        <BroadcastControls sessionId={sessionId} sessionName={sessionName} />
       </LiveKitRoom>
     </div>
   );
