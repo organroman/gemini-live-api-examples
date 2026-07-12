@@ -16,10 +16,13 @@ import MediaControls from "@/components/MediaControls";
 import QaPanel from "@/components/QaPanel";
 import TranslationsList from "@/components/TranslationsList";
 import VideoStage from "@/components/VideoStage";
+import { useNewQuestionAlert } from "@/hooks/useNewQuestionAlert";
 import { useQaStatus } from "@/hooks/useQaStatus";
 import { useTranslations } from "@/hooks/useTranslations";
+import { primeAudio } from "@/lib/chime";
 import { isLocalTrackEnabled } from "@/lib/track-utils";
-import { CircleXIcon, UsersIcon } from "lucide-react";
+import { Bell, BellOff, CircleXIcon, UsersIcon } from "lucide-react";
+import Waveform from "./Waveform";
 
 export default function BroadcastControls({
   sessionId,
@@ -28,7 +31,6 @@ export default function BroadcastControls({
   sessionId: string;
   sessionName?: string;
 }) {
-  console.log("🚀 ~ sessionName:", sessionName);
   const room = useRoomContext();
   const { localParticipant } = useLocalParticipant();
   const cameraTracks = useTracks([Track.Source.Camera]);
@@ -62,6 +64,27 @@ export default function BroadcastControls({
     room.disconnect();
     window.location.href = "/";
   }, [room]);
+
+  // Organizer is typically screen-sharing/presenting elsewhere and won't
+  // see the Q&A popover update — chime + native notification cut through
+  // that. Both require a real user gesture to unlock, hence the button.
+  const [alertsEnabled, setAlertsEnabled] = useState(false);
+
+  const enableAlerts = useCallback(async () => {
+    primeAudio();
+    if (typeof Notification !== "undefined") {
+      const permission = await Notification.requestPermission();
+      setAlertsEnabled(permission === "granted");
+    } else {
+      setAlertsEnabled(true);
+    }
+  }, []);
+
+  useNewQuestionAlert(
+    qaStatus.pendingSpeakerIdentities,
+    alertsEnabled,
+    nameForIdentity,
+  );
 
   // Subscribe to whichever reverse-translator is currently live (the
   // organizer only ever hears the approved speaker's translated audio).
@@ -140,20 +163,47 @@ export default function BroadcastControls({
 
   const primaryScreenTrack = screenShareTracks[0];
   const isScreenSharing = isLocalTrackEnabled(screenShareTracks);
+  const audioTracks = useTracks([Track.Source.Microphone]);
+  const isMicOn = isLocalTrackEnabled(audioTracks);
 
   return (
     <>
-      <div className="container enter" style={{ maxWidth: 980 }}>
+      <div
+        className="container enter"
+        style={{
+          maxWidth: 980,
+          paddingBottom: 40,
+        }}
+      >
         {/* Header */}
-        <div style={{ marginBottom: 48 }}>
-          <h1 className="display display-lg" style={{ marginBottom: 8 }}>
-            {sessionName || "Broadcasting"}
-          </h1>
-          <p className="mono">{sessionId}</p>
+        <div
+          style={{
+            marginBottom: 36,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h1 className="display">{sessionName || "Broadcasting"}</h1>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <Waveform active={isMicOn} />
+            <span
+              className="status"
+              style={{ color: isMicOn ? "var(--success)" : "var(--fg-ghost)" }}
+            >
+              <span className={`status-dot ${isMicOn ? "pulse" : ""}`} />
+              {isMicOn ? "Live" : "Muted"}
+            </span>
+          </div>
         </div>
 
         {/* Video stage */}
-        <div style={{ marginBottom: 40 }}>
+        <div
+          style={{
+            marginBottom: 40,
+            flex: 1,
+          }}
+        >
           <VideoStage
             screenTrack={primaryScreenTrack}
             screenPlaceholder="Start screen share to present slides and demos"
@@ -161,9 +211,10 @@ export default function BroadcastControls({
             cameraTracks={cameraTracks}
           />
         </div>
+        <hr className="rule" />
 
         {/* Controls */}
-        <div style={{ marginBottom: 40 }}>
+        <div style={{ marginTop: 20 }}>
           <div
             style={{
               display: "flex",
@@ -174,21 +225,64 @@ export default function BroadcastControls({
             <MediaControls />
 
             <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+              <TranslationsList translations={translations} />
+
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
                   flexDirection: "column",
                   gap: 2,
+                  position: "relative",
                 }}
               >
-                <UsersIcon width={16} height={16} className="mono" />
-                <span className="mono">
-                  {listenerCount} listener{listenerCount !== 1 ? "s" : ""}
+                <UsersIcon width={28} height={28} className="mono" />
+                <span
+                  style={{
+                    fontSize: 10,
+                    position: "absolute",
+                    top: -8,
+                    right: -8,
+                    padding: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 16,
+                    height: 16,
+                    borderRadius: "50%",
+                    background:
+                      listenerCount > 0 ? "var(--accent)" : "var(--warning)",
+                    color: "var(--bg)",
+                    fontWeight: 600,
+                  }}
+                >
+                  {listenerCount}
                 </span>
               </div>
 
               <InviteButton joinUrl={joinUrl} />
+
+              <button
+                className="btn btn-outline"
+                onClick={enableAlerts}
+                disabled={alertsEnabled}
+                title="Get a sound + notification when someone raises a question — useful while you're screen-sharing elsewhere"
+                style={{
+                  padding: "8px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontSize: "13px",
+                  opacity: alertsEnabled ? 0.6 : 1,
+                }}
+              >
+                {alertsEnabled ? (
+                  <Bell width={14} height={14} />
+                ) : (
+                  <BellOff width={14} height={14} color="var(--error)" />
+                )}
+                {alertsEnabled ? "Alerts on" : "Enable alerts"}
+              </button>
 
               <QaPanel
                 qaStatus={qaStatus}
@@ -233,12 +327,6 @@ export default function BroadcastControls({
             </button>
           </div>
         </div>
-
-        <hr className="rule" />
-
-        <TranslationsList translations={translations} />
-
-        <hr className="rule" />
       </div>
 
       {showEndConfirm && (

@@ -2,7 +2,6 @@
 
 import { Track } from "livekit-client";
 import { TrackToggle, useTracks } from "@livekit/components-react";
-import Waveform from "@/components/Waveform";
 import { isLocalTrackEnabled } from "@/lib/track-utils";
 
 export default function MediaControls() {
@@ -13,17 +12,6 @@ export default function MediaControls() {
 
   return (
     <div style={{ display: "flex", gap: 10 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <Waveform active={isMicOn} />
-        <span
-          className="status"
-          style={{ color: isMicOn ? "var(--success)" : "var(--fg-ghost)" }}
-        >
-          <span className={`status-dot ${isMicOn ? "pulse" : ""}`} />
-          {isMicOn ? "Live" : "Muted"}
-        </span>
-      </div>
-
       <TrackToggle
         source={Track.Source.Microphone}
         style={{
