@@ -8,7 +8,7 @@ interface LanguageSelectorProps {
   currentLanguage: string;
   onLanguageChange: (
     languageCode: string,
-    translatorIdentity: string | null
+    translatorIdentity: string | null,
   ) => void;
 }
 
@@ -41,7 +41,7 @@ export default function LanguageSelector({
             headers: { "Content-Type": "application/json" },
             body: payload,
             keepalive: true,
-          }).catch(() => { });
+          }).catch(() => {});
         }
       }
     };
@@ -63,7 +63,7 @@ export default function LanguageSelector({
               sessionId,
               targetLanguage: previousLanguage,
             }),
-          }).catch(() => { });
+          }).catch(() => {});
         }
         onLanguageChange("original", null);
         return;
@@ -96,14 +96,18 @@ export default function LanguageSelector({
         setLoading(false);
       }
     },
-    [sessionId, onLanguageChange]
+    [sessionId, onLanguageChange],
   );
 
   const currentLang = getLanguageByCode(currentLanguage);
 
   return (
-    <div style={{ width: "100%" }}>
-      <label htmlFor="language-select" className="label" style={{ display: "block", marginBottom: 10 }}>
+    <div style={{}}>
+      <label
+        htmlFor="language-select"
+        className="label"
+        style={{ display: "block", marginLeft: 4 }}
+      >
         Language
       </label>
 
@@ -127,14 +131,21 @@ export default function LanguageSelector({
         </select>
 
         {loading && (
-          <div style={{ position: "absolute", right: 40, top: "50%", transform: "translateY(-50%)" }}>
+          <div
+            style={{
+              position: "absolute",
+              right: 40,
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+          >
             <span className="spinner" />
           </div>
         )}
       </div>
 
       {/* State feedback */}
-      <div style={{ marginTop: 10, minHeight: 20 }}>
+      <div style={{ minHeight: 20 }}>
         {currentLanguage !== "original" && currentLang && !loading && (
           <span className="status status--active">
             <span className="status-dot pulse" />
@@ -149,11 +160,7 @@ export default function LanguageSelector({
           </span>
         )}
 
-        {error && (
-          <span className="status status--error">
-            {error}
-          </span>
-        )}
+        {error && <span className="status status--error">{error}</span>}
       </div>
     </div>
   );

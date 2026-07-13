@@ -180,7 +180,7 @@ export default function BroadcastControls({
           style={{
             marginBottom: 36,
             display: "flex",
-            justifyContent: "space-between",
+            gap: 20,
             alignItems: "center",
           }}
         >
@@ -214,118 +214,117 @@ export default function BroadcastControls({
         <hr className="rule" />
 
         {/* Controls */}
-        <div style={{ marginTop: 20 }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 10,
-            }}
-          >
-            <MediaControls />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 10,
+            marginTop: 20,
+          }}
+        >
+          <MediaControls />
 
-            <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-              <TranslationsList translations={translations} />
+          <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+            <TranslationsList translations={translations} />
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  gap: 2,
-                  position: "relative",
-                }}
-              >
-                <UsersIcon width={28} height={28} className="mono" />
-                <span
-                  style={{
-                    fontSize: 10,
-                    position: "absolute",
-                    top: -8,
-                    right: -8,
-                    padding: "10px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: 16,
-                    height: 16,
-                    borderRadius: "50%",
-                    background:
-                      listenerCount > 0 ? "var(--accent)" : "var(--warning)",
-                    color: "var(--bg)",
-                    fontWeight: 600,
-                  }}
-                >
-                  {listenerCount}
-                </span>
-              </div>
-
-              <InviteButton joinUrl={joinUrl} />
-
-              <button
-                className="btn btn-outline"
-                onClick={enableAlerts}
-                disabled={alertsEnabled}
-                title="Get a sound + notification when someone raises a question — useful while you're screen-sharing elsewhere"
-                style={{
-                  padding: "8px 16px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  fontSize: "13px",
-                  opacity: alertsEnabled ? 0.6 : 1,
-                }}
-              >
-                {alertsEnabled ? (
-                  <Bell width={14} height={14} />
-                ) : (
-                  <BellOff width={14} height={14} color="var(--error)" />
-                )}
-                {alertsEnabled ? "Alerts on" : "Enable alerts"}
-              </button>
-
-              <QaPanel
-                qaStatus={qaStatus}
-                onApprove={approveQuestion}
-                onEndActive={endActiveQuestion}
-                nameForIdentity={nameForIdentity}
-              />
-
-              <TrackToggle
-                source={Track.Source.ScreenShare}
-                style={{
-                  padding: "8px 24px",
-                  fontFamily: "var(--font-body)",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  border: isScreenSharing
-                    ? "1px solid var(--success)"
-                    : "1px solid var(--accent)",
-                  borderRadius: "var(--radius-pill)",
-                  background: isScreenSharing
-                    ? "var(--success)"
-                    : "var(--accent)",
-                  color: isScreenSharing ? "var(--error)" : "#FFFFFF",
-                  cursor: "pointer",
-                }}
-              >
-                {isScreenSharing ? "Stop sharing" : "Share screen"}
-              </TrackToggle>
-            </div>
-
-            <button
-              className="btn-danger"
-              onClick={() => setShowEndConfirm(true)}
+            <div
               style={{
-                padding: "8px 12px",
                 display: "flex",
                 alignItems: "center",
-                gap: 8,
+                flexDirection: "column",
+                gap: 2,
+                position: "relative",
               }}
             >
-              <CircleXIcon /> End
+              <UsersIcon width={28} height={28} className="mono" />
+              <span
+                style={{
+                  fontSize: 10,
+                  position: "absolute",
+                  top: -8,
+                  right: -8,
+                  padding: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 16,
+                  height: 16,
+                  borderRadius: "50%",
+                  background:
+                    listenerCount > 0 ? "var(--accent)" : "var(--warning)",
+                  color: "var(--bg)",
+                  fontWeight: 600,
+                }}
+              >
+                {listenerCount}
+              </span>
+            </div>
+
+            <InviteButton joinUrl={joinUrl} />
+
+            <button
+              className="btn btn-outline"
+              onClick={enableAlerts}
+              disabled={alertsEnabled}
+              title="Get a sound + notification when someone raises a question — useful while you're screen-sharing elsewhere"
+              style={{
+                padding: "8px 16px",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontSize: "13px",
+                opacity: alertsEnabled ? 0.6 : 1,
+              }}
+            >
+              {alertsEnabled ? (
+                <Bell width={14} height={14} />
+              ) : (
+                <BellOff width={14} height={14} color="var(--error)" />
+              )}
+              {alertsEnabled ? "Alerts on" : "Enable alerts"}
             </button>
+
+            <QaPanel
+              qaStatus={qaStatus}
+              onApprove={approveQuestion}
+              onEndActive={endActiveQuestion}
+              nameForIdentity={nameForIdentity}
+            />
+
+            <TrackToggle
+              source={Track.Source.ScreenShare}
+              style={{
+                padding: "8px 24px",
+                fontFamily: "var(--font-body)",
+                fontSize: "14px",
+                fontWeight: 500,
+                border: isScreenSharing
+                  ? "1px solid var(--success)"
+                  : "1px solid var(--accent)",
+                borderRadius: "var(--radius-pill)",
+                background: isScreenSharing
+                  ? "var(--success)"
+                  : "var(--accent)",
+                color: isScreenSharing ? "var(--error)" : "#FFFFFF",
+                cursor: "pointer",
+              }}
+            >
+              {isScreenSharing ? "Stop sharing" : "Share screen"}
+            </TrackToggle>
           </div>
+
+          <button
+            className="btn-danger"
+            onClick={() => setShowEndConfirm(true)}
+            style={{
+              padding: "8px 12px",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <CircleXIcon /> End
+          </button>
         </div>
       </div>
 

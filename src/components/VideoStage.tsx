@@ -36,7 +36,7 @@ export default function VideoStage({
           <p className="body-sm">{screenPlaceholder}</p>
         </div>
       )}
-
+      {/* TODO: video-tile-empty render for each participant with no camera track, with name label over placeholder. (Or maybe just show the name label over the video stage if no one has a camera track.) */}
       <div className="video-strip">
         {cameraTracks.length === 0 ? (
           <div className="video-tile-empty">

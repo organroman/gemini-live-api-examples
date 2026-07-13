@@ -127,7 +127,7 @@ body {
 
 .label {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -233,6 +233,10 @@ body {
   background: var(--error-soft);
 }
 
+.btn-sm {
+  padding: 8px 24px;
+  font-size: 14px;
+}
 /* ——————————————————————————————————————
    Card / Section
    —————————————————————————————————————— */
@@ -255,7 +259,7 @@ body {
 
 .select-field {
   width: 100%;
-  padding: 14px 40px 14px 16px;
+  padding: 8px 20px 8px 12px;
   font-family: var(--font-body);
   font-size: 14px;
   color: var(--fg);
@@ -506,7 +510,8 @@ body {
 
 .video-stage-placeholder {
   width: 100%;
-  min-height: 550px;
+  /* min-height: 550px; */
+  min-height: 40vh;
   border: 1px dashed var(--border);
   border-radius: var(--radius-lg);
   background: var(--bg-inset);
@@ -658,8 +663,50 @@ body {
 }
 
 /* ——————————————————————————————————————
+   Attendee two-column layout — main content + a transcript rail that
+   stays pinned and scrolls internally instead of pushing page length.
+   —————————————————————————————————————— */
+
+.attendee-layout {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.attendee-main {
+  flex: 1 1 620px;
+  min-width: 0;
+}
+
+.attendee-transcript-rail {
+  flex: 0 0 340px;
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border-left: 1px solid var(--border);
+  padding-left: 24px;
+}
+
+/* ——————————————————————————————————————
    Responsive
    —————————————————————————————————————— */
+
+@media (max-width: 860px) {
+  .attendee-layout {
+    flex-direction: column;
+  }
+
+  .attendee-transcript-rail {
+    position: static;
+    width: 100%;
+    max-height: 320px;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    padding-left: 0;
+    padding-top: 24px;
+  }
+}
 
 @media (max-width: 520px) {
   .page {
